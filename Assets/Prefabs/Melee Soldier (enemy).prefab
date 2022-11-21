@@ -1,12 +1,16 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &7245499208057151176
+--- !u!1001 &5001604235488523687
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3397569558864671217, guid: a5f56cde529be0145b4ce7a47ef4ff59, type: 3}
+      propertyPath: enemy
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4411618921641812886, guid: a5f56cde529be0145b4ce7a47ef4ff59, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -51,13 +55,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6958818657860342833, guid: a5f56cde529be0145b4ce7a47ef4ff59, type: 3}
+      propertyPath: m_Constraints
+      value: 112
+      objectReference: {fileID: 0}
     - target: {fileID: 8531291462279704746, guid: a5f56cde529be0145b4ce7a47ef4ff59, type: 3}
       propertyPath: m_Name
-      value: PlayerSoldier
+      value: Melee Soldier (enemy)
       objectReference: {fileID: 0}
     - target: {fileID: 8531291462279704746, guid: a5f56cde529be0145b4ce7a47ef4ff59, type: 3}
       propertyPath: m_TagString
-      value: Player
+      value: Enemy
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a5f56cde529be0145b4ce7a47ef4ff59, type: 3}

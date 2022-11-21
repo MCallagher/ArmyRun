@@ -13,10 +13,10 @@ GameObject:
   - component: {fileID: 7664964225405297684}
   - component: {fileID: 8670250823793389410}
   - component: {fileID: 6958818657860342833}
-  - component: {fileID: 4739134026508479276}
+  - component: {fileID: 3397569558864671217}
   m_Layer: 0
-  m_Name: Soldier
-  m_TagString: Untagged
+  m_Name: Melee Soldier (player)
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -114,9 +114,9 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 112
+  m_Constraints: 120
   m_CollisionDetection: 0
---- !u!114 &4739134026508479276
+--- !u!114 &3397569558864671217
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -125,11 +125,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 8531291462279704746}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 22e2f9fca0c337a46b151a3d274dbd1b, type: 3}
+  m_Script: {fileID: 11500000, guid: 6f9c594b0cbf28643a6e163f25b8d1e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   health: 0
-  damage: 0
+  attackDamage: 0
   enemy: 0
   playerMaterial: {fileID: 2100000, guid: 959526df63b55a84e8ae1ea51314c1a0, type: 2}
   enemyMaterial: {fileID: 2100000, guid: 00dda9e739531e441a6d81fb69ba8df3, type: 2}
