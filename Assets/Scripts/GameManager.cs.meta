@@ -3,7 +3,10 @@ guid: c70d0d659c447ee40b255d97b2c1bb47
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - playerSoldierPrefab: {fileID: 8531291462279704746, guid: a5f56cde529be0145b4ce7a47ef4ff59, type: 3}
+  - enemySoldierPrefab: {fileID: 3678447964350629133, guid: 2d427b20994949f46bd1e881cb6801d3, type: 3}
+  - bonusWallPrefab: {fileID: 7028286099746295337, guid: 9898da8d92ddb1041a3fe79c1c7985f2, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

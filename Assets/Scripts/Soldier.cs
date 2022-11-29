@@ -1,13 +1,67 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public abstract class Soldier : MonoBehaviour {
 
     //! Variables
+    [SerializeField] protected int count;
+    [SerializeField] protected int strength;
+    [SerializeField] protected int constitution;
     [SerializeField] protected int health;
-    [SerializeField] protected int attackDamage;
     [SerializeField] protected bool enemy;
+
+    //! Properties
+    public int Count {
+        get {
+            return count;
+        }
+        set {
+            if (value > 0) {
+                count = value;
+                RecomputeProperties();
+            }
+            else {
+                Debug.LogWarning("Count cannot be set to a negative number: " + value);
+            }
+        }
+    }
+
+    public int Strength {
+        get {
+            return strength;
+        }
+    }
+
+    public int Constitution {
+        get {
+            return constitution;
+        }
+    }
+
+    public int Health {
+        get {
+            return health;
+        }
+        set {
+            health = Mathf.Min(Mathf.Max(0, value), constitution);
+            if (health == 0) {
+                Die();
+            }
+        }
+    }
+
+    public bool Enemy {
+        get {
+            return enemy;
+        }
+        set {
+            enemy = value;
+            soldierRenderer.material = enemy ? enemyMaterial : playerMaterial;
+        }
+    }
 
     //! Components
     protected Rigidbody solderRigidbody;
@@ -16,21 +70,22 @@ public abstract class Soldier : MonoBehaviour {
     //! References
     [SerializeField] protected Material playerMaterial;
     [SerializeField] protected Material enemyMaterial;
+    [SerializeField] protected TextMeshProUGUI countText;
+    [SerializeField] protected Slider healthSlider;
 
 
     //! MonoBehaviour
-    void Start() {
-        ResetSoldier();
-
+    void Awake() {
         solderRigidbody = GetComponent<Rigidbody>();
         soldierRenderer = GetComponent<Renderer>();
-        soldierRenderer.material = enemy ? enemyMaterial : playerMaterial;
+        gameObject.SetActive(false);
     }
 
     void Update() {
         if (IsOutOfBound()) {
             Die();
         }
+        RefreshUI();
         if (enemy) {
             MoveForward();
             EnemyUpdate();
@@ -53,62 +108,60 @@ public abstract class Soldier : MonoBehaviour {
 
 
     //! Soldier - Public
-    public virtual void ResetSoldier() {
-
+    public virtual void InitializeSoldier(int count, bool enemy) {
+        this.Enemy = enemy;
+        this.Count = count;
+        gameObject.SetActive(true);
     }
+
+    public abstract void Merge(List<Soldier> soldier);
 
     //! Soldier - Protected
-    protected virtual void EnemyUpdate() {
+    protected abstract void EnemyUpdate();
 
+    protected abstract void PlayerUpdate();
+
+    protected abstract void EnemyOnCollisionEnter(Collision other);
+
+    protected abstract void PlayerOnCollisionEnter(Collision other);
+
+    protected virtual void RefreshUI() {
+        countText.text = "" + Count;
+        healthSlider.minValue = 0;
+        healthSlider.maxValue = Constitution;
+        healthSlider.value = Health;
     }
 
-    protected virtual void PlayerUpdate() {
+    protected abstract void RecomputeProperties();
 
-    }
+    protected abstract void Attack(Soldier target);
 
-    protected virtual void EnemyOnCollisionEnter(Collision other) {
-
-    }
-
-    protected virtual void PlayerOnCollisionEnter(Collision other) {
-
-    }
-
-    protected virtual void Attack(Soldier target) {
-        target.Suffer(attackDamage);
-    }
-
-    protected virtual void Suffer(int damage) {
-        health = Mathf.Max(health - damage, 0);
-        if (health == 0) {
-            Die();
-        }
-    }
+    protected abstract List<Soldier> Scan(float radius);
 
     protected virtual void Die() {
-        Destroy(gameObject);
+        gameObject.tag = Config.TAG_DEFAULT;
+        gameObject.SetActive(false);
     }
 
-    //! Soldier - Private
-    private void MoveForward() {
+    protected void MoveForward() {
         if (IsOnGround()) {
             solderRigidbody.velocity = Vector3.back * Config.WORLD_SCROLL_VELOCITY;
         }
     }
 
-    private void ControlSideways(float sideInput) {
+    protected void ControlSideways(float sideInput) {
         if (IsOnGround()) {
             solderRigidbody.velocity = Vector3.right * sideInput * Config.SOLDIER_SIDE_VELOCITY;
         }
     }
     
-    private bool IsOutOfBound() {
+    protected bool IsOutOfBound() {
         bool outBottom = transform.position.y < Config.WORLD_BOUND_Y_DOWN;
         bool outBack = transform.position.z < Config.WORLD_BOUND_Z_BACK;
         return outBack || outBottom;
     }
 
-    private bool IsOnGround() {
+    protected bool IsOnGround() {
         float width = soldierRenderer.bounds.size.x / 2;
         float feetY = soldierRenderer.bounds.center.y - soldierRenderer.bounds.size.y / 2;
         bool onRoad = Mathf.Abs(transform.position.x) <= Config.WORLD_ROAD_BOUND_X + width;
