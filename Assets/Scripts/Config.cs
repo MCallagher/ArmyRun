@@ -10,6 +10,8 @@ public class Config
     //! Soldier > MeleeSoldier
     public static readonly int SOLDIER_MELEE_CONSTITUTION = 100;
     public static readonly int SOLDIER_MELEE_STRENGTH = 100;
+    //! Wall
+    public static readonly List<float> WALL_BONUS_DISTRIBUTION = new List<float>(new float[]{0.85f, 0.10f, 0.05f});
     //! Pool
     public static readonly int SOLDIER_MELEE_POOL = 10;
     public static readonly int WALL_POOL = 2;
@@ -20,7 +22,7 @@ public class Config
     public static readonly Vector3 GAME_SPAWN_POSITION_ENEMY = new Vector3(0, 0, 50);
     public static readonly Vector3 GAME_SPAWN_POSITION_PLAYER = new Vector3(0, 0, 0);
     //! World
-    public static readonly float WORLD_SCROLL_VELOCITY = 10;
+    public static readonly float WORLD_SCROLL_VELOCITY = 15;
     public static readonly float WORLD_BOUND_Y_DOWN = -20;
     public static readonly float WORLD_BOUND_Z_BACK = -5;
     //! World > Road

@@ -90,8 +90,7 @@ public class Wall : MonoBehaviour
         public int value;
 
         public Bonus() {
-            //type = (BonusType)Random.Range(0, 3); //DEBUG
-            type = (BonusType)Random.Range(0, 3); //DEBUG
+            type = (BonusType) AdvancedRandom.RangeWithWeight(Config.WALL_BONUS_DISTRIBUTION);
             if (type == BonusType.ExtraArmy) {
                 value = Random.Range(1, 10);
             }

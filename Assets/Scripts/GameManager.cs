@@ -31,10 +31,8 @@ public class GameManager : MonoBehaviour {
         StartCoroutine(Waves());
     }
 
-    void Update() {
-        
-    }
 
+    //! Game manager - Public
     public void BonusExtraArmy(int numOfMeleeSoldiers) {
         GeneratePlayerArmy(numOfMeleeSoldiers);
     }
@@ -70,7 +68,8 @@ public class GameManager : MonoBehaviour {
     //! GameManager - Private
     private void GeneratePlayerArmy(int numOfMeleeSoldiers) {
         GameObject newSoldier = Pool.instance.GetMeleeSoldier();
-        newSoldier.transform.position = RandomPosition(Config.GAME_SPAWN_POSITION_PLAYER, Config.WORLD_ROAD_BOUND_X / 2, meleeSoldierPrefab);
+        float height = meleeSoldierPrefab.GetComponent<Renderer>().bounds.size.y;
+        newSoldier.transform.position = AdvancedRandom.PositionOnDisk(Config.GAME_SPAWN_POSITION_PLAYER, Config.WORLD_ROAD_BOUND_X / 2, height / 2);
         newSoldier.tag = Config.TAG_PLAYER;
         newSoldier.GetComponent<Soldier>().InitializeSoldier(numOfMeleeSoldiers, false);
     }
@@ -86,16 +85,11 @@ public class GameManager : MonoBehaviour {
     }
 
     private void GenerateEnemyWave() {
-        //for (int i = 0; i < numOfEnemies; i++) {
-        //    GameObject newSoldier = Pool.instance.GetMeleeSoldier();
-        //    newSoldier.transform.position = RandomPosition(Config.GAME_SPAWN_POSITION_ENEMY, Config.WORLD_ROAD_BOUND_X, meleeSoldierPrefab);
-        //    newSoldier.tag = Config.TAG_ENEMY;
-        //    newSoldier.GetComponent<Soldier>().InitializeSoldier(1, true);
-        //}
         int enemiesLeft = wave;
         while (enemiesLeft > 0) {
             GameObject newSoldier = Pool.instance.GetMeleeSoldier();
-            newSoldier.transform.position = RandomPosition(Config.GAME_SPAWN_POSITION_ENEMY, Config.WORLD_ROAD_BOUND_X, meleeSoldierPrefab);
+            float height = meleeSoldierPrefab.GetComponent<Renderer>().bounds.size.y;
+            newSoldier.transform.position = AdvancedRandom.PositionOnDisk(Config.GAME_SPAWN_POSITION_ENEMY, Config.WORLD_ROAD_BOUND_X, height / 2);
             newSoldier.tag = Config.TAG_ENEMY;
             int addedEnemies = Random.Range(1, enemiesLeft + 1);
             newSoldier.GetComponent<Soldier>().InitializeSoldier(addedEnemies, true);
@@ -107,13 +101,5 @@ public class GameManager : MonoBehaviour {
         GameObject newWall = Pool.instance.GetWall();
         newWall.transform.position = Config.GAME_SPAWN_POSITION_ENEMY;
         newWall.GetComponent<Wall>().InitializeWall();
-    }
-
-    private Vector3 RandomPosition(Vector3 center, float radius, GameObject soldierPrefab) {
-        float theta = Random.Range(0, 2 * Mathf.PI);
-        float rho = Random.Range(0f, radius);
-        float height = soldierPrefab.GetComponent<Renderer>().bounds.size.y;
-        Vector3 offset = new Vector3(rho * Mathf.Sin(theta), height / 2, rho * Mathf.Cos(theta));
-        return center + offset;
     }
 }
