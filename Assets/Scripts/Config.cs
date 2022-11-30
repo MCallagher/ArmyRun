@@ -13,6 +13,7 @@ public class Config
     //! Wall
     public static readonly List<float> WALL_BONUS_DISTRIBUTION = new List<float>(new float[]{0.85f, 0.10f, 0.05f});
     //! Pool
+    public static readonly int POOL_INIT_SIZE = 4;
     public static readonly int SOLDIER_MELEE_POOL = 10;
     public static readonly int WALL_POOL = 2;
     //! Gameplay

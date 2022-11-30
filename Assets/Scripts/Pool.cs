@@ -2,20 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Pool : MonoBehaviour {
+public class Pool<T> : MonoBehaviour {
 
     //! Static variables
-    public static Pool instance;
+    public static Pool<T> instance;
 
     //! Variables
-    [SerializeField] private List<GameObject> meleeSoldierPool;
-    [SerializeField] private List<GameObject> wallPool;
+    [SerializeField] private string eneityName;
+    [SerializeField] private List<GameObject> pool;
 
     //! References
-    [SerializeField] private GameObject meleeSoldierPrefab;
-    [SerializeField] private GameObject wallPrefab;
-    [SerializeField] private GameObject meleeSoldierDestination;
-    [SerializeField] private GameObject wallDestination;
+    [SerializeField] private GameObject prefab;
 
 
     //! MonoBehaviour
@@ -29,72 +26,49 @@ public class Pool : MonoBehaviour {
     }
 
     void Start() {
-        meleeSoldierPool = new List<GameObject>();
-        for (int i = 0; i < Config.SOLDIER_MELEE_POOL; i++) {
-            AddMeleeSoldier();
-        }
-        wallPool = new List<GameObject>();
-        for (int i = 0; i < Config.WALL_POOL; i++) {
-            AddWall();
+        pool = new List<GameObject>();
+        for (int i = 0; i < Config.POOL_INIT_SIZE; i++) {
+            AddEntity();
         }
     }
 
 
     //! Pool - Public
-    public GameObject GetMeleeSoldier() {
-        foreach (GameObject entity in meleeSoldierPool) {
+    public GameObject GetEntity() {
+        foreach (GameObject entity in pool) {
             if (!entity.activeInHierarchy) {
                 return entity;
             }
         }
-        return AddMeleeSoldier();
+        return AddEntity();
     }
 
-    public List<GameObject> GetActiveMeleeSoldiers() {
-        List<GameObject> meleeSoldiers = new List<GameObject>();
-        foreach (Transform meleeSoldierTransform in meleeSoldierDestination.transform) {
-            if (meleeSoldierTransform.gameObject.activeInHierarchy) {
-                meleeSoldiers.Add(meleeSoldierTransform.gameObject);
+    public List<GameObject> GetActiveGameObject() {
+        List<GameObject> entities = new List<GameObject>();
+        foreach (Transform entityTransform in transform) {
+            if (entityTransform.gameObject.activeInHierarchy) {
+                entities.Add(entityTransform.gameObject);
             }
         }
-        return meleeSoldiers;
+        return entities;
     }
 
-    public GameObject GetWall() {
-        foreach (GameObject entity in wallPool) {
-            if (!entity.activeInHierarchy) {
-                return entity;
-            }
+    public List<T> GetActiveEntities() {
+        List<T> entities = new List<T>();
+        foreach (GameObject entityObject in GetActiveGameObject()) {
+            entities.Add(entityObject.GetComponent<T>());
         }
-        return AddWall();
+        return entities;
     }
 
-    public List<GameObject> GetActiveWalls() {
-        List<GameObject> walls = new List<GameObject>();
-        foreach (Transform wallTransform in wallDestination.transform) {
-            if (wallTransform.gameObject.activeInHierarchy) {
-                walls.Add(wallTransform.gameObject);
-            }
-        }
-        return walls;
-    }
 
     //! Pool - Private
-    private GameObject AddMeleeSoldier() {
-        GameObject entity = Instantiate(meleeSoldierPrefab, Vector3.zero, meleeSoldierPrefab.transform.rotation);
-        entity.transform.parent = meleeSoldierDestination.transform;
-        entity.name = "Melee Soldier (" + (meleeSoldierPool.Count + 1) + ")";
+    private GameObject AddEntity() {
+        GameObject entity = Instantiate(prefab, Vector3.zero, prefab.transform.rotation);
+        entity.transform.parent = transform;
+        entity.name = eneityName + " (" + (pool.Count + 1) + ")";
         entity.SetActive(false);
-        meleeSoldierPool.Add(entity);
-        return entity;
-    }
-
-    private GameObject AddWall() {
-        GameObject entity = Instantiate(wallPrefab, Vector3.zero, wallPrefab.transform.rotation);
-        entity.transform.parent = wallDestination.transform;
-        entity.name = "Wall (" + (wallPool.Count + 1) + ")";
-        entity.SetActive(false);
-        wallPool.Add(entity);
+        pool.Add(entity);
         return entity;
     }
 }

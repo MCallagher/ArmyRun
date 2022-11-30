@@ -38,7 +38,7 @@ public class GameManager : MonoBehaviour {
     }
 
     public void BonusHeal(int healingPrc) {
-        foreach (GameObject obj in Pool.instance.GetActiveMeleeSoldiers()) {
+        foreach (MeleeSoldier obj in PoolSet.instance.MeleeSoldier.GetActiveEntities()) {
             Soldier soldier = obj.GetComponent<Soldier>();
             if (!soldier.Enemy) {
                 soldier.Health += (int)(soldier.Constitution * healingPrc / 100);
@@ -49,8 +49,7 @@ public class GameManager : MonoBehaviour {
     public void BounsMerge() {
         MeleeSoldier chosenMeleeSoldier = null;
         List<MeleeSoldier> mergeMeleeSoldiers = new List<MeleeSoldier>();
-        foreach (GameObject obj in Pool.instance.GetActiveMeleeSoldiers()) {
-            MeleeSoldier meleeSoldier = obj.GetComponent<MeleeSoldier>();
+        foreach (MeleeSoldier meleeSoldier in PoolSet.instance.MeleeSoldier.GetActiveEntities()) {
             if (!meleeSoldier.Enemy) {
                 if (chosenMeleeSoldier == null) {
                     chosenMeleeSoldier = meleeSoldier;
@@ -67,7 +66,7 @@ public class GameManager : MonoBehaviour {
 
     //! GameManager - Private
     private void GeneratePlayerArmy(int numOfMeleeSoldiers) {
-        GameObject newSoldier = Pool.instance.GetMeleeSoldier();
+        GameObject newSoldier = PoolSet.instance.MeleeSoldier.GetEntity();
         float height = meleeSoldierPrefab.GetComponent<Renderer>().bounds.size.y;
         newSoldier.transform.position = AdvancedRandom.PositionOnDisk(Config.GAME_SPAWN_POSITION_PLAYER, Config.WORLD_ROAD_BOUND_X / 2, height / 2);
         newSoldier.tag = Config.TAG_PLAYER;
@@ -87,7 +86,7 @@ public class GameManager : MonoBehaviour {
     private void GenerateEnemyWave() {
         int enemiesLeft = wave;
         while (enemiesLeft > 0) {
-            GameObject newSoldier = Pool.instance.GetMeleeSoldier();
+            GameObject newSoldier = PoolSet.instance.MeleeSoldier.GetEntity();
             float height = meleeSoldierPrefab.GetComponent<Renderer>().bounds.size.y;
             newSoldier.transform.position = AdvancedRandom.PositionOnDisk(Config.GAME_SPAWN_POSITION_ENEMY, Config.WORLD_ROAD_BOUND_X, height / 2);
             newSoldier.tag = Config.TAG_ENEMY;
@@ -98,7 +97,7 @@ public class GameManager : MonoBehaviour {
     }
 
     private void GenerateBonusWall() {
-        GameObject newWall = Pool.instance.GetWall();
+        GameObject newWall = PoolSet.instance.Wall.GetEntity();
         newWall.transform.position = Config.GAME_SPAWN_POSITION_ENEMY;
         newWall.GetComponent<Wall>().InitializeWall();
     }
