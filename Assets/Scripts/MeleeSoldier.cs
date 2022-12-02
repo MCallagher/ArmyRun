@@ -62,6 +62,13 @@ public class MeleeSoldier : Soldier
         throw new System.NotImplementedException();
     }
 
+    protected override void Die() {
+        if (Enemy && Health == 0) {
+            GameManager.instance.Coins += Count * Config.SOLDIER_MELEE_COINS;
+        }
+        base.Die();
+    }
+
     //! MeleeSoldier - Private
     private void GenericOnCollisionEnter(Collision other, string tagTarget) {
         if (other.gameObject.CompareTag(tagTarget)) {

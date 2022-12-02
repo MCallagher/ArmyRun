@@ -10,12 +10,14 @@ public class Config
     //! Soldier > MeleeSoldier
     public static readonly int SOLDIER_MELEE_CONSTITUTION = 100;
     public static readonly int SOLDIER_MELEE_STRENGTH = 100;
-    //! Wall
-    public static readonly List<float> WALL_BONUS_DISTRIBUTION = new List<float>(new float[]{0.85f, 0.10f, 0.05f});
+    public static readonly int SOLDIER_MELEE_COINS = 10;
+    //! Bonus
+    public static readonly List<float> WALL_BONUS_DISTRIBUTION = new List<float>(new float[]{0.7f, 0.2f, 0.1f});
+    public static readonly int BONUS_MELEE_COST = 5;
+    public static readonly int BONUS_HEAL_COST = 1;
+    public static readonly int BONUS_MERGE_COST = 2;
     //! Pool
     public static readonly int POOL_INIT_SIZE = 4;
-    public static readonly int SOLDIER_MELEE_POOL = 10;
-    public static readonly int WALL_POOL = 2;
     //! Gameplay
     public static readonly int GAME_INIT_PLAYER_MELEE = 10;
     public static readonly float GAME_WAVE_TIME_ENEMY = 2;
@@ -34,5 +36,4 @@ public class Config
     public static readonly string TAG_ENEMY = "Enemy";
     public static readonly string TAG_PLAYER = "Player";
     public static readonly string TAG_DEFAULT = "Untagged";
-
 }

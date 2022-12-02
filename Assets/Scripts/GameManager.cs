@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class GameManager : MonoBehaviour {
 
@@ -8,12 +9,26 @@ public class GameManager : MonoBehaviour {
     public static GameManager instance;
 
     //! Variables
-    [SerializeField] private int wave = 1;
+    [SerializeField] private int wave;
+    [SerializeField] private int coins;
+
+    //! Properties
+    public int Coins {
+        get {
+            return coins;
+        }
+        set {
+            if (value >= 0) {
+                coins = value;
+            }
+        }
+    }
 
     //! References
     [SerializeField] private GameObject meleeSoldierPrefab;
     [SerializeField] private GameObject bonusWallPrefab;
     [SerializeField] private GameObject soldierHierarchy;
+    [SerializeField] private TextMeshProUGUI coinsText;
 
 
     //! Monobehaviour
@@ -27,10 +42,14 @@ public class GameManager : MonoBehaviour {
     }
 
     void Start() {
+        InitializeGame();
         GeneratePlayerArmy(Config.GAME_INIT_PLAYER_MELEE);
         StartCoroutine(Waves());
     }
 
+    void Update() {
+        coinsText.text = "Coins: " + Coins;
+    }
 
     //! Game manager - Public
     public void BonusExtraArmy(int numOfMeleeSoldiers) {
@@ -38,7 +57,7 @@ public class GameManager : MonoBehaviour {
     }
 
     public void BonusHeal(int healingPrc) {
-        foreach (MeleeSoldier obj in PoolSet.instance.MeleeSoldier.GetActiveEntities()) {
+        foreach (MeleeSoldier obj in PoolMeleeSoldier.instance.GetActiveEntities()) {
             Soldier soldier = obj.GetComponent<Soldier>();
             if (!soldier.Enemy) {
                 soldier.Health += (int)(soldier.Constitution * healingPrc / 100);
@@ -49,7 +68,7 @@ public class GameManager : MonoBehaviour {
     public void BounsMerge() {
         MeleeSoldier chosenMeleeSoldier = null;
         List<MeleeSoldier> mergeMeleeSoldiers = new List<MeleeSoldier>();
-        foreach (MeleeSoldier meleeSoldier in PoolSet.instance.MeleeSoldier.GetActiveEntities()) {
+        foreach (MeleeSoldier meleeSoldier in PoolMeleeSoldier.instance.GetActiveEntities()) {
             if (!meleeSoldier.Enemy) {
                 if (chosenMeleeSoldier == null) {
                     chosenMeleeSoldier = meleeSoldier;
@@ -65,10 +84,32 @@ public class GameManager : MonoBehaviour {
     }
 
     //! GameManager - Private
+    private void InitializeGame() {
+        wave = 1;
+        coins = 0;
+    }
+
+    private Vector3 GetArmyCenter() {
+        Vector3 center = Vector3.zero;
+        int count = 0;
+        foreach (GameObject meleeSoldier in PoolMeleeSoldier.instance.GetActiveGameObject()) {
+            if (!meleeSoldier.GetComponent<Soldier>().Enemy) {
+                center += meleeSoldier.transform.position;
+                count++;
+            }
+        }
+        if (count == 0) {
+            return Config.GAME_SPAWN_POSITION_PLAYER;
+        }
+        return center / count;
+    } 
+
     private void GeneratePlayerArmy(int numOfMeleeSoldiers) {
-        GameObject newSoldier = PoolSet.instance.MeleeSoldier.GetEntity();
+        GameObject newSoldier = PoolMeleeSoldier.instance.GetEntity();
         float height = meleeSoldierPrefab.GetComponent<Renderer>().bounds.size.y;
-        newSoldier.transform.position = AdvancedRandom.PositionOnDisk(Config.GAME_SPAWN_POSITION_PLAYER, Config.WORLD_ROAD_BOUND_X / 2, height / 2);
+        Vector3 center = GetArmyCenter();
+        center.y = 0;
+        newSoldier.transform.position = AdvancedRandom.PositionOnDisk(center, Config.WORLD_ROAD_BOUND_X / 10, height / 2);
         newSoldier.tag = Config.TAG_PLAYER;
         newSoldier.GetComponent<Soldier>().InitializeSoldier(numOfMeleeSoldiers, false);
     }
@@ -86,7 +127,7 @@ public class GameManager : MonoBehaviour {
     private void GenerateEnemyWave() {
         int enemiesLeft = wave;
         while (enemiesLeft > 0) {
-            GameObject newSoldier = PoolSet.instance.MeleeSoldier.GetEntity();
+            GameObject newSoldier = PoolMeleeSoldier.instance.GetEntity();
             float height = meleeSoldierPrefab.GetComponent<Renderer>().bounds.size.y;
             newSoldier.transform.position = AdvancedRandom.PositionOnDisk(Config.GAME_SPAWN_POSITION_ENEMY, Config.WORLD_ROAD_BOUND_X, height / 2);
             newSoldier.tag = Config.TAG_ENEMY;
@@ -97,7 +138,7 @@ public class GameManager : MonoBehaviour {
     }
 
     private void GenerateBonusWall() {
-        GameObject newWall = PoolSet.instance.Wall.GetEntity();
+        GameObject newWall = PoolWall.instance.GetEntity();
         newWall.transform.position = Config.GAME_SPAWN_POSITION_ENEMY;
         newWall.GetComponent<Wall>().InitializeWall();
     }
