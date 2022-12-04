@@ -12,6 +12,7 @@ public abstract class Soldier : MonoBehaviour {
     [SerializeField] protected int constitution;
     [SerializeField] protected int health;
     [SerializeField] protected bool enemy;
+    [SerializeField] protected int baseReward;
 
     //! Properties
     public int Count {
@@ -63,6 +64,13 @@ public abstract class Soldier : MonoBehaviour {
         }
     }
 
+    public int Reward {
+        get {
+            return count * baseReward;
+        }
+    }
+
+
     //! Components
     protected Rigidbody solderRigidbody;
     protected Renderer soldierRenderer;
@@ -79,6 +87,15 @@ public abstract class Soldier : MonoBehaviour {
         solderRigidbody = GetComponent<Rigidbody>();
         soldierRenderer = GetComponent<Renderer>();
         gameObject.SetActive(false);
+    }
+
+    void Start() {
+        if (enemy) {
+            EnemyStart();
+        }
+        else {
+            PlayerStart();
+        }
     }
 
     void Update() {
@@ -117,13 +134,29 @@ public abstract class Soldier : MonoBehaviour {
     public abstract void Merge(List<Soldier> soldier);
 
     //! Soldier - Protected
-    protected abstract void EnemyUpdate();
+    protected virtual void PlayerStart() {
+        // No action
+    }
 
-    protected abstract void PlayerUpdate();
+    protected virtual void EnemyStart() {
+        // No action
+    }
 
-    protected abstract void EnemyOnCollisionEnter(Collision other);
+    protected virtual void EnemyUpdate() {
+        // No action
+    }
 
-    protected abstract void PlayerOnCollisionEnter(Collision other);
+    protected virtual void PlayerUpdate() {
+        // No action
+    }
+
+    protected virtual void EnemyOnCollisionEnter(Collision other) {
+        // No action
+    }
+
+    protected virtual void PlayerOnCollisionEnter(Collision other) {
+        // No action
+    }
 
     protected virtual void RefreshUI() {
         countText.text = "" + Count;
@@ -136,9 +169,10 @@ public abstract class Soldier : MonoBehaviour {
 
     protected abstract void Attack(Soldier target);
 
-    protected abstract List<Soldier> Scan(float radius);
-
     protected virtual void Die() {
+        if (Enemy && Health == 0) {
+            GameManager.instance.Coins += Reward;
+        }
         gameObject.tag = Config.TAG_DEFAULT;
         gameObject.SetActive(false);
     }

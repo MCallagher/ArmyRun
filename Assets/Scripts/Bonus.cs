@@ -17,6 +17,11 @@ public class Bonus {
                 totPlayerCount += meleeSoldier.Count;
             }
         }
+        foreach (RangedSoldier rangedSoldier in PoolRangedSoldier.instance.GetActiveEntities()) {
+            if (!rangedSoldier.Enemy) {
+                totPlayerCount += rangedSoldier.Count;
+            }
+        }
 
         // Compute distribution
         List<float> distribution = new List<float>(Config.WALL_BONUS_DISTRIBUTION);
@@ -30,7 +35,7 @@ public class Bonus {
         }
         type = (BonusType) AdvancedRandom.RangeWithWeight(distribution);
 
-        Debug.Log(coins + " " + (totPlayerCount * Config.BONUS_HEAL_COST) + " " + (totPlayerCount * Config.BONUS_MERGE_COST) );//+ " | " + distribution[0] + " " + distribution[1] + " " + distribution[2]);
+        //Debug.Log(coins + " " + (totPlayerCount * Config.BONUS_HEAL_COST) + " " + (totPlayerCount * Config.BONUS_MERGE_COST) );//+ " | " + distribution[0] + " " + distribution[1] + " " + distribution[2]);
 
         if (type == BonusType.ExtraArmy) {
             int max = (int)(coins / Config.BONUS_MELEE_COST);

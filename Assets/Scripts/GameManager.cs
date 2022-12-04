@@ -26,8 +26,6 @@ public class GameManager : MonoBehaviour {
 
     //! References
     [SerializeField] private GameObject meleeSoldierPrefab;
-    [SerializeField] private GameObject bonusWallPrefab;
-    [SerializeField] private GameObject soldierHierarchy;
     [SerializeField] private TextMeshProUGUI coinsText;
 
 
@@ -81,6 +79,22 @@ public class GameManager : MonoBehaviour {
         if (chosenMeleeSoldier != null) {
             chosenMeleeSoldier.Merge(mergeMeleeSoldiers);
         }
+        //
+        RangedSoldier chosenRangedSoldier = null;
+        List<RangedSoldier> mergeRangedSoldiers = new List<RangedSoldier>();
+        foreach (RangedSoldier rangedSoldier in PoolRangedSoldier.instance.GetActiveEntities()) {
+            if (!rangedSoldier.Enemy) {
+                if (chosenRangedSoldier == null) {
+                    chosenRangedSoldier = rangedSoldier;
+                }
+                else {
+                    mergeRangedSoldiers.Add(rangedSoldier);
+                }
+            }
+        }
+        if (chosenRangedSoldier != null) {
+            chosenRangedSoldier.Merge(mergeRangedSoldiers);
+        }
     }
 
     //! GameManager - Private
@@ -105,7 +119,8 @@ public class GameManager : MonoBehaviour {
     } 
 
     private void GeneratePlayerArmy(int numOfMeleeSoldiers) {
-        GameObject newSoldier = PoolMeleeSoldier.instance.GetEntity();
+        GameObject newSoldier = PoolRangedSoldier.instance.GetEntity(); //DEBUG
+        //GameObject newSoldier = PoolMeleeSoldier.instance.GetEntity(); //DEBUG
         float height = meleeSoldierPrefab.GetComponent<Renderer>().bounds.size.y;
         Vector3 center = GetArmyCenter();
         center.y = 0;

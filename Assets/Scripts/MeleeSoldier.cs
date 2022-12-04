@@ -5,6 +5,11 @@ using UnityEngine;
 public class MeleeSoldier : Soldier
 {
     //! Soldier - Public
+    public override void InitializeSoldier(int count, bool enemy) {
+        baseReward = Config.SOLDIER_MELEE_COINS;
+        base.InitializeSoldier(count, enemy);
+    }
+
     public void Merge(List<MeleeSoldier> meleeSoldiers) {
         int totHealth = Health;
         int totCount = Count;
@@ -27,25 +32,18 @@ public class MeleeSoldier : Soldier
         Merge(meleeSoldiers);
     }
 
+
     //! Soldier - Protected
-    protected override void PlayerUpdate() {
-        // No action
-    }
-
-    protected override void EnemyUpdate() {
-        // No action
-    }
-
     protected override void PlayerOnCollisionEnter(Collision other) {
-        GenericOnCollisionEnter(other, "Enemy");
+        AttackOnCollisionEnter(other, "Enemy");
     }
 
     protected override void EnemyOnCollisionEnter(Collision other) {
-        GenericOnCollisionEnter(other, "Player");
+        AttackOnCollisionEnter(other, "Player");
     }
 
     protected override void Attack(Soldier target) {
-        target.Health -= strength;
+        target.Health -= Strength;
     }
 
     protected override void RecomputeProperties() {
@@ -58,19 +56,9 @@ public class MeleeSoldier : Soldier
         }
     }
 
-    protected override List<Soldier> Scan(float radius) {
-        throw new System.NotImplementedException();
-    }
-
-    protected override void Die() {
-        if (Enemy && Health == 0) {
-            GameManager.instance.Coins += Count * Config.SOLDIER_MELEE_COINS;
-        }
-        base.Die();
-    }
 
     //! MeleeSoldier - Private
-    private void GenericOnCollisionEnter(Collision other, string tagTarget) {
+    private void AttackOnCollisionEnter(Collision other, string tagTarget) {
         if (other.gameObject.CompareTag(tagTarget)) {
             Attack(other.gameObject.GetComponent<Soldier>());
         }

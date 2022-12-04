@@ -11,8 +11,18 @@ public class Config
     public static readonly int SOLDIER_MELEE_CONSTITUTION = 100;
     public static readonly int SOLDIER_MELEE_STRENGTH = 100;
     public static readonly int SOLDIER_MELEE_COINS = 10;
+    //! Soldier > RangedSoldier
+    public static readonly int SOLDIER_RANGED_CONSTITUTION = 100;
+    public static readonly int SOLDIER_RANGED_STRENGTH = 100;
+    public static readonly int SOLDIER_RANGED_RANGE = 20;
+    public static readonly int SOLDIER_RANGED_RATIO = 2;
+    public static readonly float SOLDIER_RANGED_REFRESH_TIME = 0.1f;
+    public static readonly int SOLDIER_RANGED_COINS = 10;
+    //! Bullet
+    public static readonly float BULLET_VELOCITY = 25;
     //! Bonus
-    public static readonly List<float> WALL_BONUS_DISTRIBUTION = new List<float>(new float[]{0.7f, 0.2f, 0.1f});
+    //public static readonly List<float> WALL_BONUS_DISTRIBUTION = new List<float>(new float[]{0.7f, 0.2f, 0.1f});
+    public static readonly List<float> WALL_BONUS_DISTRIBUTION = new List<float>(new float[]{0.5f, 0.3f, 0.2f});
     public static readonly int BONUS_MELEE_COST = 5;
     public static readonly int BONUS_HEAL_COST = 1;
     public static readonly int BONUS_MERGE_COST = 2;
@@ -33,6 +43,7 @@ public class Config
     public static readonly float WORLD_ROAD_Y = 0;
     //! Generic
     public static readonly float EPS = 1e-3f;
+    public static readonly float INF = 1e9f;
     public static readonly string TAG_ENEMY = "Enemy";
     public static readonly string TAG_PLAYER = "Player";
     public static readonly string TAG_DEFAULT = "Untagged";
