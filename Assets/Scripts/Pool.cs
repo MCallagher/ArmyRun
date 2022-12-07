@@ -19,16 +19,13 @@ public class Pool<T> : MonoBehaviour {
     void Awake() {
         if (instance == null) {
             instance = this;
+            pool = new List<GameObject>();
+            for (int i = 0; i < Config.POOL_INIT_SIZE; i++) {
+                AddEntity();
+            }
         }
         else {
             Destroy(gameObject);
-        }
-    }
-
-    void Start() {
-        pool = new List<GameObject>();
-        for (int i = 0; i < Config.POOL_INIT_SIZE; i++) {
-            AddEntity();
         }
     }
 

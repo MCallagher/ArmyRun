@@ -41,7 +41,6 @@ public class GameManager : MonoBehaviour {
 
     void Start() {
         InitializeGame();
-        GeneratePlayerArmy(Config.GAME_INIT_PLAYER_MELEE);
         StartCoroutine(Waves());
     }
 
@@ -49,66 +48,39 @@ public class GameManager : MonoBehaviour {
         coinsText.text = "Coins: " + Coins;
     }
 
+
     //! Game manager - Public
-    public void BonusExtraArmy(int numOfMeleeSoldiers) {
-        GeneratePlayerArmy(numOfMeleeSoldiers);
+    public void BonusExtraArmy<T>(int numOfSoldiers) where T : Soldier {
+        AddSoldier<T>(numOfSoldiers, false);
     }
 
-    public void BonusHeal(int healingPrc) {
-        foreach (MeleeSoldier obj in PoolMeleeSoldier.instance.GetActiveEntities()) {
-            Soldier soldier = obj.GetComponent<Soldier>();
+    public void BonusHeal() {
+        foreach (GameObject soldierObject in PoolManager.instance.GetActiveGameObject<Soldier>()) {
+            Soldier soldier = soldierObject.GetComponent<Soldier>();
             if (!soldier.Enemy) {
-                soldier.Health += (int)(soldier.Constitution * healingPrc / 100);
+                soldier.Health = soldier.Constitution;
             }
         }
     }
 
     public void BounsMerge() {
-        MeleeSoldier chosenMeleeSoldier = null;
-        List<MeleeSoldier> mergeMeleeSoldiers = new List<MeleeSoldier>();
-        foreach (MeleeSoldier meleeSoldier in PoolMeleeSoldier.instance.GetActiveEntities()) {
-            if (!meleeSoldier.Enemy) {
-                if (chosenMeleeSoldier == null) {
-                    chosenMeleeSoldier = meleeSoldier;
-                }
-                else {
-                    mergeMeleeSoldiers.Add(meleeSoldier);
-                }
-            }
-        }
-        if (chosenMeleeSoldier != null) {
-            chosenMeleeSoldier.Merge(mergeMeleeSoldiers);
-        }
-        //
-        RangedSoldier chosenRangedSoldier = null;
-        List<RangedSoldier> mergeRangedSoldiers = new List<RangedSoldier>();
-        foreach (RangedSoldier rangedSoldier in PoolRangedSoldier.instance.GetActiveEntities()) {
-            if (!rangedSoldier.Enemy) {
-                if (chosenRangedSoldier == null) {
-                    chosenRangedSoldier = rangedSoldier;
-                }
-                else {
-                    mergeRangedSoldiers.Add(rangedSoldier);
-                }
-            }
-        }
-        if (chosenRangedSoldier != null) {
-            chosenRangedSoldier.Merge(mergeRangedSoldiers);
-        }
+        MergeSoldier<MeleeSoldier>();
+        MergeSoldier<RangedSoldier>();
     }
 
     //! GameManager - Private
     private void InitializeGame() {
         wave = 1;
         coins = 0;
+        AddSoldier<MeleeSoldier>(Config.GAME_INIT_PLAYER_MELEE, false);
     }
 
-    private Vector3 GetArmyCenter() {
+    private Vector3 GetPlayerArmyCenter() {
         Vector3 center = Vector3.zero;
         int count = 0;
-        foreach (GameObject meleeSoldier in PoolMeleeSoldier.instance.GetActiveGameObject()) {
-            if (!meleeSoldier.GetComponent<Soldier>().Enemy) {
-                center += meleeSoldier.transform.position;
+        foreach (GameObject soldiers in PoolManager.instance.GetActiveGameObject<Soldier>()) {
+            if (!soldiers.GetComponent<Soldier>().Enemy) {
+                center += soldiers.transform.position;
                 count++;
             }
         }
@@ -118,43 +90,62 @@ public class GameManager : MonoBehaviour {
         return center / count;
     } 
 
-    private void GeneratePlayerArmy(int numOfMeleeSoldiers) {
-        GameObject newSoldier = PoolRangedSoldier.instance.GetEntity(); //DEBUG
-        //GameObject newSoldier = PoolMeleeSoldier.instance.GetEntity(); //DEBUG
-        float height = meleeSoldierPrefab.GetComponent<Renderer>().bounds.size.y;
-        Vector3 center = GetArmyCenter();
-        center.y = 0;
-        newSoldier.transform.position = AdvancedRandom.PositionOnDisk(center, Config.WORLD_ROAD_BOUND_X / 10, height / 2);
-        newSoldier.tag = Config.TAG_PLAYER;
-        newSoldier.GetComponent<Soldier>().InitializeSoldier(numOfMeleeSoldiers, false);
-    }
-
     private IEnumerator Waves() {
         while (true) {
-            GenerateEnemyWave();
             yield return new WaitForSeconds(Config.GAME_WAVE_TIME_ENEMY);
-            GenerateBonusWall();
+            GenerateEnemyWave<MeleeSoldier>(wave);
+            GenerateEnemyWave<RangedSoldier>(wave / 4);
             yield return new WaitForSeconds(Config.GAME_WAVE_TIME_BONUS);
+            GenerateBonusWall();
             wave++;
         }
     }
 
-    private void GenerateEnemyWave() {
-        int enemiesLeft = wave;
-        while (enemiesLeft > 0) {
-            GameObject newSoldier = PoolMeleeSoldier.instance.GetEntity();
-            float height = meleeSoldierPrefab.GetComponent<Renderer>().bounds.size.y;
-            newSoldier.transform.position = AdvancedRandom.PositionOnDisk(Config.GAME_SPAWN_POSITION_ENEMY, Config.WORLD_ROAD_BOUND_X, height / 2);
-            newSoldier.tag = Config.TAG_ENEMY;
-            int addedEnemies = Random.Range(1, enemiesLeft + 1);
-            newSoldier.GetComponent<Soldier>().InitializeSoldier(addedEnemies, true);
-            enemiesLeft -= addedEnemies;
+    private void GenerateEnemyWave<T>(int numOfSoldiers) where T : Soldier{
+        int soldiersLeft = numOfSoldiers;
+        while (soldiersLeft > 0) {
+            int added = Random.Range(1, soldiersLeft + 1);
+            AddSoldier<T>(added, true);
+            soldiersLeft -= added;
         }
     }
 
     private void GenerateBonusWall() {
-        GameObject newWall = PoolWall.instance.GetEntity();
+        GameObject newWall = PoolManager.instance.GetEntity<Wall>();
         newWall.transform.position = Config.GAME_SPAWN_POSITION_ENEMY;
         newWall.GetComponent<Wall>().InitializeWall();
+    }
+
+    private void MergeSoldier<T>() where T : Soldier{
+        Soldier chosenSoldier = null;
+        List<Soldier> mergeSoldiers = new List<Soldier>();
+        foreach (Soldier Soldier in PoolManager.instance.GetActiveEntities<T>()) {
+            if (!Soldier.Enemy) {
+                if (chosenSoldier == null) {
+                    chosenSoldier = Soldier;
+                }
+                else {
+                    mergeSoldiers.Add(Soldier);
+                }
+            }
+        }
+        if (chosenSoldier != null) {
+            chosenSoldier.Merge(mergeSoldiers);
+        }
+    }
+
+    private void AddSoldier<T>(int count, bool enemy) where T : Soldier {
+        // Get soldier
+        GameObject soldierObject = PoolManager.instance.GetEntity<T>();
+        Soldier soldier = soldierObject.GetComponent<Soldier>();
+        // Compute position
+        Vector3 center = enemy ? Config.GAME_SPAWN_POSITION_ENEMY : GetPlayerArmyCenter();
+        float radius = enemy ? Config.WORLD_ROAD_BOUND_X : Config.WORLD_ROAD_BOUND_X / 10;
+        float height = soldierObject.GetComponent<Renderer>().bounds.size.y / 2;
+        Vector3 position = AdvancedRandom.PositionOnDisk(center, radius, height);
+        // Setup soldier
+        soldierObject.transform.position = position;
+        soldierObject.tag = enemy ? Config.TAG_ENEMY : Config.TAG_PLAYER;
+        soldier.InitializeSoldier(count, enemy);
     }
 }

@@ -12,23 +12,11 @@ public class Bullet : MonoBehaviour {
     [SerializeField] private Vector3 direction;
 
 
-    // Start is called before the first frame update
-    void Start() {
-        
-    }
-
-    public void InitializeBullet(int damage, GameObject target) {
-        this.damage = damage;
-        this.target = target;
-        this.enemy = !target.GetComponent<Soldier>().Enemy;
-        velocity = Config.BULLET_VELOCITY;
-        direction = (target.transform.position - transform.position).normalized;
-        gameObject.SetActive(true);
-    }
-
-
-    // Update is called once per frame
+    //! MonoBehaviour
     void Update() {
+        if (IsOutOfBounds()) {
+            RemoveFromGame();
+        }
         if (target != null) {
             if (target.activeInHierarchy) {
                 direction = (target.transform.position - transform.position).normalized;
@@ -45,5 +33,28 @@ public class Bullet : MonoBehaviour {
             other.gameObject.GetComponent<Soldier>().Health -= damage;
             gameObject.SetActive(false);
         }
+    }
+
+
+    //! Bullet - Public
+    public void InitializeBullet(int damage, GameObject target) {
+        this.damage = damage;
+        this.target = target;
+        this.enemy = !target.GetComponent<Soldier>().Enemy;
+        velocity = Config.BULLET_VELOCITY;
+        direction = (target.transform.position - transform.position).normalized;
+        gameObject.SetActive(true);
+    }
+
+    //! Bullet - Private
+    private bool IsOutOfBounds() {
+        bool outOfBoundX = Mathf.Abs(transform.position.x) > Config.WORLD_BOUND_X;
+        bool outOfBoundY = transform.position.y > Config.WORLD_BOUND_Y_UP || transform.position.y < Config.WORLD_BOUND_Y_DOWN;
+        bool outOfBoundZ = transform.position.z > Config.WORLD_BOUND_Z_FORWARD || transform.position.z < Config.WORLD_BOUND_Z_BACK;
+        return outOfBoundX || outOfBoundY || outOfBoundZ;
+    }
+
+    private void RemoveFromGame() {
+        gameObject.SetActive(false);
     }
 }

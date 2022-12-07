@@ -545,7 +545,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8531291462279704746}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -650,6 +650,7 @@ MonoBehaviour:
   constitution: 0
   health: 0
   enemy: 0
+  baseReward: 0
   playerMaterial: {fileID: 2100000, guid: 959526df63b55a84e8ae1ea51314c1a0, type: 2}
   enemyMaterial: {fileID: 2100000, guid: 00dda9e739531e441a6d81fb69ba8df3, type: 2}
   countText: {fileID: 8458219755887337344}

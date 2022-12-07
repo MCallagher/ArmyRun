@@ -1,5 +1,6 @@
-[1][Low][ToDo] Fix bullet despawn
-[2][Low][ToDo] Fix Pool
-[3][Mid][ToDo] Improve game manager
-[4][Mid][ToDo] Create Pool manager
-[5][Low][ToDo] Improve logging
+[1][low][Done] Fix bullet despawn
+[2][low][Done] Fix Pool
+[3][mid][Done] Improve game manager
+[4][mid][Done] Create Pool manager
+[5][low][ToDo] Improve logging
+[5][mid][Done] Fix bonus management

@@ -4,52 +4,33 @@ using UnityEngine;
 
 
 public class Bonus {
-    public BonusType type;
-    public int value;
-    public int cost;
+    [SerializeField] private BonusType type;
+    [SerializeField] private int value;
+    [SerializeField] private int cost;
 
-    public Bonus() {
-        // Get game information
+    public Bonus(BonusType type) {
+        // Get info
         int coins = GameManager.instance.Coins;
-        int totPlayerCount = 0;
-        foreach (MeleeSoldier meleeSoldier in PoolMeleeSoldier.instance.GetActiveEntities()) {
-            if (!meleeSoldier.Enemy) {
-                totPlayerCount += meleeSoldier.Count;
-            }
-        }
-        foreach (RangedSoldier rangedSoldier in PoolRangedSoldier.instance.GetActiveEntities()) {
-            if (!rangedSoldier.Enemy) {
-                totPlayerCount += rangedSoldier.Count;
-            }
-        }
+        int count = GetArmyCount();
 
-        // Compute distribution
-        List<float> distribution = new List<float>(Config.WALL_BONUS_DISTRIBUTION);
-        if (coins < totPlayerCount * Config.BONUS_HEAL_COST) {
-            distribution[0] += distribution[1];
-            distribution[1] = 0f;
+        this.type = type;
+        if (type == BonusType.Merge) {
+            value = -1;
+            cost = count * Config.BONUS_MERGE_COST;
         }
-        if (coins < totPlayerCount * Config.BONUS_MERGE_COST) {
-            distribution[0] += distribution[2];
-            distribution[2] = 0f;
+        else if (type == BonusType.Heal) {
+            value = -1;
+            cost = count * Config.BONUS_HEAL_COST;
         }
-        type = (BonusType) AdvancedRandom.RangeWithWeight(distribution);
-
-        //Debug.Log(coins + " " + (totPlayerCount * Config.BONUS_HEAL_COST) + " " + (totPlayerCount * Config.BONUS_MERGE_COST) );//+ " | " + distribution[0] + " " + distribution[1] + " " + distribution[2]);
-
-        if (type == BonusType.ExtraArmy) {
+        else if (type == BonusType.AddMelee) {
             int max = (int)(coins / Config.BONUS_MELEE_COST);
             value = Random.Range(1, max + 1);
             cost = (value - 1) * Config.BONUS_MELEE_COST;
         }
-        else if (type == BonusType.Heal) {
-            int max = (int)(coins / (totPlayerCount * Config.BONUS_HEAL_COST));
-            value = 10 * Random.Range(1, Mathf.Max(11, max + 1));
-            cost = (value / 10) * totPlayerCount * Config.BONUS_HEAL_COST;
-        }
-        else if (type == BonusType.Merge) {
-            value = -1;
-            cost = totPlayerCount * Config.BONUS_MERGE_COST;
+        else if (type == BonusType.AddRanged) {
+            int max = (int)(coins / Config.BONUS_RANGED_COST);
+            value = Random.Range(1, max + 1);
+            cost = (value - 1) * Config.BONUS_RANGED_COST;
         }
         else {
             throw new System.Exception("Bonus type (" + type + ") not found");
@@ -61,11 +42,14 @@ public class Bonus {
             return;
         }
         GameManager.instance.Coins -= cost;
-        if (type == BonusType.ExtraArmy) {
-            GameManager.instance.BonusExtraArmy(value);
+        if (type == BonusType.AddMelee) {
+            GameManager.instance.BonusExtraArmy<MeleeSoldier>(value);
+        }
+        else if (type == BonusType.AddRanged) {
+            GameManager.instance.BonusExtraArmy<RangedSoldier>(value);
         }
         else if (type == BonusType.Heal) {
-            GameManager.instance.BonusHeal(value);
+            GameManager.instance.BonusHeal();
         }
         else if (type == BonusType.Merge) {
             GameManager.instance.BounsMerge();
@@ -73,21 +57,39 @@ public class Bonus {
     }
 
     public override string ToString() {
-        if (type == BonusType.ExtraArmy) {
-            return "Add "+ value + " melee\n" + cost + " coins";
+        if (type == BonusType.AddMelee) {
+            return $"{value} melee\n({cost} coins)";
+        }
+        if (type == BonusType.AddRanged) {
+            return $"{value} ranged\n({cost} coins)";
         }
         if (type == BonusType.Heal) {
-            return "Heal "+ value + "%\n" + cost + " coins";
+            return $"Heal\n({cost} coins)";
         }
         if (type == BonusType.Merge) {
-            return "Merge army\n" + cost + " coins";
+            return $"Merge\n({cost} coins)";
         }
         return "";
     }
 
+    //! Bonus - Private
+    private int GetArmyCount() {
+        int count = 0;
+        List<Soldier> soldiers = new List<Soldier>();
+        soldiers.AddRange(PoolManager.instance.GetActiveEntities<MeleeSoldier>());
+        soldiers.AddRange(PoolManager.instance.GetActiveEntities<RangedSoldier>());
+        foreach (Soldier soldier in soldiers) {
+            if (!soldier.Enemy) {
+                count += soldier.Count;
+            }
+        }
+        return count;
+    }
+
     public enum BonusType {
-        ExtraArmy = 0, 
+        Merge = 0,
         Heal = 1,
-        Merge = 2 
+        AddMelee = 2,
+        AddRanged = 3
     }
 }

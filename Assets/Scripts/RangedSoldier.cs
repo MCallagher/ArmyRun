@@ -77,21 +77,17 @@ public class RangedSoldier : Soldier {
     private IEnumerator ShootingRoutine() {
         GameObject target = null;
         while (true) {
-            Debug.Log($"{gameObject.name} | 1 | target: {(target == null ? null : target.name)}");
             while (target == null) {
                 yield return new WaitForSeconds(refreshTime);
                 target = AcquireTarget();
-                Debug.Log($"{gameObject.name} | 2 | target: {(target == null ? null : target.name)}");
             }
             while (target != null) {
                 if (!target.activeInHierarchy) {
                     target = null;
-                    Debug.Log($"{gameObject.name} | 3 | target: {(target == null ? null : target.name)}");
                 }
                 else {
                     Attack(target.GetComponent<Soldier>());
                     yield return new WaitForSeconds(1 / Ratio);
-                    Debug.Log($"{gameObject.name} | 4 | target: {(target == null ? null : target.name)}");
                 }
             }
         }
