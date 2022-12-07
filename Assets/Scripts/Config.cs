@@ -31,9 +31,9 @@ public class Config
     public static readonly int POOL_INIT_SIZE = 4;
     //! Gameplay
     public static readonly int GAME_INIT_PLAYER_MELEE = 10;
-    public static readonly float GAME_WAVE_TIME_ENEMY = 2;
-    public static readonly float GAME_WAVE_TIME_BONUS = 2;
-    public static readonly Vector3 GAME_SPAWN_POSITION_ENEMY = new Vector3(0, 0, 50);
+    public static readonly float GAME_WAVE_TIME_ENEMY = 1.5f;
+    public static readonly float GAME_WAVE_TIME_BONUS = 1.5f;
+    public static readonly Vector3 GAME_SPAWN_POSITION_ENEMY = new Vector3(0, 0, 60);
     public static readonly Vector3 GAME_SPAWN_POSITION_PLAYER = new Vector3(0, 0, 0);
     //! World
     public static readonly float WORLD_SCROLL_VELOCITY = 15;

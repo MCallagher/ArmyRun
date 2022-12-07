@@ -170,8 +170,15 @@ public abstract class Soldier : MonoBehaviour {
     protected abstract void Attack(Soldier target);
 
     protected virtual void Die() {
-        if (Enemy && Health == 0) {
-            GameManager.instance.Coins += Reward;
+
+        if (Health == 0) {
+            if (Enemy) {
+                GameManager.instance.Coins += Reward;
+            }
+            GameObject explosionObject =  PoolManager.instance.GetEntity<ExplosionParticles>();
+            explosionObject.transform.position = transform.position;
+            ExplosionParticles explosion = explosionObject.GetComponent<ExplosionParticles>();
+            explosion.InitializeExplosionParticles(soldierRenderer.material);
         }
         gameObject.tag = Config.TAG_DEFAULT;
         gameObject.SetActive(false);

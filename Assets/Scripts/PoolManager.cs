@@ -12,7 +12,8 @@ public class PoolManager : MonoBehaviour {
         typeof(MeleeSoldier),
         typeof(RangedSoldier),
         typeof(Wall),
-        typeof(Bullet)
+        typeof(Bullet),
+        typeof(ExplosionParticles)
     });
 
     //! MonoBehaviour
