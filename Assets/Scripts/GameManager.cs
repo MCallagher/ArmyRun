@@ -92,8 +92,9 @@ public class GameManager : MonoBehaviour {
 
     private IEnumerator Waves() {
         while (true) {
-            GenerateEnemyWave<MeleeSoldier>(wave);
-            GenerateEnemyWave<RangedSoldier>(wave / 4);
+            int waveValue = Mathf.Max((int)(Mathf.Pow((float)wave, 1.1f)), 1);
+            GenerateEnemyWave<MeleeSoldier>(waveValue);
+            GenerateEnemyWave<RangedSoldier>(waveValue / 4);
             yield return new WaitForSeconds(Config.GAME_WAVE_TIME_ENEMY);
             GenerateBonusWall();
             yield return new WaitForSeconds(Config.GAME_WAVE_TIME_BONUS);

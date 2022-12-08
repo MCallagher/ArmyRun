@@ -109,7 +109,8 @@ public abstract class Soldier : MonoBehaviour {
         }
         else {
             float sideInput = Input.GetAxis("Horizontal");
-            ControlSideways(sideInput);
+            float frontalInput = Input.GetAxis("Vertical");
+            ControlMovement(sideInput, frontalInput);
             PlayerUpdate();
         }
     }
@@ -190,9 +191,11 @@ public abstract class Soldier : MonoBehaviour {
         }
     }
 
-    protected void ControlSideways(float sideInput) {
+    protected void ControlMovement(float sideInput, float frontalInput) {
         if (IsOnGround()) {
-            solderRigidbody.velocity = Vector3.right * sideInput * Config.SOLDIER_SIDE_VELOCITY;
+            solderRigidbody.velocity = (Vector3.right * sideInput + Vector3.forward * frontalInput) * Config.SOLDIER_SIDE_VELOCITY;
+            float z = Mathf.Sign(transform.position.z) * Mathf.Min(Mathf.Abs(transform.position.z), Config.WORLD_BOUND_PLAYER_Z);
+            transform.position = new Vector3(transform.position.x, transform.position.y, z);
         }
     }
     

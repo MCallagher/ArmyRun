@@ -37,6 +37,7 @@ public class Config
     public static readonly Vector3 GAME_SPAWN_POSITION_PLAYER = new Vector3(0, 0, 0);
     //! World
     public static readonly float WORLD_SCROLL_VELOCITY = 15;
+    public static readonly float WORLD_BOUND_PLAYER_Z = 2;
     public static readonly float WORLD_BOUND_X = 20;
     public static readonly float WORLD_BOUND_Y_DOWN = -20;
     public static readonly float WORLD_BOUND_Y_UP = 10;
