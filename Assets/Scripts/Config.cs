@@ -21,7 +21,7 @@ public class Config
     //! Bullet
     public static readonly float BULLET_VELOCITY = 25;
     //! Bonus
-    public static readonly float BONUS_THRESHOLD_DAMAGED = 0.25f;
+    public static readonly float BONUS_THRESHOLD_DAMAGED = 0.75f;
     public static readonly int BONUS_THRESHOLD_CROWDED = 4;
     public static readonly int BONUS_MERGE_COST = 5;
     public static readonly int BONUS_HEAL_COST = 5;
@@ -33,7 +33,7 @@ public class Config
     public static readonly int GAME_INIT_PLAYER_MELEE = 10;
     public static readonly float GAME_WAVE_TIME_ENEMY = 1.5f;
     public static readonly float GAME_WAVE_TIME_BONUS = 1.5f;
-    public static readonly Vector3 GAME_SPAWN_POSITION_ENEMY = new Vector3(0, 0, 60);
+    public static readonly Vector3 GAME_SPAWN_POSITION_ENEMY = new Vector3(0, 0, 80);
     public static readonly Vector3 GAME_SPAWN_POSITION_PLAYER = new Vector3(0, 0, 0);
     //! World
     public static readonly float WORLD_SCROLL_VELOCITY = 15;

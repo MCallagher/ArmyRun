@@ -92,11 +92,11 @@ public class GameManager : MonoBehaviour {
 
     private IEnumerator Waves() {
         while (true) {
-            yield return new WaitForSeconds(Config.GAME_WAVE_TIME_ENEMY);
             GenerateEnemyWave<MeleeSoldier>(wave);
             GenerateEnemyWave<RangedSoldier>(wave / 4);
-            yield return new WaitForSeconds(Config.GAME_WAVE_TIME_BONUS);
+            yield return new WaitForSeconds(Config.GAME_WAVE_TIME_ENEMY);
             GenerateBonusWall();
+            yield return new WaitForSeconds(Config.GAME_WAVE_TIME_BONUS);
             wave++;
         }
     }
