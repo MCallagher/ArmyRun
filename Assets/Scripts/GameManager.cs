@@ -25,7 +25,6 @@ public class GameManager : MonoBehaviour {
     }
 
     //! References
-    [SerializeField] private GameObject meleeSoldierPrefab;
     [SerializeField] private TextMeshProUGUI coinsText;
 
 
@@ -51,7 +50,12 @@ public class GameManager : MonoBehaviour {
 
     //! Game manager - Public
     public void BonusExtraArmy<T>(int numOfSoldiers) where T : Soldier {
-        AddSoldier<T>(numOfSoldiers, false);
+        int soldiersLeft = numOfSoldiers;
+        while (soldiersLeft > 0) {
+            int added = Random.Range(1, soldiersLeft + 1);
+            AddSoldier<T>(added, false);
+            soldiersLeft -= added;
+        }
     }
 
     public void BonusHeal() {

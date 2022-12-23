@@ -13,7 +13,7 @@ public class Config
     public static readonly int SOLDIER_MELEE_COINS = 10;
     //! Soldier > RangedSoldier
     public static readonly int SOLDIER_RANGED_CONSTITUTION = 100;
-    public static readonly int SOLDIER_RANGED_STRENGTH = 100;
+    public static readonly int SOLDIER_RANGED_STRENGTH = 50;
     public static readonly int SOLDIER_RANGED_RANGE = 20;
     public static readonly int SOLDIER_RANGED_RATIO = 2;
     public static readonly float SOLDIER_RANGED_REFRESH_TIME = 0.1f;
@@ -37,7 +37,7 @@ public class Config
     public static readonly Vector3 GAME_SPAWN_POSITION_PLAYER = new Vector3(0, 0, 0);
     //! World
     public static readonly float WORLD_SCROLL_VELOCITY = 15;
-    public static readonly float WORLD_BOUND_PLAYER_Z = 2;
+    public static readonly float WORLD_BOUND_PLAYER_Z = 4;
     public static readonly float WORLD_BOUND_X = 20;
     public static readonly float WORLD_BOUND_Y_DOWN = -20;
     public static readonly float WORLD_BOUND_Y_UP = 10;
