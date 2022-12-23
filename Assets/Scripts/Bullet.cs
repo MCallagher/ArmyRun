@@ -19,11 +19,15 @@ public class Bullet : MonoBehaviour {
         }
         if (target != null) {
             if (target.activeInHierarchy) {
-                direction = (target.transform.position - transform.position).normalized;
+                Vector3 newDirection = (target.transform.position - transform.position).normalized;
+                direction = (0.9f * direction + 0.1f * newDirection).normalized;
             }
             else {
                 target = null;
             }
+        }
+        if (target != null && !target.activeInHierarchy) {
+                target = null;
         }
         transform.Translate(direction * velocity * Time.deltaTime);
     }

@@ -19,7 +19,7 @@ public class Config
     public static readonly float SOLDIER_RANGED_REFRESH_TIME = 0.1f;
     public static readonly int SOLDIER_RANGED_COINS = 25;
     //! Bullet
-    public static readonly float BULLET_VELOCITY = 25;
+    public static readonly float BULLET_VELOCITY = 30;
     //! Bonus
     public static readonly float BONUS_THRESHOLD_DAMAGED = 0.75f;
     public static readonly int BONUS_THRESHOLD_CROWDED = 4;
@@ -41,10 +41,10 @@ public class Config
     public static readonly float WORLD_BOUND_X = 20;
     public static readonly float WORLD_BOUND_Y_DOWN = -20;
     public static readonly float WORLD_BOUND_Y_UP = 10;
-    public static readonly float WORLD_BOUND_Z_BACK = -5;
+    public static readonly float WORLD_BOUND_Z_BACK = -10;
     public static readonly float WORLD_BOUND_Z_FORWARD = 100;
     //! World > Road
-    public static readonly float WORLD_ROAD_BOUND_X = 5;
+    public static readonly float WORLD_ROAD_BOUND_X = 10;
     public static readonly float WORLD_ROAD_Y = 0;
     //! Generic
     public static readonly float EPS = 1e-3f;
