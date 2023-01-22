@@ -7,10 +7,12 @@ using TMPro;
 public abstract class Soldier : MonoBehaviour {
 
     //! Variables
+    // value of this soldier
     [SerializeField] protected int count;
-    [SerializeField] protected int strength;
-    [SerializeField] protected int constitution;
+    // Phisical properties
+    [SerializeField] protected int maxHealth;
     [SerializeField] protected int health;
+    // Side
     [SerializeField] protected bool enemy;
 
     //! Properties
@@ -18,7 +20,7 @@ public abstract class Soldier : MonoBehaviour {
         get {
             return count;
         }
-        set {
+        protected set {
             if (value > 0) {
                 count = value;
                 RecomputeProperties();
@@ -29,15 +31,9 @@ public abstract class Soldier : MonoBehaviour {
         }
     }
 
-    public int Strength {
+    public int MaxHealth {
         get {
-            return strength;
-        }
-    }
-
-    public int Constitution {
-        get {
-            return constitution;
+            return maxHealth;
         }
     }
 
@@ -45,8 +41,8 @@ public abstract class Soldier : MonoBehaviour {
         get {
             return health;
         }
-        set {
-            health = Mathf.Min(Mathf.Max(0, value), constitution);
+        protected set {
+            health = Mathf.Min(Mathf.Max(0, value), MaxHealth);
             if (health == 0) {
                 Die();
             }
@@ -57,7 +53,7 @@ public abstract class Soldier : MonoBehaviour {
         get {
             return enemy;
         }
-        set {
+        protected set {
             enemy = value;
             soldierRenderer.material = enemy ? enemyMaterial : playerMaterial;
         }
@@ -82,86 +78,45 @@ public abstract class Soldier : MonoBehaviour {
         gameObject.SetActive(false);
     }
 
-    void Start() {
-        if (enemy) {
-            EnemyStart();
-        }
-        else {
-            PlayerStart();
-        }
-    }
-
     void Update() {
         if (IsOutOfBound()) {
             Die();
         }
         RefreshUI();
-        if (enemy) {
-            MoveForward();
-            EnemyUpdate();
-        }
-        else {
-            float sideInput = Input.GetAxis("Horizontal");
-            float frontalInput = Input.GetAxis("Vertical");
-            ControlMovement(sideInput, frontalInput);
-            PlayerUpdate();
-        }
-    }
-
-    void OnCollisionEnter(Collision other) {
-        if (enemy) {
-            EnemyOnCollisionEnter(other);
-        }
-        else {
-            PlayerOnCollisionEnter(other);
-        }
+        ControlMovement();
     }
 
 
     //! Soldier - Public
     public virtual void InitializeSoldier(int count, bool enemy) {
-        this.Enemy = enemy;
         this.Count = count;
+        this.Enemy = enemy;
         gameObject.SetActive(true);
     }
 
+    /*
     public abstract void Merge(List<Soldier> soldier);
+    */
+
+    public abstract void Attack(Soldier target);
+
+    public virtual void Defend(AttackData attack) {
+        Health -= attack.Intensity;
+    }
+
+    public virtual void Heal() {
+        Health = MaxHealth;
+    }
 
     //! Soldier - Protected
-    protected virtual void PlayerStart() {
-        // No action
-    }
-
-    protected virtual void EnemyStart() {
-        // No action
-    }
-
-    protected virtual void EnemyUpdate() {
-        // No action
-    }
-
-    protected virtual void PlayerUpdate() {
-        // No action
-    }
-
-    protected virtual void EnemyOnCollisionEnter(Collision other) {
-        // No action
-    }
-
-    protected virtual void PlayerOnCollisionEnter(Collision other) {
-        // No action
-    }
-
     protected virtual void RefreshUI() {
         countText.text = "" + Count;
         healthSlider.minValue = 0;
-        healthSlider.maxValue = Constitution;
+        healthSlider.maxValue = MaxHealth;
         healthSlider.value = Health;
     }
 
     protected abstract void RecomputeProperties();
-
-    protected abstract void Attack(Soldier target);
 
     protected virtual void Die() {
         if (Health == 0) {
@@ -174,17 +129,15 @@ public abstract class Soldier : MonoBehaviour {
         gameObject.SetActive(false);
     }
 
-    protected void MoveForward() {
-        if (IsOnGround()) {
-            solderRigidbody.velocity = Vector3.back * Config.WORLD_SCROLL_VELOCITY;
-        }
-    }
-
-    protected void ControlMovement(float sideInput, float frontalInput) {
-        if (IsOnGround()) {
-            solderRigidbody.velocity = (Vector3.right * sideInput + Vector3.forward * frontalInput) * Config.SOLDIER_SIDE_VELOCITY;
-            float z = Mathf.Sign(transform.position.z) * Mathf.Min(Mathf.Abs(transform.position.z), Config.WORLD_BOUND_PLAYER_Z);
-            transform.position = new Vector3(transform.position.x, transform.position.y, z);
+    protected void ControlMovement() {
+        if(!enemy) {
+            float sideInput = Input.GetAxis("Horizontal");
+            float frontalInput = Input.GetAxis("Vertical");
+            if (IsOnGround()) {
+                solderRigidbody.velocity = (Vector3.right * sideInput + Vector3.forward * frontalInput) * Config.SOLDIER_SIDE_VELOCITY;
+                float z = Mathf.Sign(transform.position.z) * Mathf.Min(Mathf.Abs(transform.position.z), Config.WORLD_BOUND_PLAYER_Z);
+                transform.position = new Vector3(transform.position.x, transform.position.y, z);
+            }
         }
     }
     
@@ -195,10 +148,40 @@ public abstract class Soldier : MonoBehaviour {
     }
 
     protected bool IsOnGround() {
-        float width = soldierRenderer.bounds.size.x / 2;
-        float feetY = soldierRenderer.bounds.center.y - soldierRenderer.bounds.size.y / 2;
-        bool onRoad = Mathf.Abs(transform.position.x) <= Config.WORLD_ROAD_BOUND_X + width;
-        bool onRightHeight = Mathf.Abs(feetY - Config.WORLD_ROAD_Y) < Config.EPS;
-        return onRoad && onRightHeight;
+        float halfHeight = soldierRenderer.bounds.size.y / 2;
+        return Physics.Raycast(transform.position, Vector3.down, halfHeight + Config.EPS);
+    }
+
+
+    //! Subclass - AttackData
+    public class AttackData {
+        //! Variables
+        private AttackType type;
+        private int intensity;
+
+        //! Properties
+        public AttackType Type {
+            get {
+                return type;
+            }
+        }
+        public int Intensity {
+            get {
+                return intensity;
+            }
+        }
+
+        //! AttackData - Public
+        public AttackData(AttackType type, int intensity) {
+            this.type = type;
+            this.intensity = intensity;
+        }
+    }
+
+
+    //! Enumerators - AttackType
+    public enum AttackType {
+        Slash = 0,
+        Bullet = 1
     }
 }

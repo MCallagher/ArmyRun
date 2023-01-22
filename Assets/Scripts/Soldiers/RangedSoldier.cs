@@ -5,33 +5,55 @@ using UnityEngine;
 public class RangedSoldier : Soldier {
 
     //! Variables
-    [SerializeField] protected float range;
-    [SerializeField] protected float ratio;
-    [SerializeField] protected float refreshTime;
+    [SerializeField] protected float scanRange;
+    [SerializeField] protected float scanTime;
+    [SerializeField] protected float shootingRatio;
+    [SerializeField] protected int shootingDamage;
+
 
     //! Properties
-    public float Range {
+    public float ScanRange {
         get {
-            return range;
+            return scanRange;
         }
     }
 
-    public float Ratio {
+    public float ScanTime {
         get {
-            return ratio;
+            return scanTime;
         }
     }
-    
+
+    public float ShootingRatio {
+        get {
+            return shootingRatio;
+        }
+    }
+
+    public int ShootingDamage {
+        get {
+            return shootingDamage;
+        }
+    }
+
 
     //! Soldier - public
     public override void InitializeSoldier(int count, bool enemy) {
-        range = Config.SOLDIER_RANGED_RANGE;
-        ratio = Config.SOLDIER_RANGED_RATIO;
-        refreshTime = Config.SOLDIER_RANGED_REFRESH_TIME;
+        scanRange = Config.SOLDIER_RANGED_RANGE;
+        scanTime = Config.SOLDIER_RANGED_REFRESH_TIME;
+        shootingRatio = Config.SOLDIER_RANGED_RATIO;
         base.InitializeSoldier(count, enemy);
         StartCoroutine(ShootingRoutine());
     }
 
+    public override void Attack(Soldier target) {
+        GameObject bulletObject = PoolBullet.instance.GetEntity();
+        bulletObject.transform.position = transform.position;
+        Bullet bullet = bulletObject.GetComponent<Bullet>();
+        bullet.InitializeBullet(new AttackData(AttackType.Bullet, ShootingDamage), target.gameObject);
+    }
+
+    /*
     public void Merge(List<RangedSoldier> rangedSoldiers) {
         int totHealth = Health;
         int totCount = Count;
@@ -53,23 +75,13 @@ public class RangedSoldier : Soldier {
         }
         Merge(rangedSoldiers);
     }
+    */
 
     //! Soldier - Protected
-    protected override void Attack(Soldier target) {
-        GameObject bulletObject = PoolBullet.instance.GetEntity();
-        bulletObject.transform.position = transform.position;
-        Bullet bullet = bulletObject.GetComponent<Bullet>();
-        bullet.InitializeBullet(Strength, target.gameObject);
-    }
-
     protected override void RecomputeProperties() {
-        float currHealthPrc = constitution != 0 ? health / constitution : 0;
-        strength = count * Config.SOLDIER_RANGED_STRENGTH;
-        constitution = count * Config.SOLDIER_RANGED_CONSTITUTION;
-        health = constitution;
-        if (gameObject.activeInHierarchy) {
-            health = (int)(currHealthPrc * health);
-        }
+        shootingDamage = count * Config.SOLDIER_RANGED_STRENGTH;
+        maxHealth = count * Config.SOLDIER_RANGED_CONSTITUTION;
+        health = maxHealth;
     }
 
     //! RangedSoldier - Private
@@ -77,7 +89,7 @@ public class RangedSoldier : Soldier {
         GameObject target = null;
         while (true) {
             while (target == null) {
-                yield return new WaitForSeconds(refreshTime);
+                yield return new WaitForSeconds(ScanTime);
                 target = AcquireTarget();
             }
             while (target != null) {
@@ -86,14 +98,14 @@ public class RangedSoldier : Soldier {
                 }
                 else {
                     Attack(target.GetComponent<Soldier>());
-                    yield return new WaitForSeconds(1 / Ratio);
+                    yield return new WaitForSeconds(1 / ShootingRatio);
                 }
             }
         }
     }
 
     private GameObject AcquireTarget() {
-        float minDist = Range;
+        float minDist = ScanRange;
         GameObject target = null;
         foreach (GameObject soldierObject in PoolMeleeSoldier.instance.GetActiveGameObject()) {
             if (soldierObject.GetComponent<Soldier>().Enemy != Enemy) {

@@ -20,7 +20,6 @@ public class Wall : MonoBehaviour
         if (IsOutOfBound()) {
             RemoveFromGame();
         }
-        MoveForward();
     }
 
     void OnTriggerEnter(Collider other) {
@@ -51,10 +50,6 @@ public class Wall : MonoBehaviour
         rightBonusText.text = rightBonus.ToString();
     }
 
-    private void MoveForward() {
-        transform.Translate(Vector3.back * Config.WORLD_SCROLL_VELOCITY * Time.deltaTime);
-    }
-
     private bool IsOutOfBound() {
         bool outBack = transform.position.z < Config.WORLD_BOUND_Z_BACK;
         return outBack;
@@ -73,7 +68,7 @@ public class Wall : MonoBehaviour
         foreach (Soldier soldier in soldiers) {
             if (!soldier.Enemy) {
                 health += soldier.Health;
-                totHealth += soldier.Constitution;
+                totHealth += soldier.MaxHealth;
             }
         }
         return health < Config.BONUS_THRESHOLD_DAMAGED * totHealth;

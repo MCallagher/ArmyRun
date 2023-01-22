@@ -4,11 +4,33 @@ using UnityEngine;
 
 public class MeleeSoldier : Soldier
 {
-    //! Soldier - Public
-    public override void InitializeSoldier(int count, bool enemy) {
-        base.InitializeSoldier(count, enemy);
+    
+    //! Variables
+    [SerializeField] protected int strength;
+
+    //! Properties
+    public int Strength {
+        get {
+            return strength;
+        }
     }
 
+
+    //! MonoBehaviour
+    void OnCollisionEnter(Collision other) {
+        if((!enemy && other.gameObject.CompareTag(Config.TAG_ENEMY)) || (enemy && other.gameObject.CompareTag(Config.TAG_PLAYER))) {
+            Attack(other.gameObject.GetComponent<Soldier>());
+        }
+    }
+
+
+    //! Soldier - Public
+    public override void Attack(Soldier target) {
+        AttackData attack = new AttackData(AttackType.Slash, Strength);
+        target.Defend(attack);
+    }
+
+    /*
     public void Merge(List<MeleeSoldier> meleeSoldiers) {
         int totHealth = Health;
         int totCount = Count;
@@ -30,36 +52,12 @@ public class MeleeSoldier : Soldier
         }
         Merge(meleeSoldiers);
     }
-
+    */
 
     //! Soldier - Protected
-    protected override void PlayerOnCollisionEnter(Collision other) {
-        AttackOnCollisionEnter(other, "Enemy");
-    }
-
-    protected override void EnemyOnCollisionEnter(Collision other) {
-        AttackOnCollisionEnter(other, "Player");
-    }
-
-    protected override void Attack(Soldier target) {
-        target.Health -= Strength;
-    }
-
     protected override void RecomputeProperties() {
-        float currHealthPrc = constitution != 0 ? health / constitution : 0;
         strength = count * Config.SOLDIER_MELEE_STRENGTH;
-        constitution = count * Config.SOLDIER_MELEE_CONSTITUTION;
-        health = constitution;
-        if (gameObject.activeInHierarchy) {
-            health = (int)(currHealthPrc * health);
-        }
-    }
-
-
-    //! MeleeSoldier - Private
-    private void AttackOnCollisionEnter(Collision other, string tagTarget) {
-        if (other.gameObject.CompareTag(tagTarget)) {
-            Attack(other.gameObject.GetComponent<Soldier>());
-        }
+        maxHealth = count * Config.SOLDIER_MELEE_CONSTITUTION;
+        health = maxHealth;
     }
 }

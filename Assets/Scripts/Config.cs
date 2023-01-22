@@ -10,23 +10,17 @@ public class Config
     //! Soldier > MeleeSoldier
     public static readonly int SOLDIER_MELEE_CONSTITUTION = 100;
     public static readonly int SOLDIER_MELEE_STRENGTH = 100;
-    public static readonly int SOLDIER_MELEE_COINS = 10;
     //! Soldier > RangedSoldier
     public static readonly int SOLDIER_RANGED_CONSTITUTION = 100;
     public static readonly int SOLDIER_RANGED_STRENGTH = 50;
     public static readonly int SOLDIER_RANGED_RANGE = 20;
     public static readonly int SOLDIER_RANGED_RATIO = 2;
     public static readonly float SOLDIER_RANGED_REFRESH_TIME = 0.1f;
-    public static readonly int SOLDIER_RANGED_COINS = 25;
     //! Bullet
     public static readonly float BULLET_VELOCITY = 30;
     //! Bonus
     public static readonly float BONUS_THRESHOLD_DAMAGED = 0.75f;
     public static readonly int BONUS_THRESHOLD_CROWDED = 4;
-    public static readonly int BONUS_MERGE_COST = 5;
-    public static readonly int BONUS_HEAL_COST = 5;
-    public static readonly int BONUS_MELEE_COST = 5;
-    public static readonly int BONUS_RANGED_COST = 10;
     //! Pool
     public static readonly int POOL_INIT_SIZE = 4;
     //! Gameplay

@@ -5,7 +5,7 @@ using UnityEngine;
 public class Bullet : MonoBehaviour {
 
     //! Variables
-    [SerializeField] private int damage;
+    [SerializeField] private Soldier.AttackData attack;
     [SerializeField] private GameObject target;
     [SerializeField] private bool enemy;
     [SerializeField] private float velocity;
@@ -34,15 +34,15 @@ public class Bullet : MonoBehaviour {
 
     void OnTriggerEnter(Collider other) {
         if (other.gameObject.CompareTag(Config.TAG_ENEMY) && !enemy || other.gameObject.CompareTag(Config.TAG_PLAYER) && enemy) {
-            other.gameObject.GetComponent<Soldier>().Health -= damage;
+            other.gameObject.GetComponent<Soldier>().Defend(attack);
             gameObject.SetActive(false);
         }
     }
 
 
     //! Bullet - Public
-    public void InitializeBullet(int damage, GameObject target) {
-        this.damage = damage;
+    public void InitializeBullet(Soldier.AttackData attack, GameObject target) {
+        this.attack = attack;
         this.target = target;
         this.enemy = !target.GetComponent<Soldier>().Enemy;
         velocity = Config.BULLET_VELOCITY;

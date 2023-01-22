@@ -56,7 +56,7 @@ public class GameManager : MonoBehaviour {
         foreach (GameObject soldierObject in PoolManager.instance.GetActiveGameObject<Soldier>()) {
             Soldier soldier = soldierObject.GetComponent<Soldier>();
             if (!soldier.Enemy) {
-                soldier.Health = soldier.Constitution;
+                soldier.Heal();
             }
         }
     }
@@ -110,6 +110,7 @@ public class GameManager : MonoBehaviour {
         newWall.GetComponent<Wall>().InitializeWall();
     }
 
+    /*
     private void MergeSoldier<T>() where T : Soldier{
         Soldier chosenSoldier = null;
         List<Soldier> mergeSoldiers = new List<Soldier>();
@@ -127,6 +128,7 @@ public class GameManager : MonoBehaviour {
             chosenSoldier.Merge(mergeSoldiers);
         }
     }
+    */
 
     private void AddSoldier<T>(int count, bool enemy) where T : Soldier {
         // Get soldier
