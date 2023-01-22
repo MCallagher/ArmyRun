@@ -12,7 +12,6 @@ public abstract class Soldier : MonoBehaviour {
     [SerializeField] protected int constitution;
     [SerializeField] protected int health;
     [SerializeField] protected bool enemy;
-    [SerializeField] protected int baseReward;
 
     //! Properties
     public int Count {
@@ -61,12 +60,6 @@ public abstract class Soldier : MonoBehaviour {
         set {
             enemy = value;
             soldierRenderer.material = enemy ? enemyMaterial : playerMaterial;
-        }
-    }
-
-    public int Reward {
-        get {
-            return count * baseReward;
         }
     }
 
@@ -171,11 +164,7 @@ public abstract class Soldier : MonoBehaviour {
     protected abstract void Attack(Soldier target);
 
     protected virtual void Die() {
-
         if (Health == 0) {
-            if (Enemy) {
-                GameManager.instance.Coins += Reward;
-            }
             GameObject explosionObject =  PoolManager.instance.GetEntity<ExplosionParticles>();
             explosionObject.transform.position = transform.position;
             ExplosionParticles explosion = explosionObject.GetComponent<ExplosionParticles>();

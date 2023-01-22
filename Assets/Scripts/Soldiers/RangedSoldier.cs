@@ -27,7 +27,6 @@ public class RangedSoldier : Soldier {
     public override void InitializeSoldier(int count, bool enemy) {
         range = Config.SOLDIER_RANGED_RANGE;
         ratio = Config.SOLDIER_RANGED_RATIO;
-        baseReward = Config.SOLDIER_RANGED_COINS;
         refreshTime = Config.SOLDIER_RANGED_REFRESH_TIME;
         base.InitializeSoldier(count, enemy);
         StartCoroutine(ShootingRoutine());

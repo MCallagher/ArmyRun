@@ -154,7 +154,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   wave: 1
   coins: 0
-  meleeSoldierPrefab: {fileID: 8531291462279704746, guid: a5f56cde529be0145b4ce7a47ef4ff59, type: 3}
   coinsText: {fileID: 1759122766}
 --- !u!4 &206216262
 Transform:
@@ -332,7 +331,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   eneityName: Ranged Soldier
   pool: []
-  prefab: {fileID: 8531291462279704746, guid: 94fe88021177ffc44af79718092e86e4, type: 3}
+  prefab: {fileID: 4765894958536769242, guid: 79b868f8bd77b2c49a6dd6d5f5a81708, type: 3}
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -604,7 +603,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   eneityName: Melee Soldier
   pool: []
-  prefab: {fileID: 8531291462279704746, guid: a5f56cde529be0145b4ce7a47ef4ff59, type: 3}
+  prefab: {fileID: 3423474407896343218, guid: 80e2c805beb84f247ba5c6a7fe186d98, type: 3}
 --- !u!1 &1086848668
 GameObject:
   m_ObjectHideFlags: 0

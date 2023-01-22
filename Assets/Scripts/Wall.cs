@@ -97,24 +97,13 @@ public class Wall : MonoBehaviour
         bool coin = AdvancedRandom.CoinFlip();
         int first = coin ? 0 : 1;
         int second = coin ? 1 : 0;
-        // Special conditions
-        bool crowded = IsArmyCrowded();
+        // Special condition
         bool damaged = IsArmyDamaged();
-        if (crowded || damaged) {
-            // first bonus
-            if (crowded && !damaged) {
-                bonuses[first] = new Bonus(Bonus.BonusType.Merge);
-            }
-            else if (!crowded && damaged) {
-                bonuses[first] = new Bonus(Bonus.BonusType.Heal);
-            }
-            else {
-                bonuses[first] = new Bonus(AdvancedRandom.CoinFlip() ? Bonus.BonusType.Merge : Bonus.BonusType.Heal);
-            }
-            // second bonus
+        if (damaged) {
+            bonuses[first] = new Bonus(Bonus.BonusType.Heal);
             bonuses[second] = new Bonus(AdvancedRandom.CoinFlip() ? Bonus.BonusType.AddMelee : Bonus.BonusType.AddRanged);
         }
-        // Standard conditions
+        // Standard condition
         else {
             bonuses[first] = new Bonus(Bonus.BonusType.AddMelee);
             bonuses[second] = new Bonus(Bonus.BonusType.AddRanged);

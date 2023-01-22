@@ -6,7 +6,6 @@ public class MeleeSoldier : Soldier
 {
     //! Soldier - Public
     public override void InitializeSoldier(int count, bool enemy) {
-        baseReward = Config.SOLDIER_MELEE_COINS;
         base.InitializeSoldier(count, enemy);
     }
 

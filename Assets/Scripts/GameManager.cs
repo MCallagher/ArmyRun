@@ -10,22 +10,16 @@ public class GameManager : MonoBehaviour {
 
     //! Variables
     [SerializeField] private int wave;
-    [SerializeField] private int coins;
 
     //! Properties
-    public int Coins {
+    public int Wave {
         get {
-            return coins;
-        }
-        set {
-            if (value >= 0) {
-                coins = value;
-            }
+            return wave;
         }
     }
 
     //! References
-    [SerializeField] private TextMeshProUGUI coinsText;
+    [SerializeField] private TextMeshProUGUI waveText;
 
 
     //! Monobehaviour
@@ -44,7 +38,7 @@ public class GameManager : MonoBehaviour {
     }
 
     void Update() {
-        coinsText.text = "Coins: " + Coins;
+        waveText.text = "Wave: " + Wave;
     }
 
 
@@ -67,15 +61,10 @@ public class GameManager : MonoBehaviour {
         }
     }
 
-    public void BounsMerge() {
-        MergeSoldier<MeleeSoldier>();
-        MergeSoldier<RangedSoldier>();
-    }
 
     //! GameManager - Private
     private void InitializeGame() {
         wave = 1;
-        coins = 0;
         AddSoldier<MeleeSoldier>(Config.GAME_INIT_PLAYER_MELEE, false);
     }
 
