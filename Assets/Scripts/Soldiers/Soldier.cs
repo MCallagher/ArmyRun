@@ -97,10 +97,6 @@ public abstract class Soldier : MonoBehaviour {
         soldierRigidbody.angularVelocity = new Vector3(0f,0f,0f);
     }
 
-    /*
-    public abstract void Merge(List<Soldier> soldier);
-    */
-
     public abstract void Attack(Soldier target);
 
     public virtual void Defend(AttackData attack) {
@@ -144,12 +140,9 @@ public abstract class Soldier : MonoBehaviour {
                 float z = Mathf.Sign(transform.position.z) * Mathf.Min(Mathf.Abs(transform.position.z), Config.WORLD_HARD_BOUND_PLAYER_Z);
                 transform.position = new Vector3(transform.position.x, transform.position.y, z);
             }
-            else {
-
-            }
         }
     }
-    
+
     protected bool IsOutOfBound() {
         bool outBottom = transform.position.y < Config.WORLD_BOUND_Y_DOWN;
         bool outBack = transform.position.z < Config.WORLD_BOUND_Z_BACK;
@@ -160,7 +153,6 @@ public abstract class Soldier : MonoBehaviour {
         float halfHeight = soldierRenderer.bounds.size.y / 2;
         return Physics.Raycast(transform.position, Vector3.down, halfHeight + Config.EPS);
     }
-
 
     //! Subclass - AttackData
     public class AttackData {

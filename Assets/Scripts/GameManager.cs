@@ -53,6 +53,9 @@ public class GameManager : MonoBehaviour {
 
     void Update() {
         waveText.text = "Wave: " + Wave;
+        if(IsGameOver()) {
+            gameOver = true;
+        }
     }
 
 
@@ -96,7 +99,8 @@ public class GameManager : MonoBehaviour {
     }
 
     private bool IsGameOver() {
-        foreach (Soldier soldier in PoolManager.instance.GetActiveEntities<Soldier>()) {
+        foreach (GameObject soldierObject in PoolManager.instance.GetActiveGameObject<Soldier>()) {
+            Soldier soldier = soldierObject.GetComponent<Soldier>();
             if (!soldier.Enemy) {
                 return false;
             }

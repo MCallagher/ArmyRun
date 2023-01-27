@@ -15,13 +15,6 @@ public class Wall : MonoBehaviour
     [SerializeField] private TextMeshProUGUI rightBonusText;
 
     //! Monobehaviour
-    void Update()
-    {
-        if (IsOutOfBound()) {
-            RemoveFromGame();
-        }
-    }
-
     void OnTriggerEnter(Collider other) {
         if (other.gameObject.CompareTag(Config.TAG_PLAYER) && !claimed) {
             claimed = true;
@@ -48,15 +41,6 @@ public class Wall : MonoBehaviour
     private void SetBonusText() {
         leftBonusText.text = leftBonus.ToString();
         rightBonusText.text = rightBonus.ToString();
-    }
-
-    private bool IsOutOfBound() {
-        bool outBack = transform.position.z < Config.WORLD_BOUND_Z_BACK;
-        return outBack;
-    }
-
-    private void RemoveFromGame() {
-        gameObject.SetActive(false);
     }
 
     private bool IsArmyDamaged() {

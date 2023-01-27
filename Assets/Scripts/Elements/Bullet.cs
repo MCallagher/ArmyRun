@@ -14,9 +14,6 @@ public class Bullet : MonoBehaviour {
 
     //! MonoBehaviour
     void Update() {
-        if (IsOutOfBounds()) {
-            RemoveFromGame();
-        }
         if (target != null) {
             if (target.activeInHierarchy) {
                 Vector3 newDirection = (target.transform.position - transform.position).normalized;
@@ -48,17 +45,5 @@ public class Bullet : MonoBehaviour {
         velocity = Config.BULLET_VELOCITY;
         direction = (target.transform.position - transform.position).normalized;
         gameObject.SetActive(true);
-    }
-
-    //! Bullet - Private
-    private bool IsOutOfBounds() {
-        bool outOfBoundX = Mathf.Abs(transform.position.x) > Config.WORLD_BOUND_X;
-        bool outOfBoundY = transform.position.y > Config.WORLD_BOUND_Y_UP || transform.position.y < Config.WORLD_BOUND_Y_DOWN;
-        bool outOfBoundZ = transform.position.z > Config.WORLD_BOUND_Z_FORWARD || transform.position.z < Config.WORLD_BOUND_Z_BACK;
-        return outOfBoundX || outOfBoundY || outOfBoundZ;
-    }
-
-    private void RemoveFromGame() {
-        gameObject.SetActive(false);
     }
 }

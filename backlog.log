@@ -1,4 +1,4 @@
-[ 9][hig][ToDo] Add soldier automerge
+[12][mid][ToDo] Make player soldiers stay in a cluster
 [ 5][low][ToDo] Improve logging
 --------------------------------------------------------------------------------
 [ 1][low][Done] Fix bullet despawn
@@ -8,5 +8,6 @@
 [ 6][mid][Done] Fix bonus management
 [ 7][mid][Done] Larger road, farther camera
 [ 8][hig][Done] Remove coin system
+[ 9][hig][Done] Add soldier automerge
 [10][mid][Done] Refactor soldier
 [11][mid][Done] Remove merge bonus
