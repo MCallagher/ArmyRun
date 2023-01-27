@@ -39,9 +39,9 @@ public class RangedSoldier : Soldier {
 
     //! Soldier - public
     public override void InitializeSoldier(int count, bool enemy) {
-        scanRange = Config.SOLDIER_RANGED_RANGE;
-        scanTime = Config.SOLDIER_RANGED_REFRESH_TIME;
-        shootingRatio = Config.SOLDIER_RANGED_RATIO;
+        scanRange = Config.SOLDIER_RANGED_SCAN_RANGE;
+        scanTime = Config.SOLDIER_RANGED_SCAN_TIME;
+        shootingRatio = Config.SOLDIER_RANGED_SHOOTING_RATIO;
         base.InitializeSoldier(count, enemy);
         StartCoroutine(ShootingRoutine());
     }
@@ -53,34 +53,10 @@ public class RangedSoldier : Soldier {
         bullet.InitializeBullet(new AttackData(AttackType.Bullet, ShootingDamage), target.gameObject);
     }
 
-    /*
-    public void Merge(List<RangedSoldier> rangedSoldiers) {
-        int totHealth = Health;
-        int totCount = Count;
-        foreach (RangedSoldier rangedSoldier in rangedSoldiers) {
-            totHealth += rangedSoldier.Health;
-            totCount += rangedSoldier.Count;
-            rangedSoldier.Die();
-        }
-        Count = totCount;
-        Health = totHealth;
-    }
-
-    public override void Merge(List<Soldier> soldiers) {
-        List<RangedSoldier> rangedSoldiers = new List<RangedSoldier>();
-        foreach (Soldier soldier in soldiers) {
-            if (soldier is RangedSoldier) {
-                rangedSoldiers.Add((RangedSoldier) soldier);
-            }
-        }
-        Merge(rangedSoldiers);
-    }
-    */
-
     //! Soldier - Protected
     protected override void RecomputeProperties() {
-        shootingDamage = count * Config.SOLDIER_RANGED_STRENGTH;
-        maxHealth = count * Config.SOLDIER_RANGED_CONSTITUTION;
+        shootingDamage = count * Config.SOLDIER_RANGED_SHOOTING_DAMAGE;
+        maxHealth = count * Config.SOLDIER_RANGED_MAX_HEALTH;
         health = maxHealth;
     }
 

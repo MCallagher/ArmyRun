@@ -30,34 +30,10 @@ public class MeleeSoldier : Soldier
         target.Defend(attack);
     }
 
-    /*
-    public void Merge(List<MeleeSoldier> meleeSoldiers) {
-        int totHealth = Health;
-        int totCount = Count;
-        foreach (MeleeSoldier meleeSoldier in meleeSoldiers) {
-            totHealth += meleeSoldier.Health;
-            totCount += meleeSoldier.Count;
-            meleeSoldier.Die();
-        }
-        Count = totCount;
-        Health = totHealth;
-    }
-
-    public override void Merge(List<Soldier> soldiers) {
-        List<MeleeSoldier> meleeSoldiers = new List<MeleeSoldier>();
-        foreach (Soldier soldier in soldiers) {
-            if (soldier is MeleeSoldier) {
-                meleeSoldiers.Add((MeleeSoldier) soldier);
-            }
-        }
-        Merge(meleeSoldiers);
-    }
-    */
-
     //! Soldier - Protected
     protected override void RecomputeProperties() {
         strength = count * Config.SOLDIER_MELEE_STRENGTH;
-        maxHealth = count * Config.SOLDIER_MELEE_CONSTITUTION;
+        maxHealth = count * Config.SOLDIER_MELEE_MAX_HEALTH;
         health = maxHealth;
     }
 }

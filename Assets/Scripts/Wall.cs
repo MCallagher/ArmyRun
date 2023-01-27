@@ -74,19 +74,6 @@ public class Wall : MonoBehaviour
         return health < Config.BONUS_THRESHOLD_DAMAGED * totHealth;
     }
 
-    private bool IsArmyCrowded() {
-        int count = 0;
-        List<Soldier> soldiers = new List<Soldier>();
-        soldiers.AddRange(PoolManager.instance.GetActiveEntities<MeleeSoldier>());
-        soldiers.AddRange(PoolManager.instance.GetActiveEntities<RangedSoldier>());
-        foreach (Soldier soldier in soldiers) {
-            if (!soldier.Enemy) {
-                count++;
-            }
-        }
-        return count >= Config.BONUS_THRESHOLD_CROWDED;
-    }
-
     private Bonus[] GenerateBonuses() {
         Bonus[] bonuses = new Bonus[2];
         bool coin = AdvancedRandom.CoinFlip();

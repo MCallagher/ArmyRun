@@ -61,7 +61,7 @@ public abstract class Soldier : MonoBehaviour {
 
 
     //! Components
-    protected Rigidbody solderRigidbody;
+    protected Rigidbody soldierRigidbody;
     protected Renderer soldierRenderer;
 
     //! References
@@ -73,7 +73,7 @@ public abstract class Soldier : MonoBehaviour {
 
     //! MonoBehaviour
     void Awake() {
-        solderRigidbody = GetComponent<Rigidbody>();
+        soldierRigidbody = GetComponent<Rigidbody>();
         soldierRenderer = GetComponent<Renderer>();
         gameObject.SetActive(false);
     }
@@ -92,6 +92,9 @@ public abstract class Soldier : MonoBehaviour {
         this.Count = count;
         this.Enemy = enemy;
         gameObject.SetActive(true);
+        // Reset phisics
+        soldierRigidbody.velocity = new Vector3(0f,0f,0f); 
+        soldierRigidbody.angularVelocity = new Vector3(0f,0f,0f);
     }
 
     /*
@@ -134,9 +137,15 @@ public abstract class Soldier : MonoBehaviour {
             float sideInput = Input.GetAxis("Horizontal");
             float frontalInput = Input.GetAxis("Vertical");
             if (IsOnGround()) {
-                solderRigidbody.velocity = (Vector3.right * sideInput + Vector3.forward * frontalInput) * Config.SOLDIER_SIDE_VELOCITY;
-                float z = Mathf.Sign(transform.position.z) * Mathf.Min(Mathf.Abs(transform.position.z), Config.WORLD_BOUND_PLAYER_Z);
+                if(frontalInput * transform.position.z > 0 && Mathf.Abs(transform.position.z) > Config.WORLD_SOFT_BOUND_PLAYER_Z) {
+                    frontalInput *= (Config.WORLD_HARD_BOUND_PLAYER_Z - Mathf.Abs(transform.position.z)) / (Config.WORLD_HARD_BOUND_PLAYER_Z - Config.WORLD_SOFT_BOUND_PLAYER_Z);
+                }
+                soldierRigidbody.velocity = (Vector3.right * sideInput + Vector3.forward * frontalInput).normalized * Config.SOLDIER_SIDE_VELOCITY;
+                float z = Mathf.Sign(transform.position.z) * Mathf.Min(Mathf.Abs(transform.position.z), Config.WORLD_HARD_BOUND_PLAYER_Z);
                 transform.position = new Vector3(transform.position.x, transform.position.y, z);
+            }
+            else {
+
             }
         }
     }
@@ -179,7 +188,7 @@ public abstract class Soldier : MonoBehaviour {
     }
 
 
-    //! Enumerators - AttackType
+    //! Enumerators - AttackType, Faction
     public enum AttackType {
         Slash = 0,
         Bullet = 1

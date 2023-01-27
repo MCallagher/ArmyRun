@@ -10,11 +10,25 @@ public class GameManager : MonoBehaviour {
 
     //! Variables
     [SerializeField] private int wave;
+    [SerializeField] private bool gameOver;
+
 
     //! Properties
     public int Wave {
         get {
             return wave;
+        }
+        private set {
+            wave = value;
+        }
+    }
+
+    public bool GameOver {
+        get {
+            return gameOver;
+        }
+        private set {
+            gameOver = value;
         }
     }
 
@@ -44,12 +58,7 @@ public class GameManager : MonoBehaviour {
 
     //! Game manager - Public
     public void BonusExtraArmy<T>(int numOfSoldiers) where T : Soldier {
-        int soldiersLeft = numOfSoldiers;
-        while (soldiersLeft > 0) {
-            int added = Random.Range(1, soldiersLeft + 1);
-            AddSoldier<T>(added, false);
-            soldiersLeft -= added;
-        }
+        AddSoldierGroup<T>(numOfSoldiers, false);
     }
 
     public void BonusHeal() {
@@ -61,11 +70,38 @@ public class GameManager : MonoBehaviour {
         }
     }
 
-
     //! GameManager - Private
     private void InitializeGame() {
-        wave = 1;
+        Wave = 1;
+        GameOver = false;
         AddSoldier<MeleeSoldier>(Config.GAME_INIT_PLAYER_MELEE, false);
+    }
+
+    private IEnumerator Waves() {
+        while (!GameOver) {
+            int waveValue = Mathf.Max((int)(Mathf.Pow((float)Wave, 1.1f)), 1);
+            AddSoldierGroup<MeleeSoldier>(waveValue, true);
+            AddSoldierGroup<RangedSoldier>(waveValue / 4, true);
+            yield return new WaitForSeconds(Config.GAME_WAVE_TIME_ENEMY);
+            GenerateBonusWall();
+            yield return new WaitForSeconds(Config.GAME_WAVE_TIME_BONUS);
+            Wave++;
+        }
+    }
+
+    private void GenerateBonusWall() {
+        GameObject newWall = PoolManager.instance.GetEntity<Wall>();
+        newWall.transform.position = Config.GAME_SPAWN_POSITION_ENEMY;
+        newWall.GetComponent<Wall>().InitializeWall();
+    }
+
+    private bool IsGameOver() {
+        foreach (Soldier soldier in PoolManager.instance.GetActiveEntities<Soldier>()) {
+            if (!soldier.Enemy) {
+                return false;
+            }
+        }
+        return true;
     }
 
     private Vector3 GetPlayerArmyCenter() {
@@ -81,56 +117,24 @@ public class GameManager : MonoBehaviour {
             return Config.GAME_SPAWN_POSITION_PLAYER;
         }
         return center / count;
-    } 
-
-    private IEnumerator Waves() {
-        while (true) {
-            int waveValue = Mathf.Max((int)(Mathf.Pow((float)wave, 1.1f)), 1);
-            GenerateEnemyWave<MeleeSoldier>(waveValue);
-            GenerateEnemyWave<RangedSoldier>(waveValue / 4);
-            yield return new WaitForSeconds(Config.GAME_WAVE_TIME_ENEMY);
-            GenerateBonusWall();
-            yield return new WaitForSeconds(Config.GAME_WAVE_TIME_BONUS);
-            wave++;
-        }
     }
 
-    private void GenerateEnemyWave<T>(int numOfSoldiers) where T : Soldier{
+    public void AddSoldierGroup<T>(int numOfSoldiers, bool enemy) where T : Soldier {
         int soldiersLeft = numOfSoldiers;
+        int count = 1;
         while (soldiersLeft > 0) {
-            int added = Random.Range(1, soldiersLeft + 1);
-            AddSoldier<T>(added, true);
-            soldiersLeft -= added;
-        }
-    }
-
-    private void GenerateBonusWall() {
-        GameObject newWall = PoolManager.instance.GetEntity<Wall>();
-        newWall.transform.position = Config.GAME_SPAWN_POSITION_ENEMY;
-        newWall.GetComponent<Wall>().InitializeWall();
-    }
-
-    /*
-    private void MergeSoldier<T>() where T : Soldier{
-        Soldier chosenSoldier = null;
-        List<Soldier> mergeSoldiers = new List<Soldier>();
-        foreach (Soldier Soldier in PoolManager.instance.GetActiveEntities<T>()) {
-            if (!Soldier.Enemy) {
-                if (chosenSoldier == null) {
-                    chosenSoldier = Soldier;
-                }
-                else {
-                    mergeSoldiers.Add(Soldier);
-                }
+            while(soldiersLeft % (count * 10) > 0) {
+                AddSoldier<T>(count, enemy);
+                soldiersLeft -= count;
             }
+            count *= 10;
         }
-        if (chosenSoldier != null) {
-            chosenSoldier.Merge(mergeSoldiers);
+        if(!enemy) {
+            AutoMerge<T>();
         }
     }
-    */
 
-    private void AddSoldier<T>(int count, bool enemy) where T : Soldier {
+    private GameObject AddSoldier<T>(int count, bool enemy) where T : Soldier {
         // Get soldier
         GameObject soldierObject = PoolManager.instance.GetEntity<T>();
         Soldier soldier = soldierObject.GetComponent<Soldier>();
@@ -143,5 +147,35 @@ public class GameManager : MonoBehaviour {
         soldierObject.transform.position = position;
         soldierObject.tag = enemy ? Config.TAG_ENEMY : Config.TAG_PLAYER;
         soldier.InitializeSoldier(count, enemy);
+        // Return soldier
+        return soldierObject;
+    }
+
+    private void AutoMerge<T>() where T : Soldier {
+        // Initialize dict to count soldiers
+        Dictionary<int, List<T>> soldiersOfSize = new Dictionary<int, List<T>>();
+        for(int size = 1; size <= Config.GAME_MERGE_LIMIT; size *= 10) {
+            soldiersOfSize[size] = new List<T>();
+        }
+        // Analyse soldiers
+        foreach (T soldier in PoolManager.instance.GetActiveEntities<T>()) {
+            if(!soldier.Enemy && soldier.Count <= Config.GAME_MERGE_LIMIT) {
+                soldiersOfSize[soldier.Count].Add(soldier);
+            }
+        }
+        // Replace small 
+        for(int size = 1; size <= Config.GAME_MERGE_LIMIT; size *= 10) {
+            while(soldiersOfSize[size].Count >= 10) {
+                for(int i = 0; i < 10; i++) {
+                    T oldSoldier = soldiersOfSize[size][0];
+                    soldiersOfSize[size].RemoveAt(0);
+                    oldSoldier.gameObject.SetActive(false);
+                }
+                if(size * 10 <= Config.GAME_MERGE_LIMIT) {
+                    GameObject newSoldier = AddSoldier<T>(size * 10, false);
+                    soldiersOfSize[size * 10].Add(newSoldier.GetComponent<T>());
+                }
+            }
+        }
     }
 }

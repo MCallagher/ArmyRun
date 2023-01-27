@@ -5,7 +5,7 @@ using UnityEngine;
 public class WorldScroll : MonoBehaviour {
     //! MonoBehaviour
     void Update() {
-        if(!gameObject.CompareTag(Config.TAG_PLAYER)) {
+        if(!GameManager.instance.GameOver && !gameObject.CompareTag(Config.TAG_PLAYER)) {
             transform.Translate(Vector3.back * Config.WORLD_SCROLL_VELOCITY * Time.deltaTime);
         }
     }
