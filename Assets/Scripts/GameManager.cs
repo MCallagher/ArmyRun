@@ -77,7 +77,7 @@ public class GameManager : MonoBehaviour {
     private void InitializeGame() {
         Wave = 1;
         GameOver = false;
-        AddSoldier<MeleeSoldier>(Config.GAME_INIT_PLAYER_MELEE, false);
+        AddSoldierGroup<MeleeSoldier>(Config.GAME_INIT_PLAYER_MELEE, false);
     }
 
     private IEnumerator Waves() {

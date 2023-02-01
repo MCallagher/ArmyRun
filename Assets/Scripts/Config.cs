@@ -2,10 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Config
-{
+public class Config {
+
+    //! Waypoint
+    public static readonly string WAYPOINT_NAME = "Player Army Waypoint";
+    public static readonly float WAYPOINT_VELOCITY = 15;
     //! Soldier
-    public static readonly float SOLDIER_SIDE_VELOCITY = 10;
+    public static readonly float SOLDIER_WAYPOINT_RECALL_VELOCITY = 2;
     //! Soldier > MeleeSoldier
     public static readonly int SOLDIER_MELEE_MAX_HEALTH = 100;
     public static readonly int SOLDIER_MELEE_STRENGTH = 100;
@@ -31,8 +34,8 @@ public class Config
     public static readonly Vector3 GAME_SPAWN_POSITION_PLAYER = new Vector3(0, 0, 0);
     //! World
     public static readonly float WORLD_SCROLL_VELOCITY = 15;
-    public static readonly float WORLD_SOFT_BOUND_PLAYER_Z = 3;
-    public static readonly float WORLD_HARD_BOUND_PLAYER_Z = 4;
+    public static readonly float WORLD_BOUND_PLAYER_X = 10;
+    public static readonly float WORLD_BOUND_PLAYER_Z = 4;
     public static readonly float WORLD_BOUND_X = 20;
     public static readonly float WORLD_BOUND_Y_DOWN = -20;
     public static readonly float WORLD_BOUND_Y_UP = 10;

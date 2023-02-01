@@ -63,6 +63,7 @@ public abstract class Soldier : MonoBehaviour {
     //! Components
     protected Rigidbody soldierRigidbody;
     protected Renderer soldierRenderer;
+    protected GameObject waypoint;
 
     //! References
     [SerializeField] protected Material playerMaterial;
@@ -75,6 +76,7 @@ public abstract class Soldier : MonoBehaviour {
     void Awake() {
         soldierRigidbody = GetComponent<Rigidbody>();
         soldierRenderer = GetComponent<Renderer>();
+        waypoint = GameObject.Find(Config.WAYPOINT_NAME);
         gameObject.SetActive(false);
     }
 
@@ -130,15 +132,10 @@ public abstract class Soldier : MonoBehaviour {
 
     protected void ControlMovement() {
         if(!enemy) {
-            float sideInput = Input.GetAxis("Horizontal");
-            float frontalInput = Input.GetAxis("Vertical");
-            if (IsOnGround()) {
-                if(frontalInput * transform.position.z > 0 && Mathf.Abs(transform.position.z) > Config.WORLD_SOFT_BOUND_PLAYER_Z) {
-                    frontalInput *= (Config.WORLD_HARD_BOUND_PLAYER_Z - Mathf.Abs(transform.position.z)) / (Config.WORLD_HARD_BOUND_PLAYER_Z - Config.WORLD_SOFT_BOUND_PLAYER_Z);
-                }
-                soldierRigidbody.velocity = (Vector3.right * sideInput + Vector3.forward * frontalInput).normalized * Config.SOLDIER_SIDE_VELOCITY;
-                float z = Mathf.Sign(transform.position.z) * Mathf.Min(Mathf.Abs(transform.position.z), Config.WORLD_HARD_BOUND_PLAYER_Z);
-                transform.position = new Vector3(transform.position.x, transform.position.y, z);
+            if(IsOnGround()) {
+                Vector3 direction = (waypoint.transform.position - transform.position).normalized;
+                float magnitude = (waypoint.transform.position - transform.position).magnitude;
+                soldierRigidbody.velocity = Mathf.Pow(magnitude, 2) * direction * Config.SOLDIER_WAYPOINT_RECALL_VELOCITY;
             }
         }
     }
