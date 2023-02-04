@@ -150,7 +150,8 @@ public class GameManager : MonoBehaviour {
         // Setup soldier
         soldierObject.transform.position = position;
         soldierObject.tag = enemy ? Config.TAG_ENEMY : Config.TAG_PLAYER;
-        soldier.InitializeSoldier(count, enemy);
+        soldier.Initialize(count, enemy);
+        soldier.Spawn();
         // Return soldier
         return soldierObject;
     }

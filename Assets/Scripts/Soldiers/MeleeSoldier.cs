@@ -13,6 +13,9 @@ public class MeleeSoldier : Soldier
         get {
             return strength;
         }
+        protected set {
+            strength = Mathf.Max(0, value);
+        }
     }
 
 
@@ -25,15 +28,23 @@ public class MeleeSoldier : Soldier
 
 
     //! Soldier - Public
+    public override void Initialize(int count, bool enemy) {
+        maxHealth = count * Config.SOLDIER_MELEE_MAX_HEALTH;
+        Initialize(count, enemy, maxHealth);
+    }
+
+    public override void Initialize(int count, bool enemy, int maxHealth) {
+        strength = count * Config.SOLDIER_MELEE_STRENGTH;
+        Initialize(count, enemy, maxHealth, strength);
+    }
+
+    public virtual void Initialize(int count, bool enemy, int maxHealth, int strength) {
+        base.Initialize(count, enemy, maxHealth);
+        Strength = strength;
+    }
+
     public override void Attack(Soldier target) {
         AttackData attack = new AttackData(AttackType.Slash, Strength);
         target.Defend(attack);
-    }
-
-    //! Soldier - Protected
-    protected override void RecomputeProperties() {
-        strength = count * Config.SOLDIER_MELEE_STRENGTH;
-        maxHealth = count * Config.SOLDIER_MELEE_MAX_HEALTH;
-        health = maxHealth;
     }
 }

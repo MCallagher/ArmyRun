@@ -16,11 +16,17 @@ public class RangedSoldier : Soldier {
         get {
             return scanRange;
         }
+        protected set {
+            scanRange = Mathf.Max(0, value);
+        }
     }
 
     public float ScanTime {
         get {
             return scanTime;
+        }
+        protected set {
+            scanTime = Mathf.Max(0, value);
         }
     }
 
@@ -28,21 +34,45 @@ public class RangedSoldier : Soldier {
         get {
             return shootingRatio;
         }
+        protected set {
+            shootingRatio = Mathf.Max(0, value);
+        }
     }
 
     public int ShootingDamage {
         get {
             return shootingDamage;
         }
+        protected set {
+            shootingDamage = Mathf.Max(0, value);
+        }
     }
 
 
     //! Soldier - public
-    public override void InitializeSoldier(int count, bool enemy) {
+    public override void Initialize(int count, bool enemy) {
+        maxHealth = count * Config.SOLDIER_RANGED_MAX_HEALTH;
+        Initialize(count, enemy, maxHealth);
+    }
+
+    public override void Initialize(int count, bool enemy, int maxHealth) {
         scanRange = Config.SOLDIER_RANGED_SCAN_RANGE;
         scanTime = Config.SOLDIER_RANGED_SCAN_TIME;
         shootingRatio = Config.SOLDIER_RANGED_SHOOTING_RATIO;
-        base.InitializeSoldier(count, enemy);
+        shootingDamage = Count * Config.SOLDIER_RANGED_SHOOTING_DAMAGE;
+        Initialize(count, enemy, scanRange, scanTime, shootingRatio, shootingDamage);
+    }
+
+    public virtual void Initialize(int count, bool enemy, float scanRange, float scanTime, float shootingRatio, int shootingDamage) {
+        base.Initialize(count, enemy, maxHealth);
+        ScanRange = scanRange;
+        ScanTime = scanTime;
+        ShootingRatio = shootingRatio;
+        ShootingDamage = shootingDamage;
+    }
+
+    public override void Spawn() {
+        base.Spawn();
         StartCoroutine(ShootingRoutine());
     }
 
@@ -53,17 +83,10 @@ public class RangedSoldier : Soldier {
         bullet.InitializeBullet(new AttackData(AttackType.Bullet, ShootingDamage), target.gameObject);
     }
 
-    //! Soldier - Protected
-    protected override void RecomputeProperties() {
-        shootingDamage = count * Config.SOLDIER_RANGED_SHOOTING_DAMAGE;
-        maxHealth = count * Config.SOLDIER_RANGED_MAX_HEALTH;
-        health = maxHealth;
-    }
-
     //! RangedSoldier - Private
     private IEnumerator ShootingRoutine() {
         GameObject target = null;
-        while (true) {
+        while (!GameManager.instance.GameOver) {
             while (target == null) {
                 yield return new WaitForSeconds(ScanTime);
                 target = AcquireTarget();
@@ -83,16 +106,7 @@ public class RangedSoldier : Soldier {
     private GameObject AcquireTarget() {
         float minDist = ScanRange;
         GameObject target = null;
-        foreach (GameObject soldierObject in PoolMeleeSoldier.instance.GetActiveGameObject()) {
-            if (soldierObject.GetComponent<Soldier>().Enemy != Enemy) {
-                float dist = (transform.position - soldierObject.transform.position).magnitude;
-                if (dist < minDist) {
-                    minDist = dist;
-                    target = soldierObject;
-                }
-            }
-        }
-        foreach (GameObject soldierObject in PoolRangedSoldier.instance.GetActiveGameObject()) {
+        foreach (GameObject soldierObject in PoolManager.instance.GetActiveGameObject<Soldier>()) {
             if (soldierObject.GetComponent<Soldier>().Enemy != Enemy) {
                 float dist = (transform.position - soldierObject.transform.position).magnitude;
                 if (dist < minDist) {

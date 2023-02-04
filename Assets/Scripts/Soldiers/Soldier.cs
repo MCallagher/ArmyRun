@@ -24,19 +24,16 @@ public abstract class Soldier : MonoBehaviour {
             return count;
         }
         protected set {
-            if (value > 0) {
-                count = value;
-                RecomputeProperties();
-            }
-            else {
-                Debug.LogWarning("Count cannot be set to a negative number: " + value);
-            }
+            count = Mathf.Max(1, value);
         }
     }
 
     public int MaxHealth {
         get {
             return maxHealth;
+        }
+        protected set {
+            maxHealth = Mathf.Max(0, value);
         }
     }
 
@@ -45,7 +42,7 @@ public abstract class Soldier : MonoBehaviour {
             return health;
         }
         protected set {
-            health = Mathf.Min(Mathf.Max(0, value), MaxHealth);
+            health = Mathf.Clamp(value, 0, MaxHealth);
             if (health == 0) {
                 Die();
             }
@@ -66,6 +63,9 @@ public abstract class Soldier : MonoBehaviour {
         get {
             return waypoint;
         }
+        protected set {
+            waypoint = value;
+        }
     }
 
 
@@ -82,8 +82,8 @@ public abstract class Soldier : MonoBehaviour {
 
     //! MonoBehaviour
     void Awake() {
-        if(waypoint == null) {
-            waypoint = GameObject.Find(Config.WAYPOINT_NAME);
+        if(Waypoint == null) {
+            Waypoint = GameObject.Find(Config.WAYPOINT_NAME);
         }
         soldierRigidbody = GetComponent<Rigidbody>();
         soldierRenderer = GetComponent<Renderer>();
@@ -97,13 +97,13 @@ public abstract class Soldier : MonoBehaviour {
 
 
     //! Soldier - Public
-    public virtual void InitializeSoldier(int count, bool enemy) {
-        this.Count = count;
-        this.Enemy = enemy;
-        gameObject.SetActive(true);
-        // Reset phisics
-        soldierRigidbody.velocity = new Vector3(0f,0f,0f); 
-        soldierRigidbody.angularVelocity = new Vector3(0f,0f,0f);
+    public abstract void Initialize(int count, bool enemy);
+
+    public virtual void Initialize(int count, bool enemy, int maxHealth) {
+        Count = count;
+        Enemy = enemy;
+        MaxHealth = maxHealth;
+        Health = MaxHealth;
     }
 
     public abstract void Attack(Soldier target);
@@ -116,6 +116,12 @@ public abstract class Soldier : MonoBehaviour {
         Health = MaxHealth;
     }
 
+    public virtual void Spawn() {
+        gameObject.SetActive(true);
+        soldierRigidbody.velocity = new Vector3(0f,0f,0f); 
+        soldierRigidbody.angularVelocity = new Vector3(0f,0f,0f);
+    }
+
     //! Soldier - Protected
     protected virtual void RefreshUI() {
         countText.text = "" + Count;
@@ -123,8 +129,6 @@ public abstract class Soldier : MonoBehaviour {
         healthSlider.maxValue = MaxHealth;
         healthSlider.value = Health;
     }
-
-    protected abstract void RecomputeProperties();
 
     protected virtual void Die() {
         if (Health == 0) {
