@@ -1,4 +1,3 @@
-[12][mid][ToDo] Make player soldiers stay in a cluster
 [ 5][low][ToDo] Improve logging
 --------------------------------------------------------------------------------
 [ 1][low][Done] Fix bullet despawn
@@ -11,3 +10,5 @@
 [ 9][hig][Done] Add soldier automerge
 [10][mid][Done] Refactor soldier
 [11][mid][Done] Remove merge bonus
+[12][mid][Done] Make player soldiers stay in a cluster
+[13][mid][Done] Redesign bonus spawn

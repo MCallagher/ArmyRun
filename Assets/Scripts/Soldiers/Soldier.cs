@@ -6,6 +6,9 @@ using TMPro;
 
 public abstract class Soldier : MonoBehaviour {
 
+    //! Static variables
+    private static GameObject waypoint;
+
     //! Variables
     // value of this soldier
     [SerializeField] protected int count;
@@ -59,11 +62,16 @@ public abstract class Soldier : MonoBehaviour {
         }
     }
 
+    public static GameObject Waypoint {
+        get {
+            return waypoint;
+        }
+    }
+
 
     //! Components
     protected Rigidbody soldierRigidbody;
     protected Renderer soldierRenderer;
-    protected GameObject waypoint;
 
     //! References
     [SerializeField] protected Material playerMaterial;
@@ -74,18 +82,17 @@ public abstract class Soldier : MonoBehaviour {
 
     //! MonoBehaviour
     void Awake() {
+        if(waypoint == null) {
+            waypoint = GameObject.Find(Config.WAYPOINT_NAME);
+        }
         soldierRigidbody = GetComponent<Rigidbody>();
         soldierRenderer = GetComponent<Renderer>();
-        waypoint = GameObject.Find(Config.WAYPOINT_NAME);
         gameObject.SetActive(false);
     }
 
     void Update() {
-        if (IsOutOfBound()) {
-            Die();
-        }
         RefreshUI();
-        ControlMovement();
+        FollowWaypoint();
     }
 
 
@@ -126,17 +133,14 @@ public abstract class Soldier : MonoBehaviour {
             ExplosionParticles explosion = explosionObject.GetComponent<ExplosionParticles>();
             explosion.InitializeExplosionParticles(soldierRenderer.material);
         }
-        gameObject.tag = Config.TAG_DEFAULT;
         gameObject.SetActive(false);
     }
 
-    protected void ControlMovement() {
-        if(!enemy) {
-            if(IsOnGround()) {
-                Vector3 direction = (waypoint.transform.position - transform.position).normalized;
-                float magnitude = (waypoint.transform.position - transform.position).magnitude;
-                soldierRigidbody.velocity = Mathf.Pow(magnitude, 2) * direction * Config.SOLDIER_WAYPOINT_RECALL_VELOCITY;
-            }
+    protected void FollowWaypoint() {
+        if(!enemy && IsOnGround()) {
+            Vector3 direction = (waypoint.transform.position - transform.position).normalized;
+            float magnitude = (waypoint.transform.position - transform.position).magnitude;
+            soldierRigidbody.velocity = Mathf.Pow(magnitude, 2) * direction * Config.SOLDIER_WAYPOINT_RECALL_VELOCITY;
         }
     }
 
