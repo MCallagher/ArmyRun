@@ -6,7 +6,7 @@ public class Config {
 
     //! Waypoint
     public static readonly string WAYPOINT_NAME = "Player Army Waypoint";
-    public static readonly float WAYPOINT_VELOCITY = 15;
+    public static readonly float WAYPOINT_VELOCITY = 10;
     //! Soldier
     public static readonly float SOLDIER_WAYPOINT_RECALL_VELOCITY = 2;
     //! Soldier > MeleeSoldier

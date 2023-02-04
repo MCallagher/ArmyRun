@@ -34,16 +34,16 @@ public class GameManager : MonoBehaviour {
 
     //! References
     [SerializeField] private TextMeshProUGUI waveText;
+    [SerializeField] private GameObject gameOverScreen;
 
 
     //! Monobehaviour
     void Awake() {
-        if (instance == null) {
-            instance = this;
-        }
-        else {
+        if (instance != null) {
             Destroy(this.gameObject);
+            return;
         }
+        instance = this;
     }
 
     void Start() {
@@ -55,6 +55,7 @@ public class GameManager : MonoBehaviour {
         waveText.text = "Wave: " + Wave;
         if(IsGameOver()) {
             gameOver = true;
+            gameOverScreen.SetActive(true);
         }
     }
 
