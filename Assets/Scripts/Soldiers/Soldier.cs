@@ -144,7 +144,7 @@ public abstract class Soldier : MonoBehaviour {
         if(!enemy && IsOnGround()) {
             Vector3 direction = (waypoint.transform.position - transform.position).normalized;
             float magnitude = (waypoint.transform.position - transform.position).magnitude;
-            soldierRigidbody.velocity = Mathf.Pow(magnitude, 2) * direction * Config.SOLDIER_WAYPOINT_RECALL_VELOCITY;
+            soldierRigidbody.velocity = Mathf.Pow(magnitude, 2) * direction * Config.WAYPOINT_RECALL_VELOCITY;
         }
     }
 

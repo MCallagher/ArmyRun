@@ -86,16 +86,16 @@ public class GameManager : MonoBehaviour {
             int waveValue = Mathf.Max((int)(Mathf.Pow((float)Wave, 1.1f)), 1);
             AddSoldierGroup<MeleeSoldier>(waveValue, true);
             AddSoldierGroup<RangedSoldier>(waveValue / 4, true);
-            yield return new WaitForSeconds(Config.GAME_WAVE_TIME_ENEMY);
+            yield return new WaitForSeconds(Config.WAVE_TIME_ENEMY);
             GenerateBonusWall();
-            yield return new WaitForSeconds(Config.GAME_WAVE_TIME_BONUS);
+            yield return new WaitForSeconds(Config.WAVE_TIME_BONUS);
             Wave++;
         }
     }
 
     private void GenerateBonusWall() {
         GameObject newWall = PoolManager.instance.GetEntity<Wall>();
-        newWall.transform.position = Config.GAME_SPAWN_POSITION_ENEMY;
+        newWall.transform.position = Config.WORLD_SPAWN_POSITION_ENEMY;
         newWall.GetComponent<Wall>().InitializeWall();
     }
 
@@ -107,21 +107,6 @@ public class GameManager : MonoBehaviour {
             }
         }
         return true;
-    }
-
-    private Vector3 GetPlayerArmyCenter() {
-        Vector3 center = Vector3.zero;
-        int count = 0;
-        foreach (GameObject soldiers in PoolManager.instance.GetActiveGameObject<Soldier>()) {
-            if (!soldiers.GetComponent<Soldier>().Enemy) {
-                center += soldiers.transform.position;
-                count++;
-            }
-        }
-        if (count == 0) {
-            return Config.GAME_SPAWN_POSITION_PLAYER;
-        }
-        return center / count;
     }
 
     public void AddSoldierGroup<T>(int numOfSoldiers, bool enemy) where T : Soldier {
@@ -144,7 +129,7 @@ public class GameManager : MonoBehaviour {
         GameObject soldierObject = PoolManager.instance.GetEntity<T>();
         Soldier soldier = soldierObject.GetComponent<Soldier>();
         // Compute position
-        Vector3 center = enemy ? Config.GAME_SPAWN_POSITION_ENEMY : GetPlayerArmyCenter();
+        Vector3 center = enemy ? Config.WORLD_SPAWN_POSITION_ENEMY : Soldier.Waypoint.transform.position;
         float radius = enemy ? Config.WORLD_ROAD_BOUND_X : Config.WORLD_ROAD_BOUND_X / 10;
         float height = soldierObject.GetComponent<Renderer>().bounds.size.y / 2;
         Vector3 position = AdvancedRandom.PositionOnDisk(center, radius, height);
