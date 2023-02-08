@@ -381,13 +381,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9d140f6f2e932d645990d0e01e69ec26, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  count: 0
+  level: 0
   maxHealth: 0
   health: 0
   enemy: 0
   playerMaterial: {fileID: 2100000, guid: 959526df63b55a84e8ae1ea51314c1a0, type: 2}
   enemyMaterial: {fileID: 2100000, guid: 00dda9e739531e441a6d81fb69ba8df3, type: 2}
-  countText: {fileID: 4694794088609911280}
+  levelText: {fileID: 4694794088609911280}
   healthSlider: {fileID: 7470719274430000901}
   scanRange: 0
   scanTime: 0

@@ -19,7 +19,10 @@ public class Config {
     public static readonly float BONUS_THRESHOLD_DAMAGED = 0.75f;
     //! Gameplay
     public static readonly int GAME_INIT_PLAYER_MELEE = 10;
-    public static readonly int GAME_MERGE_LIMIT = 1000;
+    //! Merge
+    public static readonly int MERGE_LEVEL_LIMIT = 5;
+    public static readonly int MERGE_COUNT_PER_LEVEL = 10;
+    //! Wave
     public static readonly float WAVE_TIME_ENEMY = 1.5f;
     public static readonly float WAVE_TIME_BONUS = 1.5f;
 

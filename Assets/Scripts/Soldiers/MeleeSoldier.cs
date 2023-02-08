@@ -28,18 +28,18 @@ public class MeleeSoldier : Soldier
 
 
     //! Soldier - Public
-    public override void Initialize(int count, bool enemy) {
-        maxHealth = count * Config.SOLDIER_MELEE_MAX_HEALTH;
-        Initialize(count, enemy, maxHealth);
+    public override void Initialize(int level, bool enemy) {
+        maxHealth = level * Config.SOLDIER_MELEE_MAX_HEALTH;
+        Initialize(level, enemy, maxHealth);
     }
 
-    public override void Initialize(int count, bool enemy, int maxHealth) {
-        strength = count * Config.SOLDIER_MELEE_STRENGTH;
-        Initialize(count, enemy, maxHealth, strength);
+    public override void Initialize(int level, bool enemy, int maxHealth) {
+        strength = level * Config.SOLDIER_MELEE_STRENGTH;
+        Initialize(level, enemy, maxHealth, strength);
     }
 
-    public virtual void Initialize(int count, bool enemy, int maxHealth, int strength) {
-        base.Initialize(count, enemy, maxHealth);
+    public virtual void Initialize(int level, bool enemy, int maxHealth, int strength) {
+        base.Initialize(level, enemy, maxHealth);
         Strength = strength;
     }
 

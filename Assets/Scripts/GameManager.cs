@@ -111,60 +111,67 @@ public class GameManager : MonoBehaviour {
 
     public void AddSoldierGroup<T>(int numOfSoldiers, bool enemy) where T : Soldier {
         int soldiersLeft = numOfSoldiers;
-        int count = 1;
+        int level = 1;
+        int levelEquivalent = 1;
         while (soldiersLeft > 0) {
-            while(soldiersLeft % (count * 10) > 0) {
-                AddSoldier<T>(count, enemy);
-                soldiersLeft -= count;
+            while(soldiersLeft % (levelEquivalent * Config.MERGE_COUNT_PER_LEVEL) > 0) {
+                AddSoldier<T>(level, enemy);
+                soldiersLeft -= levelEquivalent;
             }
-            count *= 10;
+            level++;
+            levelEquivalent *= Config.MERGE_COUNT_PER_LEVEL;
         }
         if(!enemy) {
             AutoMerge<T>();
         }
     }
 
-    private GameObject AddSoldier<T>(int count, bool enemy) where T : Soldier {
+    private GameObject AddSoldier<T>(int level, bool enemy) where T : Soldier {
         // Get soldier
         GameObject soldierObject = PoolManager.instance.GetEntity<T>();
         Soldier soldier = soldierObject.GetComponent<Soldier>();
+
         // Compute position
         Vector3 center = enemy ? Config.WORLD_SPAWN_POSITION_ENEMY : Soldier.Waypoint.transform.position;
         float radius = enemy ? Config.WORLD_ROAD_BOUND_X : Config.WORLD_ROAD_BOUND_X / 10;
         float height = soldierObject.GetComponent<Renderer>().bounds.size.y / 2;
         Vector3 position = AdvancedRandom.PositionOnDisk(center, radius, height);
+
         // Setup soldier
         soldierObject.transform.position = position;
         soldierObject.tag = enemy ? Config.TAG_ENEMY : Config.TAG_PLAYER;
-        soldier.Initialize(count, enemy);
+        soldier.Initialize(level, enemy);
         soldier.Spawn();
+
         // Return soldier
         return soldierObject;
     }
 
     private void AutoMerge<T>() where T : Soldier {
         // Initialize dict to count soldiers
-        Dictionary<int, List<T>> soldiersOfSize = new Dictionary<int, List<T>>();
-        for(int size = 1; size <= Config.GAME_MERGE_LIMIT; size *= 10) {
-            soldiersOfSize[size] = new List<T>();
+        Dictionary<int, List<T>> soldiersOfLevel = new Dictionary<int, List<T>>();
+        for(int level = 1; level <= Config.MERGE_LEVEL_LIMIT; level++) {
+            soldiersOfLevel[level] = new List<T>();
         }
+
         // Analyse soldiers
         foreach (T soldier in PoolManager.instance.GetActiveEntities<T>()) {
-            if(!soldier.Enemy && soldier.Count <= Config.GAME_MERGE_LIMIT) {
-                soldiersOfSize[soldier.Count].Add(soldier);
+            if(!soldier.Enemy && soldier.Level <= Config.MERGE_LEVEL_LIMIT) {
+                soldiersOfLevel[soldier.Level].Add(soldier);
             }
         }
-        // Replace small 
-        for(int size = 1; size <= Config.GAME_MERGE_LIMIT; size *= 10) {
-            while(soldiersOfSize[size].Count >= 10) {
-                for(int i = 0; i < 10; i++) {
-                    T oldSoldier = soldiersOfSize[size][0];
-                    soldiersOfSize[size].RemoveAt(0);
+
+        // Replace small
+        for(int level = 1; level <= Config.MERGE_LEVEL_LIMIT; level++) {
+            while(soldiersOfLevel[level].Count >= Config.MERGE_COUNT_PER_LEVEL) {
+                for(int i = 0; i < Config.MERGE_COUNT_PER_LEVEL; i++) {
+                    T oldSoldier = soldiersOfLevel[level][0];
+                    soldiersOfLevel[level].RemoveAt(0);
                     oldSoldier.gameObject.SetActive(false);
                 }
-                if(size * 10 <= Config.GAME_MERGE_LIMIT) {
-                    GameObject newSoldier = AddSoldier<T>(size * 10, false);
-                    soldiersOfSize[size * 10].Add(newSoldier.GetComponent<T>());
+                if(level + 1 <= Config.MERGE_LEVEL_LIMIT) {
+                    GameObject newSoldier = AddSoldier<T>(level + 1, false);
+                    soldiersOfLevel[level + 1].Add(newSoldier.GetComponent<T>());
                 }
             }
         }

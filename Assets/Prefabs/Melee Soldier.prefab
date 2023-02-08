@@ -307,13 +307,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f9c594b0cbf28643a6e163f25b8d1e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  count: 0
+  level: 0
   maxHealth: 0
   health: 0
   enemy: 0
   playerMaterial: {fileID: 2100000, guid: 959526df63b55a84e8ae1ea51314c1a0, type: 2}
   enemyMaterial: {fileID: 2100000, guid: 00dda9e739531e441a6d81fb69ba8df3, type: 2}
-  countText: {fileID: 3208253684485410200}
+  levelText: {fileID: 3208253684485410200}
   healthSlider: {fileID: 723971756761920365}
   strength: 0
 --- !u!4 &7268418091721585038 stripped

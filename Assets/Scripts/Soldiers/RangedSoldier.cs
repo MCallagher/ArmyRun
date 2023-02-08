@@ -50,21 +50,21 @@ public class RangedSoldier : Soldier {
 
 
     //! Soldier - public
-    public override void Initialize(int count, bool enemy) {
-        maxHealth = count * Config.SOLDIER_RANGED_MAX_HEALTH;
-        Initialize(count, enemy, maxHealth);
+    public override void Initialize(int level, bool enemy) {
+        maxHealth = level * Config.SOLDIER_RANGED_MAX_HEALTH;
+        Initialize(level, enemy, maxHealth);
     }
 
-    public override void Initialize(int count, bool enemy, int maxHealth) {
+    public override void Initialize(int level, bool enemy, int maxHealth) {
         scanRange = Config.SOLDIER_RANGED_SCAN_RANGE;
         scanTime = Config.SOLDIER_RANGED_SCAN_TIME;
         shootingRatio = Config.SOLDIER_RANGED_SHOOTING_RATIO;
-        shootingDamage = Count * Config.SOLDIER_RANGED_SHOOTING_DAMAGE;
-        Initialize(count, enemy, scanRange, scanTime, shootingRatio, shootingDamage);
+        shootingDamage = Level * Config.SOLDIER_RANGED_SHOOTING_DAMAGE;
+        Initialize(level, enemy, scanRange, scanTime, shootingRatio, shootingDamage);
     }
 
-    public virtual void Initialize(int count, bool enemy, float scanRange, float scanTime, float shootingRatio, int shootingDamage) {
-        base.Initialize(count, enemy, maxHealth);
+    public virtual void Initialize(int level, bool enemy, float scanRange, float scanTime, float shootingRatio, int shootingDamage) {
+        base.Initialize(level, enemy, maxHealth);
         ScanRange = scanRange;
         ScanTime = scanTime;
         ShootingRatio = shootingRatio;

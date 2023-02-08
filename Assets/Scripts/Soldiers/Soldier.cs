@@ -11,7 +11,7 @@ public abstract class Soldier : MonoBehaviour {
 
     //! Variables
     // value of this soldier
-    [SerializeField] protected int count;
+    [SerializeField] protected int level;
     // Phisical properties
     [SerializeField] protected int maxHealth;
     [SerializeField] protected int health;
@@ -19,12 +19,12 @@ public abstract class Soldier : MonoBehaviour {
     [SerializeField] protected bool enemy;
 
     //! Properties
-    public int Count {
+    public int Level {
         get {
-            return count;
+            return level;
         }
         protected set {
-            count = Mathf.Max(1, value);
+            level = Mathf.Max(1, value);
         }
     }
 
@@ -76,7 +76,7 @@ public abstract class Soldier : MonoBehaviour {
     //! References
     [SerializeField] protected Material playerMaterial;
     [SerializeField] protected Material enemyMaterial;
-    [SerializeField] protected TextMeshProUGUI countText;
+    [SerializeField] protected TextMeshProUGUI levelText;
     [SerializeField] protected Slider healthSlider;
 
 
@@ -97,10 +97,10 @@ public abstract class Soldier : MonoBehaviour {
 
 
     //! Soldier - Public
-    public abstract void Initialize(int count, bool enemy);
+    public abstract void Initialize(int level, bool enemy);
 
-    public virtual void Initialize(int count, bool enemy, int maxHealth) {
-        Count = count;
+    public virtual void Initialize(int level, bool enemy, int maxHealth) {
+        Level = level;
         Enemy = enemy;
         MaxHealth = maxHealth;
         Health = MaxHealth;
@@ -124,7 +124,7 @@ public abstract class Soldier : MonoBehaviour {
 
     //! Soldier - Protected
     protected virtual void RefreshUI() {
-        countText.text = "" + Count;
+        levelText.text = "" + Level;
         healthSlider.minValue = 0;
         healthSlider.maxValue = MaxHealth;
         healthSlider.value = Health;
