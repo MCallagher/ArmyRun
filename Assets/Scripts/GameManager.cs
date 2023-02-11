@@ -111,7 +111,7 @@ public class GameManager : MonoBehaviour {
 
     public void AddSoldierGroup<T>(int numOfSoldiers, bool enemy) where T : Soldier {
         int soldiersLeft = numOfSoldiers;
-        int level = 1;
+        int level = 0;
         int levelEquivalent = 1;
         while (soldiersLeft > 0) {
             while(soldiersLeft % (levelEquivalent * Config.MERGE_COUNT_PER_LEVEL) > 0) {
@@ -150,7 +150,7 @@ public class GameManager : MonoBehaviour {
     private void AutoMerge<T>() where T : Soldier {
         // Initialize dict to count soldiers
         Dictionary<int, List<T>> soldiersOfLevel = new Dictionary<int, List<T>>();
-        for(int level = 1; level <= Config.MERGE_LEVEL_LIMIT; level++) {
+        for(int level = 0; level <= Config.MERGE_LEVEL_LIMIT; level++) {
             soldiersOfLevel[level] = new List<T>();
         }
 
@@ -162,17 +162,15 @@ public class GameManager : MonoBehaviour {
         }
 
         // Replace small
-        for(int level = 1; level <= Config.MERGE_LEVEL_LIMIT; level++) {
+        for(int level = 0; level < Config.MERGE_LEVEL_LIMIT; level++) {
             while(soldiersOfLevel[level].Count >= Config.MERGE_COUNT_PER_LEVEL) {
                 for(int i = 0; i < Config.MERGE_COUNT_PER_LEVEL; i++) {
                     T oldSoldier = soldiersOfLevel[level][0];
                     soldiersOfLevel[level].RemoveAt(0);
                     oldSoldier.gameObject.SetActive(false);
                 }
-                if(level + 1 <= Config.MERGE_LEVEL_LIMIT) {
-                    GameObject newSoldier = AddSoldier<T>(level + 1, false);
-                    soldiersOfLevel[level + 1].Add(newSoldier.GetComponent<T>());
-                }
+                GameObject newSoldier = AddSoldier<T>(level + 1, false);
+                soldiersOfLevel[level + 1].Add(newSoldier.GetComponent<T>());
             }
         }
     }

@@ -24,7 +24,7 @@ public abstract class Soldier : MonoBehaviour {
             return level;
         }
         protected set {
-            level = Mathf.Max(1, value);
+            level = Mathf.Max(0, value);
         }
     }
 
@@ -55,7 +55,6 @@ public abstract class Soldier : MonoBehaviour {
         }
         protected set {
             enemy = value;
-            //soldierRenderer.material = enemy ? enemyMaterial : playerMaterial;
             foreach(MeshRenderer renderer in GetComponentsInChildren<MeshRenderer>()) {
                 renderer.material = enemy ? enemyMaterial : playerMaterial;
             }

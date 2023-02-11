@@ -1,5 +1,7 @@
 [ 5][low][ToDo] Improve logging
-[14][mid][ToDo] Full color soldier (child game objects)
+[15][hig][ToDo] Improve UI + wall
+[16][mid][ToDo] Design powerups
+[17][hig][ToDo] Improve waves (ArmyManager?)
 --------------------------------------------------------------------------------
 [ 1][low][Done] Fix bullet despawn
 [ 2][low][Done] Fix Pool
@@ -13,3 +15,4 @@
 [11][mid][Done] Remove merge bonus
 [12][mid][Done] Make player soldiers stay in a cluster
 [13][mid][Done] Redesign bonus spawn
+[14][mid][Done] Full color soldier (child game objects)

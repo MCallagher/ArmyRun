@@ -5,16 +5,14 @@ using UnityEngine;
 public class Config {
 
     //! Soldier > MeleeSoldier
-    public static readonly int SOLDIER_MELEE_MAX_HEALTH = 100;
-    public static readonly int SOLDIER_MELEE_STRENGTH = 100;
-    public static readonly int SOLDIER_MELEE_LEVEL_MULTIPLIER = 10;
+    public static readonly int[] SOLDIER_MELEE_MAX_HEALTH = new int[]{100, 1500, 20000, 250000};
+    public static readonly int[] SOLDIER_MELEE_STRENGTH = new int[]{100, 1500, 20000, 250000};
     //! Soldier > RangedSoldier
-    public static readonly int SOLDIER_RANGED_MAX_HEALTH = 100;
-    public static readonly int SOLDIER_RANGED_SHOOTING_DAMAGE = 50;
-    public static readonly int SOLDIER_RANGED_SCAN_RANGE = 20;
-    public static readonly int SOLDIER_RANGED_SHOOTING_RATIO = 2;
+    public static readonly int[] SOLDIER_RANGED_MAX_HEALTH = new int[]{80, 1000, 12000, 150000};
+    public static readonly int[] SOLDIER_RANGED_SHOOTING_DAMAGE = new int[]{50, 600, 7000, 80000};
+    public static readonly int[] SOLDIER_RANGED_SCAN_RANGE = new int[]{20, 22, 25, 30};
+    public static readonly int[] SOLDIER_RANGED_SHOOTING_RATIO = new int[]{2, 3, 4, 5};
     public static readonly float SOLDIER_RANGED_SCAN_TIME = 0.1f;
-    public static readonly int SOLDIER_RANGED_LEVEL_MULTIPLIER = 10;
     //! Bullet
     public static readonly float BULLET_VELOCITY = 30;
     //! Bonus
@@ -22,7 +20,7 @@ public class Config {
     //! Gameplay
     public static readonly int GAME_INIT_PLAYER_MELEE = 10;
     //! Merge
-    public static readonly int MERGE_LEVEL_LIMIT = 5;
+    public static readonly int MERGE_LEVEL_LIMIT = 3;
     public static readonly int MERGE_COUNT_PER_LEVEL = 10;
     //! Wave
     public static readonly float WAVE_TIME_ENEMY = 2f;
