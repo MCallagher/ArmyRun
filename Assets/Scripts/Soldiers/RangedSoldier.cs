@@ -51,7 +51,7 @@ public class RangedSoldier : Soldier {
 
     //! Soldier - public
     public override void Initialize(int level, bool enemy) {
-        maxHealth = level * Config.SOLDIER_RANGED_MAX_HEALTH;
+        maxHealth = SimpleMath.Pow(Config.SOLDIER_RANGED_LEVEL_MULTIPLIER, level - 1) * Config.SOLDIER_RANGED_MAX_HEALTH;
         Initialize(level, enemy, maxHealth);
     }
 
@@ -59,7 +59,7 @@ public class RangedSoldier : Soldier {
         scanRange = Config.SOLDIER_RANGED_SCAN_RANGE;
         scanTime = Config.SOLDIER_RANGED_SCAN_TIME;
         shootingRatio = Config.SOLDIER_RANGED_SHOOTING_RATIO;
-        shootingDamage = Level * Config.SOLDIER_RANGED_SHOOTING_DAMAGE;
+        shootingDamage = SimpleMath.Pow(Config.SOLDIER_RANGED_LEVEL_MULTIPLIER, Level - 1) * Config.SOLDIER_RANGED_SHOOTING_DAMAGE;
         Initialize(level, enemy, scanRange, scanTime, shootingRatio, shootingDamage);
     }
 

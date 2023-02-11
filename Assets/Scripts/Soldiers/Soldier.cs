@@ -55,7 +55,10 @@ public abstract class Soldier : MonoBehaviour {
         }
         protected set {
             enemy = value;
-            soldierRenderer.material = enemy ? enemyMaterial : playerMaterial;
+            //soldierRenderer.material = enemy ? enemyMaterial : playerMaterial;
+            foreach(MeshRenderer renderer in GetComponentsInChildren<MeshRenderer>()) {
+                renderer.material = enemy ? enemyMaterial : playerMaterial;
+            }
         }
     }
 

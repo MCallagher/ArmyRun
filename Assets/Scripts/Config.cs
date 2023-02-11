@@ -7,12 +7,14 @@ public class Config {
     //! Soldier > MeleeSoldier
     public static readonly int SOLDIER_MELEE_MAX_HEALTH = 100;
     public static readonly int SOLDIER_MELEE_STRENGTH = 100;
+    public static readonly int SOLDIER_MELEE_LEVEL_MULTIPLIER = 10;
     //! Soldier > RangedSoldier
     public static readonly int SOLDIER_RANGED_MAX_HEALTH = 100;
     public static readonly int SOLDIER_RANGED_SHOOTING_DAMAGE = 50;
     public static readonly int SOLDIER_RANGED_SCAN_RANGE = 20;
     public static readonly int SOLDIER_RANGED_SHOOTING_RATIO = 2;
     public static readonly float SOLDIER_RANGED_SCAN_TIME = 0.1f;
+    public static readonly int SOLDIER_RANGED_LEVEL_MULTIPLIER = 10;
     //! Bullet
     public static readonly float BULLET_VELOCITY = 30;
     //! Bonus
@@ -23,8 +25,8 @@ public class Config {
     public static readonly int MERGE_LEVEL_LIMIT = 5;
     public static readonly int MERGE_COUNT_PER_LEVEL = 10;
     //! Wave
-    public static readonly float WAVE_TIME_ENEMY = 1.5f;
-    public static readonly float WAVE_TIME_BONUS = 1.5f;
+    public static readonly float WAVE_TIME_ENEMY = 2f;
+    public static readonly float WAVE_TIME_BONUS = 2f;
 
     //! Waypoint (tech)
     public static readonly string WAYPOINT_NAME = "Player Army Waypoint";
@@ -33,7 +35,7 @@ public class Config {
     //! Pool (tech)
     public static readonly int POOL_INIT_SIZE = 4;
     //! World (tech)
-    public static readonly float WORLD_SCROLL_VELOCITY = 15;
+    public static readonly float WORLD_SCROLL_VELOCITY = 10;
     public static readonly float WORLD_BOUND_PLAYER_X = 10;
     public static readonly float WORLD_BOUND_PLAYER_Z = 4;
     public static readonly float WORLD_BOUND_X = 20;

@@ -29,12 +29,12 @@ public class MeleeSoldier : Soldier
 
     //! Soldier - Public
     public override void Initialize(int level, bool enemy) {
-        maxHealth = level * Config.SOLDIER_MELEE_MAX_HEALTH;
+        maxHealth = SimpleMath.Pow(Config.SOLDIER_MELEE_LEVEL_MULTIPLIER, level - 1) * Config.SOLDIER_MELEE_MAX_HEALTH;
         Initialize(level, enemy, maxHealth);
     }
 
     public override void Initialize(int level, bool enemy, int maxHealth) {
-        strength = level * Config.SOLDIER_MELEE_STRENGTH;
+        strength = SimpleMath.Pow(Config.SOLDIER_MELEE_LEVEL_MULTIPLIER, Level - 1) * Config.SOLDIER_MELEE_STRENGTH;
         Initialize(level, enemy, maxHealth, strength);
     }
 
