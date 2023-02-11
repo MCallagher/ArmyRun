@@ -150,19 +150,19 @@ public class GameManager : MonoBehaviour {
     private void AutoMerge<T>() where T : Soldier {
         // Initialize dict to count soldiers
         Dictionary<int, List<T>> soldiersOfLevel = new Dictionary<int, List<T>>();
-        for(int level = 0; level <= Config.MERGE_LEVEL_LIMIT; level++) {
+        for(int level = 0; level < Config.MERGE_LEVEL_LIMIT; level++) {
             soldiersOfLevel[level] = new List<T>();
         }
 
         // Analyse soldiers
         foreach (T soldier in PoolManager.instance.GetActiveEntities<T>()) {
-            if(!soldier.Enemy && soldier.Level <= Config.MERGE_LEVEL_LIMIT) {
+            if(!soldier.Enemy) {
                 soldiersOfLevel[soldier.Level].Add(soldier);
             }
         }
 
         // Replace small
-        for(int level = 0; level < Config.MERGE_LEVEL_LIMIT; level++) {
+        for(int level = 0; level < Config.MERGE_LEVEL_LIMIT - 1; level++) {
             while(soldiersOfLevel[level].Count >= Config.MERGE_COUNT_PER_LEVEL) {
                 for(int i = 0; i < Config.MERGE_COUNT_PER_LEVEL; i++) {
                     T oldSoldier = soldiersOfLevel[level][0];

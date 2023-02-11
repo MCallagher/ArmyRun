@@ -20,7 +20,7 @@ public class Config {
     //! Gameplay
     public static readonly int GAME_INIT_PLAYER_MELEE = 10;
     //! Merge
-    public static readonly int MERGE_LEVEL_LIMIT = 3;
+    public static readonly int MERGE_LEVEL_LIMIT = 4;
     public static readonly int MERGE_COUNT_PER_LEVEL = 10;
     //! Wave
     public static readonly float WAVE_TIME_ENEMY = 2f;

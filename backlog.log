@@ -16,3 +16,4 @@
 [12][mid][Done] Make player soldiers stay in a cluster
 [13][mid][Done] Redesign bonus spawn
 [14][mid][Done] Full color soldier (child game objects)
+[18][hig][Done] Remove UI on soldiers (show health and level graphically)

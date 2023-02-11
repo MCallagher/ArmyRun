@@ -25,6 +25,9 @@ public abstract class Soldier : MonoBehaviour {
         }
         protected set {
             level = Mathf.Max(0, value);
+            for(int i = 1; i < Config.MERGE_LEVEL_LIMIT; i++) {
+                soldierLevelObjects[i].SetActive(i == level);
+            }
         }
     }
 
@@ -46,6 +49,12 @@ public abstract class Soldier : MonoBehaviour {
             if (health == 0) {
                 Die();
             }
+            float healthPrc = (float)Health / MaxHealth;
+            Color healthColor = (healthPrc * soldierColor) + ((1 - healthPrc) * damageColor);
+            foreach(MeshRenderer renderer in soldierLevelObjects[0].GetComponentsInChildren<MeshRenderer>()) {
+                renderer.material = soldierMaterial;
+                renderer.material.color = healthColor;
+            }
         }
     }
 
@@ -55,9 +64,8 @@ public abstract class Soldier : MonoBehaviour {
         }
         protected set {
             enemy = value;
-            foreach(MeshRenderer renderer in GetComponentsInChildren<MeshRenderer>()) {
-                renderer.material = enemy ? enemyMaterial : playerMaterial;
-            }
+            soldierMaterial = enemy ? enemyMaterial : playerMaterial;
+            soldierColor = soldierMaterial.color;
         }
     }
 
@@ -74,12 +82,14 @@ public abstract class Soldier : MonoBehaviour {
     //! Components
     protected Rigidbody soldierRigidbody;
     protected Renderer soldierRenderer;
+    protected GameObject[] soldierLevelObjects;
+    protected Material soldierMaterial;
+    protected Color soldierColor;
 
     //! References
     [SerializeField] protected Material playerMaterial;
     [SerializeField] protected Material enemyMaterial;
-    [SerializeField] protected TextMeshProUGUI levelText;
-    [SerializeField] protected Slider healthSlider;
+    [SerializeField] protected Color damageColor;
 
 
     //! MonoBehaviour
@@ -89,11 +99,14 @@ public abstract class Soldier : MonoBehaviour {
         }
         soldierRigidbody = GetComponent<Rigidbody>();
         soldierRenderer = GetComponent<Renderer>();
+        soldierLevelObjects = new GameObject[Config.MERGE_LEVEL_LIMIT];
+        for(int i = 0; i < Config.MERGE_LEVEL_LIMIT; i++) {
+            soldierLevelObjects[i] = transform.GetChild(i).gameObject;
+        }
         gameObject.SetActive(false);
     }
 
     void Update() {
-        RefreshUI();
         FollowWaypoint();
     }
 
@@ -125,13 +138,6 @@ public abstract class Soldier : MonoBehaviour {
     }
 
     //! Soldier - Protected
-    protected virtual void RefreshUI() {
-        levelText.text = "" + Level;
-        healthSlider.minValue = 0;
-        healthSlider.maxValue = MaxHealth;
-        healthSlider.value = Health;
-    }
-
     protected virtual void Die() {
         if (Health == 0) {
             GameObject explosionObject =  PoolManager.instance.GetEntity<ExplosionParticles>();
