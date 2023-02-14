@@ -144,6 +144,9 @@ public abstract class Soldier : MonoBehaviour {
             explosionObject.transform.position = transform.position;
             ExplosionParticles explosion = explosionObject.GetComponent<ExplosionParticles>();
             explosion.InitializeExplosionParticles(soldierRenderer.material);
+            if(Enemy) {
+                Progress.instance.AddDiamonds(SimpleMath.Pow(Config.MERGE_COUNT_PER_LEVEL, Level));
+            }
         }
         gameObject.SetActive(false);
     }

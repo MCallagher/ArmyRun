@@ -1,7 +1,7 @@
 [ 5][low][ToDo] Improve logging
 [15][hig][ToDo] Improve UI + wall
 [16][mid][ToDo] Design powerups
-[17][hig][ToDo] Improve waves (ArmyManager?)
+[17][hig][ToDo] Improve waves and player army (ArmyManager?)
 --------------------------------------------------------------------------------
 [ 1][low][Done] Fix bullet despawn
 [ 2][low][Done] Fix Pool

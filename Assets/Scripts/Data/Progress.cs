@@ -43,38 +43,50 @@ public class Progress : MonoBehaviour {
         data = new ProgressData();
     }
 
+    public void Unlock(UnlockCode code) {
+        if(code == UnlockCode.soldierMelee) {
+            data.unlocked[UnlockCode.soldierMelee] = true;
+        }
+        else if(code == UnlockCode.soldierRanged) {
+            data.unlocked[UnlockCode.soldierRanged] = true;
+        }
+        Save();
+    }
+
+    public int GetDiamonds() {
+        return data.diamonds;
+    }
+
+    public void AddDiamonds(int collectedDiamonds) {
+        data.diamonds += collectedDiamonds;
+    }
+
+    public bool IsUnlocked(UnlockCode code) {
+        return data.unlocked[code];
+    }
+
 
     //! ProgressData - Subclass
     [System.Serializable]
     public class ProgressData : MonoBehaviour {
 
         //! Variables
-        private int soldierMeleeLevel;
-        private int soldierRangeLevel;
+        public Dictionary<UnlockCode, bool> unlocked;
+        public int diamonds;
 
-        //! Properties
-        public int SoldierMeleeLevel {
-            get {
-                return soldierMeleeLevel;
-            }
-            private set {
-                soldierMeleeLevel = Mathf.Max(1, value);
-            }
-        }
-
-        public int SoldierRangeLevel {
-            get {
-                return soldierRangeLevel;
-            }
-            private set {
-                soldierRangeLevel = Mathf.Max(1, value);
-            }
-        }
-
-        //! ProgressData - Protected
+        //! ProgressData - Public
         public ProgressData() {
-            soldierMeleeLevel = 1;
-            soldierRangeLevel = 1;
+            unlocked = new Dictionary<UnlockCode, bool>();
+            unlocked.Add(UnlockCode.soldierMelee, true);
+            unlocked.Add(UnlockCode.soldierRanged, false);
+            diamonds = 0;
         }
+    }
+
+
+    //! UnlockCode - Enum
+    public enum UnlockCode {
+        soldierMelee = 0,
+        soldierRanged = 1
     }
 }

@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Main Menu.unity
     guid: ed7b58051c26505469bf026ac63fad59
   - enabled: 1
+    path: Assets/Scenes/Powerups Menu.unity
+    guid: 15deab3858675114782d2cf1b17150f0
+  - enabled: 1
     path: Assets/Scenes/Playmode.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
   m_configObjects: {}

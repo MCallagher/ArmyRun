@@ -34,6 +34,7 @@ public class GameManager : MonoBehaviour {
 
     //! References
     [SerializeField] private TextMeshProUGUI waveText;
+    [SerializeField] private TextMeshProUGUI diamondText;
     [SerializeField] private GameObject gameOverScreen;
 
 
@@ -53,6 +54,7 @@ public class GameManager : MonoBehaviour {
 
     void Update() {
         waveText.text = "Wave: " + Wave;
+        diamondText.text = "Diamonds: " + Progress.instance.GetDiamonds();
         if(IsGameOver()) {
             gameOver = true;
             gameOverScreen.SetActive(true);
@@ -106,6 +108,7 @@ public class GameManager : MonoBehaviour {
                 return false;
             }
         }
+        Progress.instance.Save();
         return true;
     }
 
