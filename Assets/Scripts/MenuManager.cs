@@ -3,13 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class MenuManager : MonoBehaviour {
 
     void Start() {
         if(SceneManager.GetActiveScene().name == "Powerups Menu") {
-            GameObject.Find("Unlock Melee Button").GetComponent<Button>().onClick.AddListener(() => UnlockPowerup(Progress.UnlockCode.soldierMelee));
-            GameObject.Find("Unlock Ranged Button").GetComponent<Button>().onClick.AddListener(() => UnlockPowerup(Progress.UnlockCode.soldierRanged));
+            GameObject.Find("Unlock Melee Button").GetComponent<Button>().onClick.AddListener(() => Progress.instance.Unlock(Progress.UnlockCode.soldierMelee));
+            GameObject.Find("Unlock Ranged Button").GetComponent<Button>().onClick.AddListener(() => Progress.instance.Unlock(Progress.UnlockCode.soldierRanged));
+        }
+    }
+
+    void Update() {
+        if(SceneManager.GetActiveScene().name == "Powerups Menu") {
+            GameObject.Find("Diamonds Text").GetComponent<TextMeshProUGUI>().text = $"Diamonds: {Progress.instance.GetDiamonds()}";
         }
     }
 
@@ -32,9 +39,5 @@ public class MenuManager : MonoBehaviour {
 
     public void QuitGame() {
         Application.Quit();
-    }
-
-    public void UnlockPowerup(Progress.UnlockCode code) {
-        Debug.Log(code);
     }
 }

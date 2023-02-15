@@ -7,12 +7,17 @@ public class Config {
     //! Soldier > MeleeSoldier
     public static readonly int[] SOLDIER_MELEE_MAX_HEALTH = new int[]{100, 1500, 20000, 250000};
     public static readonly int[] SOLDIER_MELEE_STRENGTH = new int[]{100, 1500, 20000, 250000};
+    public static readonly int SOLDIER_MELEE_UNLOCK_COST = 0;
     //! Soldier > RangedSoldier
     public static readonly int[] SOLDIER_RANGED_MAX_HEALTH = new int[]{80, 1000, 12000, 150000};
     public static readonly int[] SOLDIER_RANGED_SHOOTING_DAMAGE = new int[]{50, 600, 7000, 80000};
     public static readonly int[] SOLDIER_RANGED_SCAN_RANGE = new int[]{20, 22, 25, 30};
     public static readonly int[] SOLDIER_RANGED_SHOOTING_RATIO = new int[]{2, 3, 4, 5};
     public static readonly float SOLDIER_RANGED_SCAN_TIME = 0.1f;
+    public static readonly int SOLDIER_RANGED_UNLOCK_COST = 10000;
+    //! Costs
+    public static Dictionary<Progress.UnlockCode, int> UNLOCK_COST; //TODO find best access control
+    public static Dictionary<Progress.UnlockCode, string> UNLOCK_DESC; //TODO find best access control
     //! Bullet
     public static readonly float BULLET_VELOCITY = 30;
     //! Bonus
@@ -53,4 +58,15 @@ public class Config {
     public static readonly string TAG_DEFAULT = "Untagged";
     //! Saves (tech)
     public static readonly string FILE_PROGRESS = "/progress.json";
+
+    public static void Initialize() {
+        // Unlock cost
+        UNLOCK_COST = new Dictionary<Progress.UnlockCode, int>();
+        UNLOCK_COST.Add(Progress.UnlockCode.soldierMelee, SOLDIER_MELEE_UNLOCK_COST);
+        UNLOCK_COST.Add(Progress.UnlockCode.soldierRanged, SOLDIER_RANGED_UNLOCK_COST);
+        // Unlock desc
+        UNLOCK_DESC = new Dictionary<Progress.UnlockCode, string>();
+        UNLOCK_DESC.Add(Progress.UnlockCode.soldierMelee, "Melee soldier");
+        UNLOCK_DESC.Add(Progress.UnlockCode.soldierRanged, "Ranged soldier");
+    }
 }
