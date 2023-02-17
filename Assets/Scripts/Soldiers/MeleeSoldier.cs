@@ -2,9 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MeleeSoldier : Soldier
-{
-    
+public class MeleeSoldier : Soldier {
+
+    //! Static variables
+    public static GameObject meleeWaypoint;
+
     //! Variables
     [SerializeField] protected int strength;
 
@@ -20,6 +22,14 @@ public class MeleeSoldier : Soldier
 
 
     //! MonoBehaviour
+    void Awake() {
+        if(meleeWaypoint == null) {
+            meleeWaypoint = GameObject.Find(Config.WAYPOINT_MELEE_NAME);
+        }
+        Waypoint = meleeWaypoint;
+        SetupSoldier();
+    }
+
     void OnCollisionEnter(Collision other) {
         if((!enemy && other.gameObject.CompareTag(Config.TAG_ENEMY)) || (enemy && other.gameObject.CompareTag(Config.TAG_PLAYER))) {
             Attack(other.gameObject.GetComponent<Soldier>());

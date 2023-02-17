@@ -33,6 +33,8 @@ public class Config {
 
     //! Waypoint (tech)
     public static readonly string WAYPOINT_NAME = "Player Army Waypoint";
+    public static readonly string WAYPOINT_MELEE_NAME = "Player Soldier Melee Waypoint";
+    public static readonly string WAYPOINT_RANGED_NAME = "Player Soldier Ranged Waypoint";
     public static readonly float WAYPOINT_VELOCITY = 10;
     public static readonly float WAYPOINT_RECALL_VELOCITY = 2;
     //! Pool (tech)

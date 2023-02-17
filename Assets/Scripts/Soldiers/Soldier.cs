@@ -7,7 +7,7 @@ using TMPro;
 public abstract class Soldier : MonoBehaviour {
 
     //! Static variables
-    private static GameObject waypoint;
+    public static GameObject soldierWaypoint;
 
     //! Variables
     // value of this soldier
@@ -17,6 +17,9 @@ public abstract class Soldier : MonoBehaviour {
     [SerializeField] protected int health;
     // Side
     [SerializeField] protected bool enemy;
+    // Waypoint
+    [SerializeField] protected GameObject waypoint;
+
 
     //! Properties
     public int Level {
@@ -69,7 +72,7 @@ public abstract class Soldier : MonoBehaviour {
         }
     }
 
-    public static GameObject Waypoint {
+    public GameObject Waypoint {
         get {
             return waypoint;
         }
@@ -94,16 +97,11 @@ public abstract class Soldier : MonoBehaviour {
 
     //! MonoBehaviour
     void Awake() {
-        if(Waypoint == null) {
-            Waypoint = GameObject.Find(Config.WAYPOINT_NAME);
+        if(soldierWaypoint == null) {
+            soldierWaypoint = GameObject.Find(Config.WAYPOINT_NAME);
         }
-        soldierRigidbody = GetComponent<Rigidbody>();
-        soldierRenderer = GetComponent<Renderer>();
-        soldierLevelObjects = new GameObject[Config.MERGE_LEVEL_LIMIT];
-        for(int i = 0; i < Config.MERGE_LEVEL_LIMIT; i++) {
-            soldierLevelObjects[i] = transform.GetChild(i).gameObject;
-        }
-        gameObject.SetActive(false);
+        Waypoint = soldierWaypoint;
+        SetupSoldier();
     }
 
     void Update() {
@@ -153,8 +151,8 @@ public abstract class Soldier : MonoBehaviour {
 
     protected void FollowWaypoint() {
         if(!enemy && IsOnGround()) {
-            Vector3 direction = (waypoint.transform.position - transform.position).normalized;
-            float magnitude = (waypoint.transform.position - transform.position).magnitude;
+            Vector3 direction = (Waypoint.transform.position - transform.position).normalized;
+            float magnitude = (Waypoint.transform.position - transform.position).magnitude;
             soldierRigidbody.velocity = Mathf.Pow(magnitude, 2) * direction * Config.WAYPOINT_RECALL_VELOCITY;
         }
     }
@@ -168,6 +166,17 @@ public abstract class Soldier : MonoBehaviour {
     protected bool IsOnGround() {
         float halfHeight = soldierRenderer.bounds.size.y / 2;
         return Physics.Raycast(transform.position, Vector3.down, halfHeight + Config.EPS);
+    }
+
+
+    protected void SetupSoldier() {
+        soldierRigidbody = GetComponent<Rigidbody>();
+        soldierRenderer = GetComponent<Renderer>();
+        soldierLevelObjects = new GameObject[Config.MERGE_LEVEL_LIMIT];
+        for(int i = 0; i < Config.MERGE_LEVEL_LIMIT; i++) {
+            soldierLevelObjects[i] = transform.GetChild(i).gameObject;
+        }
+        gameObject.SetActive(false);
     }
 
     //! Subclass - AttackData

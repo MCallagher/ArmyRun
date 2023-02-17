@@ -80,6 +80,9 @@ public class GameManager : MonoBehaviour {
     private void InitializeGame() {
         Wave = 1;
         GameOver = false;
+        if(Soldier.soldierWaypoint == null) {
+            Soldier.soldierWaypoint = GameObject.Find(Config.WAYPOINT_NAME);
+        }
         AddSoldierGroup<MeleeSoldier>(Config.GAME_INIT_PLAYER_MELEE, false);
     }
 
@@ -135,7 +138,7 @@ public class GameManager : MonoBehaviour {
         Soldier soldier = soldierObject.GetComponent<Soldier>();
 
         // Compute position
-        Vector3 center = enemy ? Config.WORLD_SPAWN_POSITION_ENEMY : Soldier.Waypoint.transform.position;
+        Vector3 center = enemy ? Config.WORLD_SPAWN_POSITION_ENEMY : Soldier.soldierWaypoint.transform.position;
         float radius = enemy ? Config.WORLD_ROAD_BOUND_X : Config.WORLD_ROAD_BOUND_X / 10;
         float height = soldierObject.GetComponent<Renderer>().bounds.size.y / 2;
         Vector3 position = AdvancedRandom.PositionOnDisk(center, radius, height);

@@ -44,7 +44,6 @@ public class Progress : MonoBehaviour {
     }
 
     public void Save() {
-        Debug.Log("saved");
         string json = JsonUtility.ToJson(data);
         File.WriteAllText(Application.persistentDataPath + Config.FILE_PROGRESS, json);
     }
