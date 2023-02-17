@@ -86,8 +86,8 @@ public class GameManager : MonoBehaviour {
     private IEnumerator Waves() {
         while (!GameOver) {
             int waveValue = Mathf.Max((int)(Mathf.Pow((float)Wave, 1.1f)), 1);
-            AddSoldierGroup<MeleeSoldier>(waveValue, true);
-            AddSoldierGroup<RangedSoldier>(waveValue / 4, true);
+            AddSoldierGroup<MeleeSoldier>(2 * waveValue, true);
+            //AddSoldierGroup<RangedSoldier>(waveValue / 4, true);
             yield return new WaitForSeconds(Config.WAVE_TIME_ENEMY);
             GenerateBonusWall();
             yield return new WaitForSeconds(Config.WAVE_TIME_BONUS);

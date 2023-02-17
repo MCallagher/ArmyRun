@@ -14,7 +14,7 @@ public class Config {
     public static readonly int[] SOLDIER_RANGED_SCAN_RANGE = new int[]{20, 22, 25, 30};
     public static readonly int[] SOLDIER_RANGED_SHOOTING_RATIO = new int[]{2, 3, 4, 5};
     public static readonly float SOLDIER_RANGED_SCAN_TIME = 0.1f;
-    public static readonly int SOLDIER_RANGED_UNLOCK_COST = 10000;
+    public static readonly int SOLDIER_RANGED_UNLOCK_COST = 100;
     //! Costs
     public static Dictionary<Progress.UnlockCode, int> UNLOCK_COST; //TODO find best access control
     public static Dictionary<Progress.UnlockCode, string> UNLOCK_DESC; //TODO find best access control

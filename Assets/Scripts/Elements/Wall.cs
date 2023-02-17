@@ -63,16 +63,22 @@ public class Wall : MonoBehaviour
         bool coin = AdvancedRandom.CoinFlip();
         int first = coin ? 0 : 1;
         int second = coin ? 1 : 0;
+        // Valid soldiers
+        List<Bonus.BonusType> possibleBonuses = new List<Bonus.BonusType>();
+        if(Progress.instance.IsUnlocked(Progress.UnlockCode.soldierMelee)) possibleBonuses.Add(Bonus.BonusType.AddMelee);
+        if(Progress.instance.IsUnlocked(Progress.UnlockCode.soldierRanged)) possibleBonuses.Add(Bonus.BonusType.AddRanged);
+        int firstChoice = Random.Range(0, possibleBonuses.Count);
+        int secondChoice = Random.Range(0, possibleBonuses.Count);
         // Special condition
         bool damaged = IsArmyDamaged();
         if (damaged) {
             bonuses[first] = new Bonus(Bonus.BonusType.Heal);
-            bonuses[second] = new Bonus(AdvancedRandom.CoinFlip() ? Bonus.BonusType.AddMelee : Bonus.BonusType.AddRanged);
+            bonuses[second] = new Bonus(possibleBonuses[firstChoice]);
         }
         // Standard condition
         else {
-            bonuses[first] = new Bonus(Bonus.BonusType.AddMelee);
-            bonuses[second] = new Bonus(Bonus.BonusType.AddRanged);
+            bonuses[first] = new Bonus(possibleBonuses[firstChoice]);
+            bonuses[second] = new Bonus(possibleBonuses[secondChoice]);
         }
         return bonuses;
     }

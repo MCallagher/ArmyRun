@@ -10,7 +10,7 @@ public class Progress : MonoBehaviour {
     public static Progress instance;
 
     //! Variables
-    private ProgressData data;
+    [SerializeField] private ProgressData data;
 
 
     //! MonoBehaviours
@@ -29,36 +29,40 @@ public class Progress : MonoBehaviour {
 
 
     //! Progress - public
-    public void Save() {
-        string json = JsonUtility.ToJson(data);
-        File.WriteAllText(Application.persistentDataPath + Config.FILE_PROGRESS, json);
-    }
-
-    public void Load() {
-        string path = Application.persistentDataPath + Config.FILE_PROGRESS;
-        if (File.Exists(path)) {
-            string json = File.ReadAllText(path);
-            data = JsonUtility.FromJson<ProgressData>(json);
-        }
-        data = new ProgressData();
-    }
-
     public bool Unlock(UnlockCode code) {
-        if(code == UnlockCode.soldierMelee && !data.unlocked[(int)UnlockCode.soldierMelee] && data.diamonds >= Config.SOLDIER_MELEE_UNLOCK_COST) {
-            data.unlocked[(int)UnlockCode.soldierMelee] = true;
+        if(code == UnlockCode.soldierMelee && data.unlocked[(int)UnlockCode.soldierMelee] == 0 && data.diamonds >= Config.SOLDIER_MELEE_UNLOCK_COST) {
+            data.unlocked[(int)UnlockCode.soldierMelee] = 1;
             Save();
             return true;
         }
-        if(code == UnlockCode.soldierRanged && !data.unlocked[(int)UnlockCode.soldierRanged] && data.diamonds >= Config.SOLDIER_RANGED_UNLOCK_COST) {
-            data.unlocked[(int)UnlockCode.soldierRanged] = true;
+        if(code == UnlockCode.soldierRanged && data.unlocked[(int)UnlockCode.soldierRanged] == 0 && data.diamonds >= Config.SOLDIER_RANGED_UNLOCK_COST) {
+            data.unlocked[(int)UnlockCode.soldierRanged] = 1;
             Save();
             return true;
         }
         return false;
     }
 
+    public void Save() {
+        Debug.Log("saved");
+        string json = JsonUtility.ToJson(data);
+        File.WriteAllText(Application.persistentDataPath + Config.FILE_PROGRESS, json);
+    }
+
+    public void Load() {
+        string path = Application.persistentDataPath + Config.FILE_PROGRESS;
+        data = null;
+        if (File.Exists(path)) {
+            string json = File.ReadAllText(path);
+            data = JsonUtility.FromJson<ProgressData>(json);
+        }
+        else {
+            data = new ProgressData();
+        }
+    }
+
     public bool IsUnlocked(UnlockCode code) {
-        return data.unlocked[(int)code];
+        return data.unlocked[(int)code] == 1;
     }
 
     public void AddDiamonds(int collectedDiamonds) {
@@ -72,18 +76,17 @@ public class Progress : MonoBehaviour {
 
     //! ProgressData - Subclass
     [System.Serializable]
-    public class ProgressData : MonoBehaviour {
+    public class ProgressData {
 
         //! Variables
-        //public Dictionary<UnlockCode, bool> unlocked;
-        public bool[] unlocked;
+        public List<int> unlocked;
         public int diamonds;
 
         //! ProgressData - Public
         public ProgressData() {
-            unlocked = new bool[2];
-            unlocked[(int)UnlockCode.soldierMelee] = true;
-            unlocked[(int)UnlockCode.soldierRanged] = false;
+            unlocked = new List<int>();
+            unlocked.Add(1);
+            unlocked.Add(0);
             diamonds = 0;
         }
     }
