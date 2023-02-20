@@ -13,7 +13,7 @@ public class Bonus {
     //! Bonus - Public
     public Bonus(BonusType type) {
         // Get info
-        int wave = GameManager.instance.Wave;
+        int wave = ArmyManager.instance.Wave;
 
         this.type = type;
         if (type == BonusType.Heal) {
@@ -32,13 +32,13 @@ public class Bonus {
 
     public void ActivateBonus() {
         if (type == BonusType.AddMelee) {
-            GameManager.instance.BonusExtraArmy<MeleeSoldier>(value);
+            ArmyManager.instance.BonusExtraArmy<MeleeSoldier>(value);
         }
         else if (type == BonusType.AddRanged) {
-            GameManager.instance.BonusExtraArmy<RangedSoldier>(value);
+            ArmyManager.instance.BonusExtraArmy<RangedSoldier>(value);
         }
         else if (type == BonusType.Heal) {
-            GameManager.instance.BonusHeal();
+            ArmyManager.instance.BonusHeal();
         }
     }
 

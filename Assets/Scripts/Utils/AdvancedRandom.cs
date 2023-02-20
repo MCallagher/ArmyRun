@@ -10,6 +10,12 @@ public class AdvancedRandom {
         return new Vector3(center.x + rho * Mathf.Sin(theta), height, center.z + rho * Mathf.Cos(theta));
     }
 
+    public static Vector3 PositionOnRect(Vector3 center, float dimensionX, float dimensionZ, float height) {
+        float deltaX = Random.Range(-dimensionX, dimensionX);
+        float deltaZ = Random.Range(-dimensionZ, dimensionZ);
+        return new Vector3(center.x + deltaX, height, center.z + deltaZ);
+    }
+
     public static int RangeWithWeight(List<float> weights) {
         float sumWeight = 0;
         foreach (float weight in weights) {

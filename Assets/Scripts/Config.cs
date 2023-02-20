@@ -51,6 +51,7 @@ public class Config {
     public static readonly float WORLD_ROAD_BOUND_X = 10;
     public static readonly float WORLD_ROAD_Y = 0;
     public static readonly Vector3 WORLD_SPAWN_POSITION_ENEMY = new Vector3(0, 0, 80);
+    public static readonly Vector3 WORLD_SPAWN_POSITION_PLAYER = new Vector3(0, 0, 0);
     //! Generic (tech)
     public static readonly float EPS = 1e-3f;
     public static readonly float INF = 1e9f;
