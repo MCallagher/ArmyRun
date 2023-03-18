@@ -24,6 +24,7 @@ public class Config {
     public static readonly float BONUS_THRESHOLD_DAMAGED = 0.75f;
     //! Gameplay
     public static readonly int GAME_INIT_PLAYER_MELEE = 10;
+    public static readonly int GAME_ENEMY_LIMIT = 40;
     //! Merge
     public static readonly int MERGE_LEVEL_LIMIT = 4;
     public static readonly int MERGE_COUNT_PER_LEVEL = 10;

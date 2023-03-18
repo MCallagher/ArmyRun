@@ -58,7 +58,7 @@ public class ArmyManager : MonoBehaviour {
     private IEnumerator Waves() {
         while (!GameManager.instance.GameOver) {
             int waveValue = Mathf.Max((int)(Mathf.Pow((float)Wave, 1.1f)), 1);
-            AddSoldierGroup<MeleeSoldier>(2 * waveValue, true);
+            AddSoldierGroup<MeleeSoldier>(9 * waveValue, true);
             //AddSoldierGroup<RangedSoldier>(waveValue / 4, true);
             yield return new WaitForSeconds(Config.WAVE_TIME_ENEMY);
             GenerateBonusWall();
@@ -89,15 +89,27 @@ public class ArmyManager : MonoBehaviour {
     }
 
     private List<int> GetSoldierPartitioning(int numOfSoldiers, bool enemy) {
-        if(enemy) {
-            return new List<int>(new int[]{numOfSoldiers});
-        }
         int radix = Config.MERGE_COUNT_PER_LEVEL;
+        int n = numOfSoldiers;
         List<int> soldiersPerLevel = new List<int>();
+        int count = 0;
         while(numOfSoldiers > 0) {
-            soldiersPerLevel.Add(numOfSoldiers % radix);
+            int levelSoldiers = numOfSoldiers % radix;
+            soldiersPerLevel.Add(levelSoldiers);
             numOfSoldiers /= radix;
+            count += levelSoldiers;
         }
+
+        if(enemy) {
+            int unitIncrease = Config.MERGE_COUNT_PER_LEVEL - 1;
+            for(int level = soldiersPerLevel.Count - 1; level > 0; level--) {
+                int availableUnits = Mathf.Min((Config.GAME_ENEMY_LIMIT - count) / unitIncrease, soldiersPerLevel[level]);
+                soldiersPerLevel[level] -= availableUnits;
+                soldiersPerLevel[level-1] += availableUnits * Config.MERGE_COUNT_PER_LEVEL;
+                count += availableUnits * unitIncrease;
+            }
+        }
+
         return soldiersPerLevel;
     }
 
