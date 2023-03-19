@@ -6,9 +6,6 @@ using TMPro;
 
 public abstract class Soldier : MonoBehaviour {
 
-    //! Static variables
-    public static GameObject soldierWaypoint;
-
     //! Variables
     // value of this soldier
     [SerializeField] protected int level;
@@ -97,10 +94,7 @@ public abstract class Soldier : MonoBehaviour {
 
     //! MonoBehaviour
     void Awake() {
-        if(soldierWaypoint == null) {
-            soldierWaypoint = GameObject.Find(Config.WAYPOINT_NAME);
-        }
-        Waypoint = soldierWaypoint;
+        Waypoint = GameObject.Find(Config.WAYPOINT_NAME);
         SetupSoldier();
     }
 

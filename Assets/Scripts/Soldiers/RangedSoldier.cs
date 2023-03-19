@@ -4,10 +4,6 @@ using UnityEngine;
 
 public class RangedSoldier : Soldier {
 
-    //! Static variables
-    public static GameObject rangedWaypoint;
-
-
     //! Variables
     [SerializeField] protected float scanRange;
     [SerializeField] protected float scanTime;
@@ -54,10 +50,7 @@ public class RangedSoldier : Soldier {
 
     //! MonoBehaviour
     void Awake() {
-        if(rangedWaypoint == null){
-            rangedWaypoint = GameObject.Find(Config.WAYPOINT_RANGED_NAME);
-        }
-        Waypoint = rangedWaypoint;
+        Waypoint = GameObject.Find(Config.WAYPOINT_RANGED_NAME);
         SetupSoldier();
     }
 

@@ -11,6 +11,8 @@ public class MenuManager : MonoBehaviour {
         if(SceneManager.GetActiveScene().name == "Powerups Menu") {
             GameObject.Find("Unlock Melee Button").GetComponent<Button>().onClick.AddListener(() => Progress.instance.Unlock(Progress.UnlockCode.soldierMelee));
             GameObject.Find("Unlock Ranged Button").GetComponent<Button>().onClick.AddListener(() => Progress.instance.Unlock(Progress.UnlockCode.soldierRanged));
+            GameObject.Find("Unlock Gunner Button").GetComponent<Button>().onClick.AddListener(() => Progress.instance.Unlock(Progress.UnlockCode.soldierGunner));
+            GameObject.Find("Unlock Sniper Button").GetComponent<Button>().onClick.AddListener(() => Progress.instance.Unlock(Progress.UnlockCode.soldierSniper));
         }
     }
 

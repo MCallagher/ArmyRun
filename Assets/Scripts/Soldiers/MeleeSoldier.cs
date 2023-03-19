@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class MeleeSoldier : Soldier {
 
-    //! Static variables
-    public static GameObject meleeWaypoint;
-
     //! Variables
     [SerializeField] protected int strength;
 
@@ -23,10 +20,7 @@ public class MeleeSoldier : Soldier {
 
     //! MonoBehaviour
     void Awake() {
-        if(meleeWaypoint == null) {
-            meleeWaypoint = GameObject.Find(Config.WAYPOINT_MELEE_NAME);
-        }
-        Waypoint = meleeWaypoint;
+        Waypoint = GameObject.Find(Config.WAYPOINT_MELEE_NAME);
         SetupSoldier();
     }
 

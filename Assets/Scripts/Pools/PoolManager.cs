@@ -11,6 +11,8 @@ public class PoolManager : MonoBehaviour {
     private HashSet<System.Type> standardTypes = new HashSet<System.Type>(new System.Type[]{
         typeof(MeleeSoldier),
         typeof(RangedSoldier),
+        typeof(GunnerSoldier),
+        typeof(SniperSoldier),
         typeof(Wall),
         typeof(Bullet),
         typeof(ExplosionParticles)
@@ -47,6 +49,8 @@ public class PoolManager : MonoBehaviour {
             List<GameObject> soldiers = new List<GameObject>();
             soldiers.AddRange(Pool<MeleeSoldier>.instance.GetActiveGameObject());
             soldiers.AddRange(Pool<RangedSoldier>.instance.GetActiveGameObject());
+            soldiers.AddRange(Pool<GunnerSoldier>.instance.GetActiveGameObject());
+            soldiers.AddRange(Pool<SniperSoldier>.instance.GetActiveGameObject());
             return soldiers;
         }
         // Not valid type

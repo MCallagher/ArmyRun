@@ -14,7 +14,21 @@ public class Config {
     public static readonly int[] SOLDIER_RANGED_SCAN_RANGE = new int[]{20, 22, 25, 30};
     public static readonly int[] SOLDIER_RANGED_SHOOTING_RATIO = new int[]{2, 3, 4, 5};
     public static readonly float SOLDIER_RANGED_SCAN_TIME = 0.1f;
-    public static readonly int SOLDIER_RANGED_UNLOCK_COST = 100;
+    public static readonly int SOLDIER_RANGED_UNLOCK_COST = 1; //1000
+    //! Soldier > RangedSoldier > GunnerSoldier
+    public static readonly int[] SOLDIER_GUNNER_MAX_HEALTH = new int[]{80, 1000, 12000, 150000};
+    public static readonly int[] SOLDIER_GUNNER_SHOOTING_DAMAGE = new int[]{30, 350, 4000, 50000};
+    public static readonly int[] SOLDIER_GUNNER_SCAN_RANGE = new int[]{20, 22, 25, 30};
+    public static readonly int[] SOLDIER_GUNNER_SHOOTING_RATIO = new int[]{4, 6, 8, 10};
+    public static readonly float SOLDIER_GUNNER_SCAN_TIME = 0.1f;
+    public static readonly int SOLDIER_GUNNER_UNLOCK_COST = 20; //20000
+    //! Soldier > RangedSoldier > SniperSoldier
+    public static readonly int[] SOLDIER_SNIPER_MAX_HEALTH = new int[]{80, 1000, 12000, 150000};
+    public static readonly int[] SOLDIER_SNIPER_SHOOTING_DAMAGE = new int[]{150, 1800, 21000, 250000};
+    public static readonly int[] SOLDIER_SNIPER_SCAN_RANGE = new int[]{30, 35, 40, 45};
+    public static readonly int[] SOLDIER_SNIPER_SHOOTING_RATIO = new int[]{1, 1, 2, 2};
+    public static readonly float SOLDIER_SNIPER_SCAN_TIME = 0.1f;
+    public static readonly int SOLDIER_SNIPER_UNLOCK_COST = 30; //30000
     //! Costs
     public static Dictionary<Progress.UnlockCode, int> UNLOCK_COST; //TODO find best access control
     public static Dictionary<Progress.UnlockCode, string> UNLOCK_DESC; //TODO find best access control
@@ -68,9 +82,13 @@ public class Config {
         UNLOCK_COST = new Dictionary<Progress.UnlockCode, int>();
         UNLOCK_COST.Add(Progress.UnlockCode.soldierMelee, SOLDIER_MELEE_UNLOCK_COST);
         UNLOCK_COST.Add(Progress.UnlockCode.soldierRanged, SOLDIER_RANGED_UNLOCK_COST);
+        UNLOCK_COST.Add(Progress.UnlockCode.soldierGunner, SOLDIER_GUNNER_UNLOCK_COST);
+        UNLOCK_COST.Add(Progress.UnlockCode.soldierSniper, SOLDIER_SNIPER_UNLOCK_COST);
         // Unlock desc
         UNLOCK_DESC = new Dictionary<Progress.UnlockCode, string>();
         UNLOCK_DESC.Add(Progress.UnlockCode.soldierMelee, "Melee soldier");
         UNLOCK_DESC.Add(Progress.UnlockCode.soldierRanged, "Ranged soldier");
+        UNLOCK_DESC.Add(Progress.UnlockCode.soldierGunner, "Gunner");
+        UNLOCK_DESC.Add(Progress.UnlockCode.soldierSniper, "Sniper");
     }
 }

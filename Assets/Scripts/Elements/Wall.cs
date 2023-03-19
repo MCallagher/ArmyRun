@@ -49,6 +49,8 @@ public class Wall : MonoBehaviour
         List<Soldier> soldiers = new List<Soldier>();
         soldiers.AddRange(PoolManager.instance.GetActiveEntities<MeleeSoldier>());
         soldiers.AddRange(PoolManager.instance.GetActiveEntities<RangedSoldier>());
+        soldiers.AddRange(PoolManager.instance.GetActiveEntities<GunnerSoldier>());
+        soldiers.AddRange(PoolManager.instance.GetActiveEntities<SniperSoldier>());
         foreach (Soldier soldier in soldiers) {
             if (!soldier.Enemy) {
                 health += soldier.Health;
@@ -67,6 +69,8 @@ public class Wall : MonoBehaviour
         List<Bonus.BonusType> possibleBonuses = new List<Bonus.BonusType>();
         if(Progress.instance.IsUnlocked(Progress.UnlockCode.soldierMelee)) possibleBonuses.Add(Bonus.BonusType.AddMelee);
         if(Progress.instance.IsUnlocked(Progress.UnlockCode.soldierRanged)) possibleBonuses.Add(Bonus.BonusType.AddRanged);
+        if(Progress.instance.IsUnlocked(Progress.UnlockCode.soldierGunner)) possibleBonuses.Add(Bonus.BonusType.AddGunner);
+        if(Progress.instance.IsUnlocked(Progress.UnlockCode.soldierSniper)) possibleBonuses.Add(Bonus.BonusType.AddSniper);
         int firstChoice = Random.Range(0, possibleBonuses.Count);
         int secondChoice = Random.Range(0, possibleBonuses.Count);
         // Special condition

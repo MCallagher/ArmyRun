@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class WorldScroll : MonoBehaviour {
+
     //! MonoBehaviour
     void Update() {
         if(!GameManager.instance.GameOver && !gameObject.CompareTag(Config.TAG_PLAYER)) {

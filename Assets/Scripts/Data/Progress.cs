@@ -40,6 +40,16 @@ public class Progress : MonoBehaviour {
             Save();
             return true;
         }
+        if(code == UnlockCode.soldierGunner && data.unlocked[(int)UnlockCode.soldierGunner] == 0 && data.diamonds >= Config.SOLDIER_GUNNER_UNLOCK_COST) {
+            data.unlocked[(int)UnlockCode.soldierGunner] = 1;
+            Save();
+            return true;
+        }
+        if(code == UnlockCode.soldierSniper && data.unlocked[(int)UnlockCode.soldierSniper] == 0 && data.diamonds >= Config.SOLDIER_SNIPER_UNLOCK_COST) {
+            data.unlocked[(int)UnlockCode.soldierSniper] = 1;
+            Save();
+            return true;
+        }
         return false;
     }
 
@@ -83,9 +93,7 @@ public class Progress : MonoBehaviour {
 
         //! ProgressData - Public
         public ProgressData() {
-            unlocked = new List<int>();
-            unlocked.Add(1);
-            unlocked.Add(0);
+            unlocked = new List<int>(new int[]{1, 0, 0, 0});
             diamonds = 0;
         }
     }
@@ -94,6 +102,8 @@ public class Progress : MonoBehaviour {
     //! UnlockCode - Enum
     public enum UnlockCode {
         soldierMelee = 0,
-        soldierRanged = 1
+        soldierRanged = 1,
+        soldierGunner = 2,
+        soldierSniper = 3
     }
 }
