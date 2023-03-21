@@ -17,7 +17,8 @@ public class Bullet : MonoBehaviour {
         if (target != null) {
             if (target.activeInHierarchy) {
                 Vector3 newDirection = (target.transform.position - transform.position).normalized;
-                direction = (0.9f * direction + 0.1f * newDirection).normalized;
+                //direction = (0.9f * direction + 0.1f * newDirection).normalized;
+                direction = newDirection.normalized;
             }
             else {
                 target = null;
@@ -38,12 +39,34 @@ public class Bullet : MonoBehaviour {
 
 
     //! Bullet - Public
-    public void InitializeBullet(Soldier.AttackData attack, GameObject target) {
+    public void Initialize(Soldier.AttackData attack, GameObject target, BulletType type) {
         this.attack = attack;
         this.target = target;
         this.enemy = !target.GetComponent<Soldier>().Enemy;
-        velocity = Config.BULLET_VELOCITY;
+        switch (type) {
+            case BulletType.normal:
+                transform.localScale = Config.BULLET_SCALE;
+                this.velocity = Config.BULLET_VELOCITY;
+                break;
+            case BulletType.gunner:
+                transform.localScale = Config.GUNNER_BULLET_SCALE;
+                this.velocity = Config.GUNNER_BULLET_VELOCITY;
+                break;
+            case BulletType.sniper:
+                transform.localScale = Config.SNIPER_BULLET_SCALE;
+                this.velocity = Config.SNIPER_BULLET_VELOCITY;
+                break;
+            default:
+                Debug.LogWarning($"Bullet type {type} not found");
+                break;
+        }
         direction = (target.transform.position - transform.position).normalized;
         gameObject.SetActive(true);
+    }
+
+    public enum BulletType {
+        normal = 0,
+        gunner = 1,
+        sniper = 2
     }
 }

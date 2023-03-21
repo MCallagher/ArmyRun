@@ -17,4 +17,11 @@ public class SniperSoldier : RangedSoldier {
         shootingDamage = Config.SOLDIER_SNIPER_SHOOTING_DAMAGE[level];
         Initialize(level, enemy, scanRange, scanTime, shootingRatio, shootingDamage);
     }
+
+    public override void Attack(Soldier target) {
+        GameObject bulletObject = PoolBullet.instance.GetEntity();
+        bulletObject.transform.position = transform.position;
+        Bullet bullet = bulletObject.GetComponent<Bullet>();
+        bullet.Initialize(new AttackData(AttackType.Bullet, ShootingDamage), target.gameObject, Bullet.BulletType.sniper);
+    }
 }

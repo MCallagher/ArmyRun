@@ -34,6 +34,11 @@ public class Config {
     public static Dictionary<Progress.UnlockCode, string> UNLOCK_DESC; //TODO find best access control
     //! Bullet
     public static readonly float BULLET_VELOCITY = 30;
+    public static readonly float SNIPER_BULLET_VELOCITY = 50;
+    public static readonly float GUNNER_BULLET_VELOCITY = 20;
+    public static readonly Vector3 BULLET_SCALE = Vector3.one * 0.25f;
+    public static readonly Vector3 SNIPER_BULLET_SCALE = Vector3.one * 0.4f;
+    public static readonly Vector3 GUNNER_BULLET_SCALE = Vector3.one * 0.15f;
     //! Bonus
     public static readonly float BONUS_THRESHOLD_DAMAGED = 0.75f;
     //! Gameplay

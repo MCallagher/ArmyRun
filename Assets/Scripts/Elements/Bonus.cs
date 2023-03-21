@@ -20,16 +20,16 @@ public class Bonus {
             value = -1;
         }
         else if (type == BonusType.AddMelee) {
-            value = wave;
+            value = 1 + (wave / 2);
         }
         else if (type == BonusType.AddRanged) {
-            value = wave;
+            value = 1 + (wave / 4);
         }
         else if (type == BonusType.AddGunner) {
-            value = wave;
+            value = 1 + (wave / 6);
         }
         else if (type == BonusType.AddSniper) {
-            value = wave;
+            value = 1 + (wave / 6);
         }
         else {
             throw new System.Exception("Bonus type (" + type + ") not found");
