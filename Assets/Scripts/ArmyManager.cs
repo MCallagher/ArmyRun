@@ -6,6 +6,7 @@ public class ArmyManager : MonoBehaviour {
 
     //! Static variables
     public static ArmyManager instance;
+    private static GameObject waypoint;
 
     //! Variables
     [SerializeField] private int wave;
@@ -28,6 +29,7 @@ public class ArmyManager : MonoBehaviour {
             return;
         }
         instance = this;
+        waypoint = GameObject.Find(Config.WAYPOINT_NAME);
     }
 
     public void InitializeWaves() {
@@ -57,8 +59,17 @@ public class ArmyManager : MonoBehaviour {
     //! ArmyManager - Private
     private IEnumerator Waves() {
         while (!GameManager.instance.GameOver) {
-            int waveValue = Mathf.Max((int)(Mathf.Pow((float)Wave, 1.1f)), 1);
+            int waveValue = Mathf.Max((int)(Mathf.Pow((float)Wave, 1.2f)), 1);
             AddSoldierGroup<MeleeSoldier>(waveValue, true);
+            if(waveValue >= 10) {
+                AddSoldierGroup<RangedSoldier>(waveValue/10, true);
+            }
+            if(waveValue >= 20) {
+                AddSoldierGroup<GunnerSoldier>(waveValue/20, true);
+            }
+            if(waveValue >= 30) {
+                AddSoldierGroup<GunnerSoldier>(waveValue/30, true);
+            }
             yield return new WaitForSeconds(Config.WAVE_TIME_ENEMY);
             GenerateBonusWall();
             yield return new WaitForSeconds(Config.WAVE_TIME_BONUS);
@@ -118,7 +129,7 @@ public class ArmyManager : MonoBehaviour {
         Soldier soldier = soldierObject.GetComponent<Soldier>();
 
         // Compute position
-        Vector3 center = enemy ? Config.WORLD_SPAWN_POSITION_ENEMY : Config.WORLD_SPAWN_POSITION_PLAYER;
+        Vector3 center = enemy ? Config.WORLD_SPAWN_POSITION_ENEMY : waypoint.transform.position;
         float radius = Config.WORLD_ROAD_BOUND_X / 10;
         float dimensionX = Config.WORLD_ROAD_BOUND_X * 9 / 10;
         float dimensionZ = Config.WORLD_ROAD_BOUND_X * 9 / 10;
