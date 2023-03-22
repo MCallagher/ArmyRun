@@ -13,6 +13,7 @@ public class PoolManager : MonoBehaviour {
         typeof(RangedSoldier),
         typeof(GunnerSoldier),
         typeof(SniperSoldier),
+        typeof(BumperSoldier),
         typeof(Wall),
         typeof(Bullet),
         typeof(ExplosionParticles)
@@ -51,6 +52,7 @@ public class PoolManager : MonoBehaviour {
             soldiers.AddRange(Pool<RangedSoldier>.instance.GetActiveGameObject());
             soldiers.AddRange(Pool<GunnerSoldier>.instance.GetActiveGameObject());
             soldiers.AddRange(Pool<SniperSoldier>.instance.GetActiveGameObject());
+            soldiers.AddRange(Pool<BumperSoldier>.instance.GetActiveGameObject());
             return soldiers;
         }
         // Not valid type

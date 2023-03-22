@@ -123,11 +123,16 @@ public abstract class Soldier : MonoBehaviour {
         Health = MaxHealth;
     }
 
+    public virtual void Push(Vector3 force) {
+        soldierRigidbody.AddForce(force, ForceMode.Impulse);
+    }
+
     public virtual void Spawn() {
         gameObject.SetActive(true);
         soldierRigidbody.velocity = new Vector3(0f,0f,0f); 
         soldierRigidbody.angularVelocity = new Vector3(0f,0f,0f);
     }
+
 
     //! Soldier - Protected
     protected virtual void Die() {
@@ -199,7 +204,7 @@ public abstract class Soldier : MonoBehaviour {
     }
 
 
-    //! Enumerators - AttackType, Faction
+    //! Enumerators - AttackType
     public enum AttackType {
         Slash = 0,
         Bullet = 1
