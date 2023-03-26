@@ -124,11 +124,8 @@ public class ArmyManager : MonoBehaviour {
     }
 
     private GameObject AddSoldier<T>(int level, bool enemy) where T : Soldier {
-        // Get soldier
-        GameObject soldierObject = PoolManager.instance.GetEntity<T>();
-        Soldier soldier = soldierObject.GetComponent<Soldier>();
-
         // Compute position
+        GameObject soldierObject = PoolManager.instance.GetEntity<T>();
         Vector3 center = enemy ? Config.WORLD_SPAWN_POSITION_ENEMY : waypoint.transform.position;
         float radius = Config.WORLD_ROAD_BOUND_X / 10;
         float dimensionX = Config.WORLD_ROAD_BOUND_X * 9 / 10;
@@ -142,6 +139,14 @@ public class ArmyManager : MonoBehaviour {
             position = AdvancedRandom.PositionOnDisk(center, radius, height);
         }
 
+        return AddSoldier<T>(level, enemy, position);
+    }
+
+    private GameObject AddSoldier<T>(int level, bool enemy, Vector3 position) where T : Soldier {
+        // Get soldier
+        GameObject soldierObject = PoolManager.instance.GetEntity<T>();
+        Soldier soldier = soldierObject.GetComponent<Soldier>();
+        
         // Setup soldier
         soldierObject.transform.position = position;
         soldierObject.tag = enemy ? Config.TAG_ENEMY : Config.TAG_PLAYER;

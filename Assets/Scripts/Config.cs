@@ -43,12 +43,8 @@ public class Config {
     public static List<string> UNLOCK_DESC = new List<string>(new string[]{"Fighter", "Rifleman", "Gunner", "Sniper", "Bumper", "Kamikaze"});
     public static List<int> UNLOCK_COST = new List<int>(new int[]{SOLDIER_MELEE_UNLOCK_COST, SOLDIER_RANGED_UNLOCK_COST, SOLDIER_GUNNER_UNLOCK_COST, SOLDIER_SNIPER_UNLOCK_COST, SOLDIER_BUMPER_UNLOCK_COST, SOLDIER_KAMIKAZE_UNLOCK_COST});
     //! Bullet
-    public static readonly float BULLET_VELOCITY = 30;
-    public static readonly float SNIPER_BULLET_VELOCITY = 50;
-    public static readonly float GUNNER_BULLET_VELOCITY = 20;
-    public static readonly Vector3 BULLET_SCALE = Vector3.one * 0.25f;
-    public static readonly Vector3 SNIPER_BULLET_SCALE = Vector3.one * 0.4f;
-    public static readonly Vector3 GUNNER_BULLET_SCALE = Vector3.one * 0.15f;
+    public static readonly List<float> BULLET_VELOCITY = new List<float>(new float[]{30, 20, 50});
+    public static readonly List<Vector3> BULLET_SCALE = new List<Vector3>(new Vector3[]{Vector3.one * 0.25f, Vector3.one * 0.15f, Vector3.one * 0.4f});
     //! Stone
     public static List<int> STONE_VALUE = new List<int>(new int []{1, 3, 5, 10});
     public static List<float> STONE_CHANCE_DISTRIBUTION = new List<float>(new float[]{0.900f, 0.080f, 0.0180f, 0.002f});

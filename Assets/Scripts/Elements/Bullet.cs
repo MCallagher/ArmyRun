@@ -8,24 +8,25 @@ public class Bullet : MonoBehaviour {
     [SerializeField] private Soldier.AttackData attack;
     [SerializeField] private GameObject target;
     [SerializeField] private bool enemy;
-    [SerializeField] private float velocity;
     [SerializeField] private Vector3 direction;
-
+    [SerializeField] private bool homing;
+    [SerializeField] private float velocity;
 
     //! MonoBehaviour
     void Update() {
-        if (target != null) {
-            if (target.activeInHierarchy) {
-                Vector3 newDirection = (target.transform.position - transform.position).normalized;
-                //direction = (0.9f * direction + 0.1f * newDirection).normalized;
-                direction = newDirection.normalized;
+        if(homing) {
+            if (target != null) {
+                if (target.activeInHierarchy) {
+                    Vector3 newDirection = (target.transform.position - transform.position).normalized;
+                    direction = newDirection.normalized;
+                }
+                else {
+                    target = null;
+                }
             }
-            else {
-                target = null;
+            if (target != null && !target.activeInHierarchy) {
+                    target = null;
             }
-        }
-        if (target != null && !target.activeInHierarchy) {
-                target = null;
         }
         transform.Translate(direction * velocity * Time.deltaTime);
     }
@@ -39,31 +40,21 @@ public class Bullet : MonoBehaviour {
 
 
     //! Bullet - Public
-    public void Initialize(Soldier.AttackData attack, GameObject target, BulletType type) {
+    public void Initialize(Soldier.AttackData attack, BulletType type, GameObject target) {
+        // Basic initialization
         this.attack = attack;
+        transform.localScale = Config.BULLET_SCALE[(int)type];
+        this.velocity = Config.BULLET_VELOCITY[(int)type];
+        // Target initialization
         this.target = target;
         this.enemy = !target.GetComponent<Soldier>().Enemy;
-        switch (type) {
-            case BulletType.normal:
-                transform.localScale = Config.BULLET_SCALE;
-                this.velocity = Config.BULLET_VELOCITY;
-                break;
-            case BulletType.gunner:
-                transform.localScale = Config.GUNNER_BULLET_SCALE;
-                this.velocity = Config.GUNNER_BULLET_VELOCITY;
-                break;
-            case BulletType.sniper:
-                transform.localScale = Config.SNIPER_BULLET_SCALE;
-                this.velocity = Config.SNIPER_BULLET_VELOCITY;
-                break;
-            default:
-                Debug.LogWarning($"Bullet type {type} not found");
-                break;
-        }
-        direction = (target.transform.position - transform.position).normalized;
+        this.direction = (target.transform.position - transform.position).normalized;
+        this.homing = !enemy;
         gameObject.SetActive(true);
     }
 
+
+    //! BulletType
     public enum BulletType {
         normal = 0,
         gunner = 1,

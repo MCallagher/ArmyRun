@@ -86,7 +86,7 @@ public class RangedSoldier : Soldier {
         GameObject bulletObject = PoolBullet.instance.GetEntity();
         bulletObject.transform.position = transform.position;
         Bullet bullet = bulletObject.GetComponent<Bullet>();
-        bullet.Initialize(new AttackData(AttackType.Bullet, ShootingDamage), target.gameObject, Bullet.BulletType.normal);
+        bullet.Initialize(new AttackData(AttackType.Bullet, ShootingDamage), Bullet.BulletType.normal, target.gameObject);
     }
 
     //! RangedSoldier - Private
