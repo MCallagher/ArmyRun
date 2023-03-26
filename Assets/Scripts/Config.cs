@@ -13,6 +13,11 @@ public class Config {
     public static readonly int[] SOLDIER_BUMPER_STRENGTH = new int[]{150, 2000, 25000, 300000};
     public static readonly float[] SOLDIER_BUMPER_PUSH_FORCE = new float[]{5, 10, 15, 20};
     public static readonly int   SOLDIER_BUMPER_UNLOCK_COST = 1000;
+    //! Soldier > MeleeSoldier > KamikazeSoldier
+    public static readonly int[] SOLDIER_KAMIKAZE_MAX_HEALTH = new int[]{100, 1500, 20000, 250000};
+    public static readonly int[] SOLDIER_KAMIKAZE_STRENGTH = new int[]{1000, 15000, 200000, 2500000};
+    public static readonly float[] SOLDIER_KAMIKAZE_EXPLOSION_RADIUS = new float[]{3, 5, 7, 10};
+    public static readonly int   SOLDIER_KAMIKAZE_UNLOCK_COST = 5000;
     //! Soldier > RangedSoldier
     public static readonly int[] SOLDIER_RANGED_MAX_HEALTH = new int[]{80, 1000, 12000, 150000};
     public static readonly int[] SOLDIER_RANGED_SHOOTING_DAMAGE = new int[]{50, 600, 7000, 80000};
@@ -94,11 +99,15 @@ public class Config {
         UNLOCK_COST.Add(Progress.UnlockCode.soldierRanged, SOLDIER_RANGED_UNLOCK_COST);
         UNLOCK_COST.Add(Progress.UnlockCode.soldierGunner, SOLDIER_GUNNER_UNLOCK_COST);
         UNLOCK_COST.Add(Progress.UnlockCode.soldierSniper, SOLDIER_SNIPER_UNLOCK_COST);
+        UNLOCK_COST.Add(Progress.UnlockCode.soldierBumper, SOLDIER_BUMPER_UNLOCK_COST);
+        UNLOCK_COST.Add(Progress.UnlockCode.soldierKamikaze, SOLDIER_KAMIKAZE_UNLOCK_COST);
         // Unlock desc
         UNLOCK_DESC = new Dictionary<Progress.UnlockCode, string>();
         UNLOCK_DESC.Add(Progress.UnlockCode.soldierMelee, "Melee soldier");
         UNLOCK_DESC.Add(Progress.UnlockCode.soldierRanged, "Ranged soldier");
         UNLOCK_DESC.Add(Progress.UnlockCode.soldierGunner, "Gunner");
         UNLOCK_DESC.Add(Progress.UnlockCode.soldierSniper, "Sniper");
+        UNLOCK_DESC.Add(Progress.UnlockCode.soldierBumper, "Bumper");
+        UNLOCK_DESC.Add(Progress.UnlockCode.soldierKamikaze, "Kamikaze");
     }
 }

@@ -207,6 +207,7 @@ public abstract class Soldier : MonoBehaviour {
     //! Enumerators - AttackType
     public enum AttackType {
         Slash = 0,
-        Bullet = 1
+        Bullet = 1,
+        Explosion = 2
     }
 }

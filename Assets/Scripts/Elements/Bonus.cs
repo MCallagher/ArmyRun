@@ -31,6 +31,12 @@ public class Bonus {
         else if (type == BonusType.AddSniper) {
             value = 1 + (wave / 6);
         }
+        else if (type == BonusType.AddBumper) {
+            value = 1 + (wave / 3);
+        }
+        else if (type == BonusType.AddKamikaze) {
+            value = 1 + (wave / 4);
+        }
         else {
             throw new System.Exception("Bonus type (" + type + ") not found");
         }
@@ -48,6 +54,12 @@ public class Bonus {
         }
         else if (type == BonusType.AddSniper) {
             ArmyManager.instance.BonusExtraArmy<SniperSoldier>(value);
+        }
+        else if (type == BonusType.AddBumper) {
+            ArmyManager.instance.BonusExtraArmy<BumperSoldier>(value);
+        }
+        else if (type == BonusType.AddKamikaze) {
+            ArmyManager.instance.BonusExtraArmy<KamikazeSoldier>(value);
         }
         else if (type == BonusType.Heal) {
             ArmyManager.instance.BonusHeal();
@@ -67,6 +79,12 @@ public class Bonus {
         if (type == BonusType.AddSniper) {
             return $"{value} sniper";
         }
+        if (type == BonusType.AddBumper) {
+            return $"{value} bumper";
+        }
+        if (type == BonusType.AddKamikaze) {
+            return $"{value} kamikaze";
+        }
         if (type == BonusType.Heal) {
             return $"Heal";
         }
@@ -79,6 +97,8 @@ public class Bonus {
         AddMelee = 1,
         AddRanged = 2,
         AddGunner = 3,
-        AddSniper = 4
+        AddSniper = 4,
+        AddBumper = 5,
+        AddKamikaze = 6
     }
 }

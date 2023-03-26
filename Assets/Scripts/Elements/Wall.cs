@@ -46,12 +46,8 @@ public class Wall : MonoBehaviour
     private bool IsArmyDamaged() {
         int health = 0;
         int totHealth = 0;
-        List<Soldier> soldiers = new List<Soldier>();
-        soldiers.AddRange(PoolManager.instance.GetActiveEntities<MeleeSoldier>());
-        soldiers.AddRange(PoolManager.instance.GetActiveEntities<RangedSoldier>());
-        soldiers.AddRange(PoolManager.instance.GetActiveEntities<GunnerSoldier>());
-        soldiers.AddRange(PoolManager.instance.GetActiveEntities<SniperSoldier>());
-        foreach (Soldier soldier in soldiers) {
+        foreach(GameObject soldierObject in PoolManager.instance.GetActiveGameObject<Soldier>()) {
+            Soldier soldier = soldierObject.GetComponent<Soldier>();
             if (!soldier.Enemy) {
                 health += soldier.Health;
                 totHealth += soldier.MaxHealth;
@@ -71,6 +67,8 @@ public class Wall : MonoBehaviour
         if(Progress.instance.IsUnlocked(Progress.UnlockCode.soldierRanged)) possibleBonuses.Add(Bonus.BonusType.AddRanged);
         if(Progress.instance.IsUnlocked(Progress.UnlockCode.soldierGunner)) possibleBonuses.Add(Bonus.BonusType.AddGunner);
         if(Progress.instance.IsUnlocked(Progress.UnlockCode.soldierSniper)) possibleBonuses.Add(Bonus.BonusType.AddSniper);
+        if(Progress.instance.IsUnlocked(Progress.UnlockCode.soldierBumper)) possibleBonuses.Add(Bonus.BonusType.AddBumper);
+        if(Progress.instance.IsUnlocked(Progress.UnlockCode.soldierKamikaze)) possibleBonuses.Add(Bonus.BonusType.AddKamikaze);
         int firstChoice = Random.Range(0, possibleBonuses.Count);
         int secondChoice = Random.Range(0, possibleBonuses.Count);
         // Special condition
