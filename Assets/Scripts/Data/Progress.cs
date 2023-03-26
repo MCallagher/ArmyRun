@@ -76,8 +76,13 @@ public class Progress : MonoBehaviour {
             data = JsonUtility.FromJson<ProgressData>(json);
         }
         else {
-            data = new ProgressData();
+            Reset();
         }
+    }
+
+    public void Reset() {
+        data = new ProgressData();
+        Save();
     }
 
     public bool IsUnlocked(UnlockCode code) {
