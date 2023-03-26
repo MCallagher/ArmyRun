@@ -17,6 +17,7 @@ public class PoolManager : MonoBehaviour {
         typeof(KamikazeSoldier),
         typeof(Wall),
         typeof(Bullet),
+        typeof(Stone),
         typeof(ExplosionParticles)
     });
 

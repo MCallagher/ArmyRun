@@ -44,7 +44,7 @@ public class GameManager : MonoBehaviour {
 
     void Update() {
         waveText.text = "Wave: " + ArmyManager.instance.Wave;
-        diamondText.text = "Diamonds: " + Progress.instance.GetDiamonds();
+        diamondText.text = "Diamonds: " + Progress.instance.GetStones();
         if(!gameOver && IsGameOver()) {
             gameOver = true;
             gameOverScreen.SetActive(true);

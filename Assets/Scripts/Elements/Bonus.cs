@@ -68,10 +68,10 @@ public class Bonus {
 
     public override string ToString() {
         if (type == BonusType.AddMelee) {
-            return $"{value} melee";
+            return $"{value} fighter";
         }
         if (type == BonusType.AddRanged) {
-            return $"{value} ranged";
+            return $"{value} rifleman";
         }
         if (type == BonusType.AddGunner) {
             return $"{value} gunner";

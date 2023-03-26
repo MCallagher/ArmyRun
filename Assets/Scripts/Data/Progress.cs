@@ -30,32 +30,32 @@ public class Progress : MonoBehaviour {
 
     //! Progress - public
     public bool Unlock(UnlockCode code) {
-        if(code == UnlockCode.soldierMelee && data.unlocked[(int)UnlockCode.soldierMelee] == 0 && data.diamonds >= Config.SOLDIER_MELEE_UNLOCK_COST) {
+        if(code == UnlockCode.soldierMelee && data.unlocked[(int)UnlockCode.soldierMelee] == 0 && data.stones >= Config.SOLDIER_MELEE_UNLOCK_COST) {
             data.unlocked[(int)UnlockCode.soldierMelee] = 1;
             Save();
             return true;
         }
-        if(code == UnlockCode.soldierRanged && data.unlocked[(int)UnlockCode.soldierRanged] == 0 && data.diamonds >= Config.SOLDIER_RANGED_UNLOCK_COST) {
+        if(code == UnlockCode.soldierRanged && data.unlocked[(int)UnlockCode.soldierRanged] == 0 && data.stones >= Config.SOLDIER_RANGED_UNLOCK_COST) {
             data.unlocked[(int)UnlockCode.soldierRanged] = 1;
             Save();
             return true;
         }
-        if(code == UnlockCode.soldierGunner && data.unlocked[(int)UnlockCode.soldierGunner] == 0 && data.diamonds >= Config.SOLDIER_GUNNER_UNLOCK_COST) {
+        if(code == UnlockCode.soldierGunner && data.unlocked[(int)UnlockCode.soldierGunner] == 0 && data.stones >= Config.SOLDIER_GUNNER_UNLOCK_COST) {
             data.unlocked[(int)UnlockCode.soldierGunner] = 1;
             Save();
             return true;
         }
-        if(code == UnlockCode.soldierSniper && data.unlocked[(int)UnlockCode.soldierSniper] == 0 && data.diamonds >= Config.SOLDIER_SNIPER_UNLOCK_COST) {
+        if(code == UnlockCode.soldierSniper && data.unlocked[(int)UnlockCode.soldierSniper] == 0 && data.stones >= Config.SOLDIER_SNIPER_UNLOCK_COST) {
             data.unlocked[(int)UnlockCode.soldierSniper] = 1;
             Save();
             return true;
         }
-        if(code == UnlockCode.soldierBumper && data.unlocked[(int)UnlockCode.soldierBumper] == 0 && data.diamonds >= Config.SOLDIER_BUMPER_UNLOCK_COST) {
+        if(code == UnlockCode.soldierBumper && data.unlocked[(int)UnlockCode.soldierBumper] == 0 && data.stones >= Config.SOLDIER_BUMPER_UNLOCK_COST) {
             data.unlocked[(int)UnlockCode.soldierBumper] = 1;
             Save();
             return true;
         }
-        if(code == UnlockCode.soldierKamikaze && data.unlocked[(int)UnlockCode.soldierKamikaze] == 0 && data.diamonds >= Config.SOLDIER_KAMIKAZE_UNLOCK_COST) {
+        if(code == UnlockCode.soldierKamikaze && data.unlocked[(int)UnlockCode.soldierKamikaze] == 0 && data.stones >= Config.SOLDIER_KAMIKAZE_UNLOCK_COST) {
             data.unlocked[(int)UnlockCode.soldierKamikaze] = 1;
             Save();
             return true;
@@ -89,12 +89,12 @@ public class Progress : MonoBehaviour {
         return data.unlocked[(int)code] == 1;
     }
 
-    public void AddDiamonds(int collectedDiamonds) {
-        data.diamonds += collectedDiamonds;
+    public void AddStones(int collectedStones) {
+        data.stones += collectedStones;
     }
 
-    public int GetDiamonds() {
-        return data.diamonds;
+    public int GetStones() {
+        return data.stones;
     }
 
 
@@ -104,12 +104,12 @@ public class Progress : MonoBehaviour {
 
         //! Variables
         public List<int> unlocked;
-        public int diamonds;
+        public int stones;
 
         //! ProgressData - Public
         public ProgressData() {
             unlocked = new List<int>(new int[]{1, 0, 0, 0, 0, 0});
-            diamonds = 0;
+            stones = 0;
         }
     }
 

@@ -20,8 +20,6 @@ public class UnlockButton : MonoBehaviour {
         button = GetComponent<Button>();
         image = GetComponent<Image>();
         text = GetComponentInChildren<TextMeshProUGUI>();
-
-        Config.Initialize();
     }
 
     void Update() {
@@ -29,10 +27,10 @@ public class UnlockButton : MonoBehaviour {
         if(unlocked) {
             button.enabled = false;
             image.color = new Color(0.50f, 0.92f, 0.41f);
-            text.text = $"{Config.UNLOCK_DESC[code]}";
+            text.text = $"{Config.UNLOCK_DESC[(int)code]}";
         }
         else {
-            if(Progress.instance.GetDiamonds() >= Config.UNLOCK_COST[code]) {
+            if(Progress.instance.GetStones() >= Config.UNLOCK_COST[(int)code]) {
                 button.enabled = true;
                 image.color = new Color(1, 1, 1);
             }
@@ -40,7 +38,7 @@ public class UnlockButton : MonoBehaviour {
                 button.enabled = false;
                 image.color = new Color(0.92f, 0.50f, 0.50f);
             }
-            text.text = $"{Config.UNLOCK_DESC[code]} - {Config.UNLOCK_COST[code]}";
+            text.text = $"{Config.UNLOCK_DESC[(int)code]} - {Config.UNLOCK_COST[(int)code]}";
         }
     }
 }

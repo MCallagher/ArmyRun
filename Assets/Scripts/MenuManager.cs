@@ -20,7 +20,7 @@ public class MenuManager : MonoBehaviour {
 
     void Update() {
         if(SceneManager.GetActiveScene().name == "Powerups Menu") {
-            GameObject.Find("Diamonds Text").GetComponent<TextMeshProUGUI>().text = $"Diamonds: {Progress.instance.GetDiamonds()}";
+            GameObject.Find("Stones Text").GetComponent<TextMeshProUGUI>().text = $"Stones: {Progress.instance.GetStones()}";
         }
     }
 

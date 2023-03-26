@@ -40,8 +40,8 @@ public class Config {
     public static readonly float SOLDIER_SNIPER_SCAN_TIME = 0.1f;
     public static readonly int   SOLDIER_SNIPER_UNLOCK_COST = 30000;
     //! Costs
-    public static Dictionary<Progress.UnlockCode, int> UNLOCK_COST; //TODO find best access control
-    public static Dictionary<Progress.UnlockCode, string> UNLOCK_DESC; //TODO find best access control
+    public static List<string> UNLOCK_DESC = new List<string>(new string[]{"Fighter", "Rifleman", "Gunner", "Sniper", "Bumper", "Kamikaze"});
+    public static List<int> UNLOCK_COST = new List<int>(new int[]{SOLDIER_MELEE_UNLOCK_COST, SOLDIER_RANGED_UNLOCK_COST, SOLDIER_GUNNER_UNLOCK_COST, SOLDIER_SNIPER_UNLOCK_COST, SOLDIER_BUMPER_UNLOCK_COST, SOLDIER_KAMIKAZE_UNLOCK_COST});
     //! Bullet
     public static readonly float BULLET_VELOCITY = 30;
     public static readonly float SNIPER_BULLET_VELOCITY = 50;
@@ -49,6 +49,9 @@ public class Config {
     public static readonly Vector3 BULLET_SCALE = Vector3.one * 0.25f;
     public static readonly Vector3 SNIPER_BULLET_SCALE = Vector3.one * 0.4f;
     public static readonly Vector3 GUNNER_BULLET_SCALE = Vector3.one * 0.15f;
+    //! Stone
+    public static List<int> STONE_VALUE = new List<int>(new int []{1, 3, 5, 10});
+    public static List<float> STONE_CHANCE_DISTRIBUTION = new List<float>(new float[]{0.900f, 0.080f, 0.0180f, 0.002f});
     //! Bonus
     public static readonly float BONUS_THRESHOLD_DAMAGED = 0.75f;
     //! Gameplay
@@ -91,23 +94,4 @@ public class Config {
     public static readonly string TAG_DEFAULT = "Untagged";
     //! Saves (tech)
     public static readonly string FILE_PROGRESS = "/progress.json";
-
-    public static void Initialize() {
-        // Unlock cost
-        UNLOCK_COST = new Dictionary<Progress.UnlockCode, int>();
-        UNLOCK_COST.Add(Progress.UnlockCode.soldierMelee, SOLDIER_MELEE_UNLOCK_COST);
-        UNLOCK_COST.Add(Progress.UnlockCode.soldierRanged, SOLDIER_RANGED_UNLOCK_COST);
-        UNLOCK_COST.Add(Progress.UnlockCode.soldierGunner, SOLDIER_GUNNER_UNLOCK_COST);
-        UNLOCK_COST.Add(Progress.UnlockCode.soldierSniper, SOLDIER_SNIPER_UNLOCK_COST);
-        UNLOCK_COST.Add(Progress.UnlockCode.soldierBumper, SOLDIER_BUMPER_UNLOCK_COST);
-        UNLOCK_COST.Add(Progress.UnlockCode.soldierKamikaze, SOLDIER_KAMIKAZE_UNLOCK_COST);
-        // Unlock desc
-        UNLOCK_DESC = new Dictionary<Progress.UnlockCode, string>();
-        UNLOCK_DESC.Add(Progress.UnlockCode.soldierMelee, "Melee soldier");
-        UNLOCK_DESC.Add(Progress.UnlockCode.soldierRanged, "Ranged soldier");
-        UNLOCK_DESC.Add(Progress.UnlockCode.soldierGunner, "Gunner");
-        UNLOCK_DESC.Add(Progress.UnlockCode.soldierSniper, "Sniper");
-        UNLOCK_DESC.Add(Progress.UnlockCode.soldierBumper, "Bumper");
-        UNLOCK_DESC.Add(Progress.UnlockCode.soldierKamikaze, "Kamikaze");
-    }
 }

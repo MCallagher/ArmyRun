@@ -78,7 +78,6 @@ public abstract class Soldier : MonoBehaviour {
         }
     }
 
-
     //! Components
     protected Rigidbody soldierRigidbody;
     protected Renderer soldierRenderer;
@@ -142,7 +141,12 @@ public abstract class Soldier : MonoBehaviour {
             ExplosionParticles explosion = explosionObject.GetComponent<ExplosionParticles>();
             explosion.InitializeExplosionParticles(soldierRenderer.material);
             if(Enemy) {
-                Progress.instance.AddDiamonds(SimpleMath.Pow(Config.MERGE_COUNT_PER_LEVEL, Level));
+                for(int i = 0; i < SimpleMath.Pow(3, Level); i++) {
+                    GameObject stoneObject = PoolManager.instance.GetEntity<Stone>();
+                    stoneObject.transform.position = transform.position;
+                    Stone stone = stoneObject.GetComponent<Stone>();
+                    stone.Initialize();
+                }
             }
         }
         gameObject.SetActive(false);
