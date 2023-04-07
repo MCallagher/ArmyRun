@@ -9,11 +9,20 @@ public class GameManager : MonoBehaviour {
     public static GameManager instance;
 
     //! Variables
-    [SerializeField] private int wave;
+    [SerializeField] private int stones;
     [SerializeField] private bool gameOver;
 
 
     //! Properties
+    public int Stones {
+        get {
+            return stones;
+        }
+        private set {
+            stones = Mathf.Max(0, value);
+        }
+    }
+
     public bool GameOver {
         get {
             return gameOver;
@@ -27,6 +36,8 @@ public class GameManager : MonoBehaviour {
     [SerializeField] private TextMeshProUGUI waveText;
     [SerializeField] private TextMeshProUGUI diamondText;
     [SerializeField] private GameObject gameOverScreen;
+    [SerializeField] private TextMeshProUGUI gameOverWaveText;
+    [SerializeField] private TextMeshProUGUI gameOverDiamondText;
 
 
     //! Monobehaviour
@@ -44,17 +55,25 @@ public class GameManager : MonoBehaviour {
 
     void Update() {
         waveText.text = "Wave: " + ArmyManager.instance.Wave;
-        diamondText.text = "Diamonds: " + Progress.instance.GetStones();
+        diamondText.text = "Diamonds: " + GameManager.instance.Stones;
         if(!gameOver && IsGameOver()) {
             gameOver = true;
             gameOverScreen.SetActive(true);
+            gameOverWaveText.text = "Wave: " + ArmyManager.instance.Wave;
+            gameOverDiamondText.text = "Diamonds: " + GameManager.instance.Stones;
         }
     }
 
 
+    //! GameManager - Public
+    public void AddStones(int stones) {
+        Stones += stones;
+    }
+
     //! GameManager - Private
     private void InitializeGame() {
         GameOver = false;
+        Stones = 0;
         ArmyManager.instance.InitializeArmy();
         ArmyManager.instance.InitializeWaves();
     }
@@ -66,6 +85,8 @@ public class GameManager : MonoBehaviour {
                 return false;
             }
         }
+        // Game over
+        Progress.instance.AddStones(Stones);
         Progress.instance.Save();
         return true;
     }

@@ -1,8 +1,7 @@
 [ 5][low][ToDo] Introduce logging
 [20][low][ToDo] Increase difference soldiers
-[21][mid][ToDo] Add powerps (eg. magnet for stones)
+[21][low][ToDo] Add powerps (eg. magnet for stones)
 [22][low][ToDo] Add +1 sprite on stone taken
-[23][low][ToDo] Add stats for single gameplay
 --------------------------------------------------------------------------------
 [ 1][low][Done] Fix bullet despawn
 [ 2][low][Done] Fix Pool
@@ -22,3 +21,4 @@
 [17][hig][Done] Improve waves and player army (ArmyManager?)
 [18][hig][Done] Remove UI on soldiers (show health and level graphically)
 [19][hig][Done] Slow down game speed
+[23][low][Done] Add stats for single gameplay

@@ -34,7 +34,7 @@ public class Stone : MonoBehaviour {
 
     void OnTriggerEnter(Collider other) {
         if (!jumpController.IsJumping && other.gameObject.CompareTag(Config.TAG_PLAYER)) {
-            Progress.instance.AddStones(value);
+            GameManager.instance.AddStones(value);
             gameObject.SetActive(false);
         }
     }
