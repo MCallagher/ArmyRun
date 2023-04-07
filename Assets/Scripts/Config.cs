@@ -57,8 +57,8 @@ public class Config {
     public static readonly int MERGE_LEVEL_LIMIT = 4;
     public static readonly int MERGE_COUNT_PER_LEVEL = 10;
     //! Wave
-    public static readonly float WAVE_TIME_ENEMY = 2f;
-    public static readonly float WAVE_TIME_BONUS = 2f;
+    public static readonly float WAVE_TIME_ENEMY = 3f;
+    public static readonly float WAVE_TIME_BONUS = 4f;
 
     //! Waypoint (tech)
     public static readonly string WAYPOINT_NAME = "Player Army Waypoint";
@@ -69,7 +69,7 @@ public class Config {
     //! Pool (tech)
     public static readonly int POOL_INIT_SIZE = 4;
     //! World (tech)
-    public static readonly float WORLD_SCROLL_VELOCITY = 10;
+    public static readonly float WORLD_SCROLL_VELOCITY = 8;
     public static readonly float WORLD_BOUND_PLAYER_X = 10;
     public static readonly float WORLD_BOUND_PLAYER_Z = 4;
     public static readonly float WORLD_BOUND_X = 20;
