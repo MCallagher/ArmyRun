@@ -90,4 +90,5 @@ public class Config {
     public static readonly string TAG_DEFAULT = "Untagged";
     //! Saves (tech)
     public static readonly string FILE_PROGRESS = "/progress.json";
+    public static readonly string FILE_OPTIONS = "/options.json";
 }

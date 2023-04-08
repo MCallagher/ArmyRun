@@ -24,7 +24,20 @@ public class MenuManager : MonoBehaviour {
         }
     }
 
-    //! MenuManager - Public
+    //! MenuManager - Public - Actions
+    public void SaveOptions() {
+        GameObject.Find("Sounds Slider").GetComponent<SettingSlider>().SaveOption();
+        GameObject.Find("Music Slider").GetComponent<SettingSlider>().SaveOption();
+        GameObject.Find("Effects Slider").GetComponent<SettingSlider>().SaveOption();
+        Options.instance.Save();
+        LoadMainMenu();
+    }
+
+    public void QuitGame() {
+        Application.Quit();
+    }
+
+    //! MenuManager - Public - Scenes
     public void StartNewGame() {
         SceneManager.LoadScene("Playmode");
     }
@@ -38,10 +51,6 @@ public class MenuManager : MonoBehaviour {
     }
 
     public void LoadOptionsMenu() {
-        throw new System.NotImplementedException();
-    }
-
-    public void QuitGame() {
-        Application.Quit();
+        SceneManager.LoadScene("Options Menu");
     }
 }

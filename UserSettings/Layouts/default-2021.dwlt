@@ -19,7 +19,7 @@ MonoBehaviour:
     width: 2560
     height: 1357
   m_ShowMode: 4
-  m_Title: Game
+  m_Title: Scene
   m_RootView: {fileID: 4}
   m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
@@ -74,7 +74,7 @@ MonoBehaviour:
   m_MinSize: {x: 100, y: 200}
   m_MaxSize: {x: 8096, y: 16192}
   vertical: 1
-  controlID: 53
+  controlID: 79
 --- !u!114 &4
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -150,7 +150,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 200}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 23
+  controlID: 78
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -191,8 +191,8 @@ MonoBehaviour:
     y: 0
     width: 1403
     height: 962
-  m_MinSize: {x: 201, y: 221}
-  m_MaxSize: {x: 4001, y: 4021}
+  m_MinSize: {x: 200, y: 200}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 18}
   m_Panes:
   - {fileID: 17}
@@ -224,7 +224,7 @@ MonoBehaviour:
   m_MinSize: {x: 100, y: 200}
   m_MaxSize: {x: 8096, y: 16192}
   vertical: 1
-  controlID: 29
+  controlID: 19
 --- !u!114 &10
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -1428,7 +1428,7 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Scripts
+    - Assets/Scripts/Elements/Soldiers
     m_Globs: []
     m_OriginalText: 
   m_ViewMode: 0
@@ -1843,9 +1843,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: -9.303872, y: 28.545744, z: -10.357072}
+    m_Target: {x: 0, y: 0, z: 40}
     speed: 2
-    m_Value: {x: -9.303872, y: 28.545744, z: -10.357072}
+    m_Value: {x: 0, y: 0, z: 40}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -1892,13 +1892,13 @@ MonoBehaviour:
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-    m_Target: {x: -0.035508387, y: -0.9644792, z: 0.18899155, w: -0.18119498}
+    m_Target: {x: -0.07940486, y: 0.018848117, z: -0.0014836785, w: -0.9966821}
     speed: 2
-    m_Value: {x: -0.03550785, y: -0.9644646, z: 0.18898869, w: -0.18119223}
+    m_Value: {x: -0.07940336, y: 0.018847762, z: -0.0014836505, w: -0.99666333}
   m_Size:
-    m_Target: 1.9049718
+    m_Target: 50.990196
     speed: 2
-    m_Value: 1.9049718
+    m_Value: 50.990196
   m_Ortho:
     m_Target: 0
     speed: 2
@@ -1954,9 +1954,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 98120000
+      m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: 38fbffff
+      m_ExpandedIDs: 38fbffff665a0000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
