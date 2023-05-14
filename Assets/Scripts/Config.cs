@@ -59,6 +59,11 @@ public class Config {
     //! Wave
     public static readonly float WAVE_TIME_ENEMY = 3f;
     public static readonly float WAVE_TIME_BONUS = 4f;
+    //! Sounds
+    public static readonly float SOUND_VOLUME_EXPLOSION = 0.8f;
+    public static readonly float SOUND_VOLUME_SHOT = 1.0f;
+    public static readonly float SOUND_VOLUME_MUSIC = 0.3f;
+    public static readonly float SOUND_VOLUME_STONE = 1.0f;
 
     //! Waypoint (tech)
     public static readonly string WAYPOINT_NAME = "Player Army Waypoint";
@@ -87,6 +92,7 @@ public class Config {
     //! Tags (tech)
     public static readonly string TAG_ENEMY = "Enemy";
     public static readonly string TAG_PLAYER = "Player";
+    public static readonly string TAG_STONE = "Stone";
     public static readonly string TAG_DEFAULT = "Untagged";
     //! Saves (tech)
     public static readonly string FILE_PROGRESS = "/progress.json";

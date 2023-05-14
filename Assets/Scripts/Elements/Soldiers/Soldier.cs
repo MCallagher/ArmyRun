@@ -84,6 +84,7 @@ public abstract class Soldier : MonoBehaviour {
     protected GameObject[] soldierLevelObjects;
     protected Material soldierMaterial;
     protected Color soldierColor;
+    protected AudioSource soldierAudio;
 
     //! References
     [SerializeField] protected Material playerMaterial;
@@ -99,6 +100,14 @@ public abstract class Soldier : MonoBehaviour {
 
     void Update() {
         FollowWaypoint();
+    }
+
+    void OnTriggerEnter(Collider other) {
+        if (other.gameObject.CompareTag(Config.TAG_STONE)) {
+            soldierAudio.volume = Config.SOUND_VOLUME_STONE * Options.instance.SoundsVolume * Options.instance.EffectsVolume;
+            soldierAudio.Play();
+            //soldierAudio.PlayOneShot(a);
+        }
     }
 
 
@@ -175,6 +184,7 @@ public abstract class Soldier : MonoBehaviour {
     protected void SetupSoldier() {
         soldierRigidbody = GetComponent<Rigidbody>();
         soldierRenderer = GetComponent<Renderer>();
+        soldierAudio = GetComponent<AudioSource>();
         soldierLevelObjects = new GameObject[Config.MERGE_LEVEL_LIMIT];
         for(int i = 0; i < Config.MERGE_LEVEL_LIMIT; i++) {
             soldierLevelObjects[i] = transform.GetChild(i).gameObject;

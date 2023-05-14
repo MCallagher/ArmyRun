@@ -12,7 +12,14 @@ public class Bullet : MonoBehaviour {
     [SerializeField] private bool homing;
     [SerializeField] private float velocity;
 
+    //! References
+    private AudioSource bulletAudio;
+
     //! MonoBehaviour
+    void Awake() {
+        bulletAudio = GetComponent<AudioSource>();
+    }
+
     void Update() {
         if(homing) {
             if (target != null) {
@@ -51,6 +58,8 @@ public class Bullet : MonoBehaviour {
         this.direction = (target.transform.position - transform.position).normalized;
         this.homing = !enemy;
         gameObject.SetActive(true);
+        bulletAudio.volume = Config.SOUND_VOLUME_SHOT * Options.instance.SoundsVolume * Options.instance.EffectsVolume;
+        bulletAudio.Play();
     }
 
 

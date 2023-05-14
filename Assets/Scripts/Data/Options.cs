@@ -53,6 +53,7 @@ public class Options : MonoBehaviour {
 
     void Start() {
         Load();
+        EventManager.TriggerUpdatedOptions();
     }
 
 
@@ -117,9 +118,9 @@ public class Options : MonoBehaviour {
 
         //! ProgressData - Public
         public OptionsData() {
-            soundsVolume = 1f;
-            musicVolume = 1f;
-            effectsVolume = 1f;
+            soundsVolume = 0.8f;
+            musicVolume = 0.8f;
+            effectsVolume = 0.8f;
         }
     }
 

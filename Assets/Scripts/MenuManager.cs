@@ -30,6 +30,7 @@ public class MenuManager : MonoBehaviour {
         GameObject.Find("Music Slider").GetComponent<SettingSlider>().SaveOption();
         GameObject.Find("Effects Slider").GetComponent<SettingSlider>().SaveOption();
         Options.instance.Save();
+        EventManager.TriggerUpdatedOptions();
         LoadMainMenu();
     }
 

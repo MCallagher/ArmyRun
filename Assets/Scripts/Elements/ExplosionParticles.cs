@@ -7,12 +7,14 @@ public class ExplosionParticles : MonoBehaviour {
     //! References
     private ParticleSystem particles;
     private ParticleSystemRenderer particlesRenderer;
+    private AudioSource particlesAudio;
 
 
     //! MonoBehaviour
     void Awake() {
         particles = GetComponent<ParticleSystem>();
         particlesRenderer = GetComponent<ParticleSystemRenderer>();
+        particlesAudio = GetComponent<AudioSource>();
     }
 
     void Update() {
@@ -26,6 +28,8 @@ public class ExplosionParticles : MonoBehaviour {
         particlesRenderer.material.color = material.color;
         gameObject.SetActive(true);
         particles.Play();
+        particlesAudio.volume = Config.SOUND_VOLUME_EXPLOSION * Options.instance.SoundsVolume * Options.instance.EffectsVolume;
+        particlesAudio.Play();
         Invoke("RemoveFromGame", main.duration + main.startLifetime.constant);
     }
 
