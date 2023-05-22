@@ -50,6 +50,9 @@ public class Config {
     public static List<float> STONE_CHANCE_DISTRIBUTION = new List<float>(new float[]{0.900f, 0.080f, 0.0180f, 0.002f});
     //! Bonus
     public static readonly float BONUS_THRESHOLD_DAMAGED = 0.75f;
+    //! Board
+    public static readonly float BOARD_SPEED = 1f;
+    public static readonly float BOARD_TTL = 1f;
     //! Gameplay
     public static readonly int GAME_INIT_PLAYER_MELEE = 10;
     public static readonly int GAME_ENEMY_LIMIT = 40;

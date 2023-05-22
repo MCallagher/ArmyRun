@@ -18,6 +18,7 @@ public class PoolManager : MonoBehaviour {
         typeof(Wall),
         typeof(Bullet),
         typeof(Stone),
+        typeof(Board),
         typeof(ExplosionParticles)
     });
 

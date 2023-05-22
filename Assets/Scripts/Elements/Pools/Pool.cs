@@ -8,7 +8,7 @@ public class Pool<T> : MonoBehaviour {
     public static Pool<T> instance;
 
     //! Variables
-    [SerializeField] private string eneityName;
+    [SerializeField] private string entityName;
     [SerializeField] private List<GameObject> pool;
 
     //! References
@@ -63,7 +63,7 @@ public class Pool<T> : MonoBehaviour {
     private GameObject AddEntity() {
         GameObject entity = Instantiate(prefab, Vector3.zero, prefab.transform.rotation);
         entity.transform.parent = transform;
-        entity.name = eneityName + " (" + (pool.Count + 1) + ")";
+        entity.name = entityName + " (" + (pool.Count + 1) + ")";
         entity.SetActive(false);
         pool.Add(entity);
         return entity;

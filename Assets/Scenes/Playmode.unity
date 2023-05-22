@@ -218,7 +218,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf5e1a6504415d945a2b5b3304bdb3c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eneityName: Kamikaze Soldier
+  entityName: Kamikaze Soldier
   pool: []
   prefab: {fileID: 3423474407896343218, guid: 2b49f1f8c5936fb4ead091b3bba9b784, type: 3}
 --- !u!1 &230209652
@@ -512,7 +512,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcf86b0f8833af34d8f6508729031d14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eneityName: Explosion Particles
+  entityName: Explosion Particles
   pool: []
   prefab: {fileID: 6085923765103642285, guid: 45f79ea9ff2dfee4ab07485412ca771d, type: 3}
 --- !u!1 &388625413
@@ -948,9 +948,56 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 840a1ba1b4aaa334c8dd04b3ad6d1721, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eneityName: Gunner Soldier
+  entityName: Gunner Soldier
   pool: []
   prefab: {fileID: 4765894958536769242, guid: a225e1eae9557ae4abb1502b5024e5ac, type: 3}
+--- !u!1 &502285753
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 502285754}
+  - component: {fileID: 502285755}
+  m_Layer: 0
+  m_Name: Boards
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &502285754
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 502285753}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1086848670}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &502285755
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 502285753}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 986ad79575e8d3043be2e6213eee4254, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  entityName: Board
+  pool: []
+  prefab: {fileID: 1754983538882467649, guid: 1e95791bc56f3a7429c2e1bbfec51b1e, type: 3}
 --- !u!1 &556278094
 GameObject:
   m_ObjectHideFlags: 0
@@ -1041,7 +1088,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb1f6d073b628834ea68cbc759418825, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eneityName: Ranged Soldier
+  entityName: Ranged Soldier
   pool: []
   prefab: {fileID: 4765894958536769242, guid: 79b868f8bd77b2c49a6dd6d5f5a81708, type: 3}
 --- !u!1 &654234866
@@ -1323,7 +1370,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c11f0a0b637d654f8bc6523f734366e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eneityName: Bullet
+  entityName: Bullet
   pool: []
   prefab: {fileID: 1915365429416139576, guid: 7f8cca7c09c860c4bb178826a561891f, type: 3}
 --- !u!1 &743085659
@@ -1370,7 +1417,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24ed066afa2a1414dadc56c5ab4536ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eneityName: Sniper Soldier
+  entityName: Sniper Soldier
   pool: []
   prefab: {fileID: 4765894958536769242, guid: cc88fcac41751094783bacc7ee50af04, type: 3}
 --- !u!1 &744487518
@@ -1860,7 +1907,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2ef11df76c9713a4886dfff772c8809e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eneityName: Bumper Soldier
+  entityName: Bumper Soldier
   pool: []
   prefab: {fileID: 3423474407896343218, guid: 86a67d708a3c4124ea682d42dc89a4d7, type: 3}
 --- !u!1 &1078423824
@@ -1907,7 +1954,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97dd1abd70c00704eb3daf431e9774f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eneityName: Melee Soldier
+  entityName: Melee Soldier
   pool: []
   prefab: {fileID: 3423474407896343218, guid: 80e2c805beb84f247ba5c6a7fe186d98, type: 3}
 --- !u!1 &1086848668
@@ -1949,6 +1996,7 @@ Transform:
   - {fileID: 1065363666}
   - {fileID: 219748943}
   - {fileID: 1765762200}
+  - {fileID: 502285754}
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2546,7 +2594,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 868c7189126a1904cb9c9edb0eb092fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eneityName: Wall
+  entityName: Wall
   pool: []
   prefab: {fileID: 7028286099746295337, guid: 9898da8d92ddb1041a3fe79c1c7985f2, type: 3}
 --- !u!1 &1591707127
@@ -2829,7 +2877,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e6c1c0703521c54b8972bbaafe97769, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eneityName: Stone
+  entityName: Stone
   pool: []
   prefab: {fileID: 8620024849421306800, guid: 45a8ed736f4d9754eb454d183fd18f8d, type: 3}
 --- !u!1 &1770970615
