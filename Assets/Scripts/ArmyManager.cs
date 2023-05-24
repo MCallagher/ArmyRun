@@ -57,6 +57,7 @@ public class ArmyManager : MonoBehaviour {
     }
 
     //! ArmyManager - Private
+    // ABSTRACTION
     private IEnumerator Waves() {
         while (!GameManager.instance.GameOver) {
             int waveValue = Mathf.Max((int)(Mathf.Pow((float)Wave, 1.2f)), 1);
@@ -77,14 +78,15 @@ public class ArmyManager : MonoBehaviour {
         }
     }
 
+    // ABSTRACTION
     private void GenerateBonusWall() {
         GameObject newWall = PoolManager.instance.GetEntity<Wall>();
         newWall.transform.position = Config.WORLD_SPAWN_POSITION_ENEMY;
         newWall.GetComponent<Wall>().InitializeWall();
     }
 
-
-    public void AddSoldierGroup<T>(int numOfSoldiers, bool enemy) where T : Soldier {
+    // ABSTRACTION
+    private void AddSoldierGroup<T>(int numOfSoldiers, bool enemy) where T : Soldier {
         List<int> partition = GetSoldierPartitioning(numOfSoldiers, enemy);
         
         for(int level = 0; level < partition.Count; level++) {
@@ -123,6 +125,7 @@ public class ArmyManager : MonoBehaviour {
         return soldiersPerLevel;
     }
 
+    // ABSTRACTION
     private GameObject AddSoldier<T>(int level, bool enemy) where T : Soldier {
         // Compute position
         GameObject soldierObject = PoolManager.instance.GetEntity<T>();
@@ -142,6 +145,7 @@ public class ArmyManager : MonoBehaviour {
         return AddSoldier<T>(level, enemy, position);
     }
 
+    // ABSTRACTION
     private GameObject AddSoldier<T>(int level, bool enemy, Vector3 position) where T : Soldier {
         // Get soldier
         GameObject soldierObject = PoolManager.instance.GetEntity<T>();
@@ -157,6 +161,7 @@ public class ArmyManager : MonoBehaviour {
         return soldierObject;
     }
 
+    // ABSTRACTION
     private void AutoMerge<T>() where T : Soldier {
         // Initialize dict to count soldiers
         Dictionary<int, List<T>> soldiersOfLevel = new Dictionary<int, List<T>>();

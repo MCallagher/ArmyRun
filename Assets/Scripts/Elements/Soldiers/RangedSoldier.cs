@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// INHERITANCE
 public class RangedSoldier : Soldier {
 
     //! Variables
@@ -12,6 +13,7 @@ public class RangedSoldier : Soldier {
 
 
     //! Properties
+    // ENCAPSULATION
     public float ScanRange {
         get {
             return scanRange;
@@ -21,6 +23,7 @@ public class RangedSoldier : Soldier {
         }
     }
 
+    // ENCAPSULATION
     public float ScanTime {
         get {
             return scanTime;
@@ -30,6 +33,7 @@ public class RangedSoldier : Soldier {
         }
     }
 
+    // ENCAPSULATION
     public float ShootingRatio {
         get {
             return shootingRatio;
@@ -39,6 +43,7 @@ public class RangedSoldier : Soldier {
         }
     }
 
+    // ENCAPSULATION
     public int ShootingDamage {
         get {
             return shootingDamage;
@@ -56,11 +61,13 @@ public class RangedSoldier : Soldier {
 
 
     //! Soldier - public
+    // POLYMORPHISM
     public override void Initialize(int level, bool enemy) {
         maxHealth = Config.SOLDIER_RANGED_MAX_HEALTH[level];
         Initialize(level, enemy, maxHealth);
     }
 
+    // POLYMORPHISM
     public override void Initialize(int level, bool enemy, int maxHealth) {
         scanRange = Config.SOLDIER_RANGED_SCAN_RANGE[level];
         scanTime = Config.SOLDIER_RANGED_SCAN_TIME;
@@ -69,6 +76,7 @@ public class RangedSoldier : Soldier {
         Initialize(level, enemy, scanRange, scanTime, shootingRatio, shootingDamage);
     }
 
+    // POLYMORPHISM
     public virtual void Initialize(int level, bool enemy, float scanRange, float scanTime, float shootingRatio, int shootingDamage) {
         base.Initialize(level, enemy, maxHealth);
         ScanRange = scanRange;

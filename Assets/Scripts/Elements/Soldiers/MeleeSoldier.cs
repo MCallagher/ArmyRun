@@ -2,12 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// INHERITANCE
 public class MeleeSoldier : Soldier {
 
     //! Variables
     [SerializeField] protected int strength;
 
     //! Properties
+    // ENCAPSULATION
     public int Strength {
         get {
             return strength;
@@ -32,16 +34,19 @@ public class MeleeSoldier : Soldier {
 
 
     //! Soldier - Public
+    // POLYMORPHISM
     public override void Initialize(int level, bool enemy) {
         maxHealth = Config.SOLDIER_MELEE_MAX_HEALTH[level];
         Initialize(level, enemy, maxHealth);
     }
 
+    // POLYMORPHISM
     public override void Initialize(int level, bool enemy, int maxHealth) {
         strength = Config.SOLDIER_MELEE_STRENGTH[level];
         Initialize(level, enemy, maxHealth, strength);
     }
 
+    // POLYMORPHISM
     public virtual void Initialize(int level, bool enemy, int maxHealth, int strength) {
         base.Initialize(level, enemy, maxHealth);
         Strength = strength;

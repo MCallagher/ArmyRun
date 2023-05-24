@@ -2,14 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// INHERITANCE
 public class SniperSoldier : RangedSoldier {
 
     //! Soldier - public
+    // POLYMORPHISM
     public override void Initialize(int level, bool enemy) {
         maxHealth = Config.SOLDIER_SNIPER_MAX_HEALTH[level];
         Initialize(level, enemy, maxHealth);
     }
 
+    // POLYMORPHISM
     public override void Initialize(int level, bool enemy, int maxHealth) {
         scanRange = Config.SOLDIER_SNIPER_SCAN_RANGE[level];
         scanTime = Config.SOLDIER_SNIPER_SCAN_TIME;
